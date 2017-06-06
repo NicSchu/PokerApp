@@ -1,0 +1,34 @@
+Layout:
+    Beim ersten Start(wenn LocalStorage keine Logindaten hat) hier einloggen (https://ionicframework.com/docs/components/#floating-labels)
+       -> "Register"-Button -> neue Page öffnet sich und man hinterlegt seine Daten
+    Als Navigationsleiste : Icon Tabs (https://ionicframework.com/docs/components/#tabs)
+    1. Tab Profil https://ionicframework.com/docs/components/#badges (Profilbild oben, Statistik darunter (Anzahl der Chips, Anzahl der Runden, Anzahl der erreichten Achievements))
+    2.Tab Lobby
+    3.Tab Layout, https://ionicframework.com/docs/components/#list-lines
+    4.Tab Einstellungen (z.B. Kartenrücken,Client farblich anpassen (im local storage speichern),Impressum,Ausloggen)
+
+    -Menü (mit Tabs) im Porträt-Modus
+    -Im Spiel im Landscape-Modus
+
+Tabs:
+  1.Tab <ion-icon name="person"></ion-icon> auf der Tableiste unten
+  2.Tab <ion-icon name="play"></ion-icon> auf der Tableiste unten
+  3.Tab <ion-icon name="people"></ion-icon> auf der Tableiste unten
+  3.Tab => Freund hinzufügen <ion-icon name="person-add"></ion-icon>
+  4. Tab <ion-icon name="settings"></ion-icon> auf der Tableiste unten
+
+  Für Achievements <ion-icon name="ribbon"></ion-icon>
+  Für Leaderboards <ion-icon name="podium"></ion-icon>
+
+
+Erweiterungsideen: GPS-Tracking -> wer hat die App in der Nähe
+           Freundesliste -> Wer hat wieviele Chips (Statistik)
+           Globales Ranking/Ranking unter Freunden
+           Statistik im Profil
+           Täglich 1000 Chips (durch Einloggen)
+           Die Möglichkeit anderen Chips zu schenken
+           Logindaten speichern (LocalStorage)
+                   KI, die Spielsituation einschätzen kann
+           KI, die eventuell mit Monte Carlo spielt
+           Popup mit cheat sheet (Welches Blatt ist besser als andere etc.)
+           Jeder Spieler hat einen eigenen Kartenrücken
