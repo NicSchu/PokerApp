@@ -1,0 +1,48 @@
+<ion-header>
+
+  <ion-navbar>
+
+    <ion-title>Profile</ion-title>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list>
+
+    <ion-item>
+
+      <!-- TODO - muss noch mit echtem Attribute auf Profile versehen werden! -->
+      <ion-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKSQW-ahU3u7N3pU3BkRIDDa9Rd3ODuc0ZHDwqQ0p9ibLjKvt5"></ion-img>
+
+    </ion-item>
+
+    <ion-item>
+      <!-- TODO - ist der Text wirklich notwendig? -->
+      <p>Hier könnte ihre Werbung stehen!</p>
+
+    </ion-item>
+
+    <ion-item>
+
+      <ion-icon name="ribbon" item-start></ion-icon>
+
+      Achievements
+
+      <ion-badge item-end>{{profile.getAccomplishedAchievements()}}/{{profile.achievements.length}}</ion-badge>
+    </ion-item>
+
+    <ion-item>
+
+      <ion-icon name="logo-euro" item-start></ion-icon>
+
+      Coins
+
+      <ion-badge item-end>{{profile.cash}}</ion-badge>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
