@@ -24,13 +24,13 @@ hand: List&lt;Card&gt;</panel_attributes>
     </coordinates>
     <panel_attributes>Profile
 --
-username: String
-password: String
 name: String
 cash: Integer
+descriptionMessage: String
 achievements: List&lt;Achievement&gt;
 roundsPlayed: Integer
-friends: List&lt;Profile&gt;</panel_attributes>
+friends: List
+login: Login</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -63,9 +63,9 @@ m2=2-5</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>880</x>
+      <x>870</x>
       <y>580</y>
-      <w>150</w>
+      <w>180</w>
       <h>110</h>
     </coordinates>
     <panel_attributes>Achievement
@@ -192,5 +192,30 @@ m1=    1
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1160</x>
+      <y>550</y>
+      <w>170</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Login
+--
+username: String
+password: String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1010</x>
+      <y>430</y>
+      <w>170</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;150.0;190.0</additional_attributes>
   </element>
 </diagram>
