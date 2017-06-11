@@ -28,7 +28,7 @@ Erweiterungsideen: GPS-Tracking -> wer hat die App in der Nähe
            Täglich 1000 Chips (durch Einloggen)
            Die Möglichkeit anderen Chips zu schenken
            Logindaten speichern (LocalStorage)
-                   KI, die Spielsituation einschätzen kann
+           KI, die Spielsituation einschätzen kann
            KI, die eventuell mit Monte Carlo spielt
            Popup mit cheat sheet (Welches Blatt ist besser als andere etc.)
            Jeder Spieler hat einen eigenen Kartenrücken
