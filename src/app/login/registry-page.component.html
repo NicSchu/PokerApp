@@ -14,19 +14,29 @@
 
     <ion-item>
 
-      <ion-input placeholder="E-Mail"></ion-input>
+      <ion-label>E-Mail</ion-label>
+      <ion-input type="email" placeholder="E-Mail"></ion-input>
 
-    </ion-item>
-    <ion-item>
-
-      <ion-input placeholder="Passwort"></ion-input>
     </ion-item>
 
     <ion-item>
 
-      <ion-input placeholder="Wiederhole Passwort"></ion-input>
+      <ion-label>Passwort</ion-label>
+      <ion-input type="password" placeholder="Passwort"></ion-input>
+
+    </ion-item>
+
+    <ion-item>
+
+      <ion-label>Wiederhole Passwort</ion-label>
+      <ion-input type="password" placeholder="Wiederhole Passwort"></ion-input>
+
     </ion-item>
 
   </ion-list>
+
+  <div padding>
+    <button (click)="createAccount()" block>Account anlegen</button>
+  </div>
 
 </ion-content>
