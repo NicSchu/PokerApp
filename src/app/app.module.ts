@@ -11,11 +11,13 @@ import {SettingsPageComponent} from "./settings/settings-page.component";
 import {ProfilePageComponent} from "./profile/profile-page.component";
 import {LobbyPageComponent} from "./lobby/lobby-page.component";
 import {FriendsPageComponent} from "./friends/friends-page.component";
+import {LoginPageComponent} from "./login/login-page.component";
 
 @NgModule({
   declarations: [
     MyApp,
     SettingsPageComponent,
+    LoginPageComponent,
     ProfilePageComponent,
     LobbyPageComponent,
     FriendsPageComponent,
@@ -28,6 +30,7 @@ import {FriendsPageComponent} from "./friends/friends-page.component";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    LoginPageComponent,
     SettingsPageComponent,
     ProfilePageComponent,
     LobbyPageComponent,

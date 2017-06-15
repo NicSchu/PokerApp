@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {Login} from './login.model'
+
 
 @Component({
   selector:'profile-page',
@@ -7,6 +7,9 @@ import {Login} from './login.model'
 })
 export class LoginPageComponent{
 
+  constructor(){
+
+  }
   signIn(){
     //TODO: hier firebasezeug
   }
