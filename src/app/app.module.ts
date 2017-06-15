@@ -18,7 +18,7 @@ import {LoginPageComponent} from "./login/login-page.component";
 export const firebaseConfig = {
   apiKey: "AIzaSyCi2KvgtcoIz_DqETuUE3d9G8-_GCNunmw",
   authDomain: "poker-b817e.firebaseapp.com",
-  databaseURL: "https://poker-b817e.firebaseio.com",
+  databaseURL: "https://poker-b817e.firebaseio.com/",
   projectId: "poker-b817e",
   storageBucket: "poker-b817e.appspot.com",
   messagingSenderId: "916592085687"
