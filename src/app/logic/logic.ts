@@ -1,10 +1,11 @@
 import {PlayingCard} from "./cards.model";
+import {HandRating} from "./hand-rating.module";
 
 export class rules{
   toBeRatedHand: PlayingCard[];
   ratedHand: PlayingCard[];
   constructor(hand: PlayingCard[] = new Array[7]){
-    this.toBeRatedHand = hand
+    this.toBeRatedHand = hand;
     this.ratedHand = null;
   }
 
@@ -12,11 +13,22 @@ export class rules{
     this.toBeRatedHand.sort(function(a,b){
       if (a.value > b.value) return 1;
       if (a.value < b.value) return -1;
-      return 0;})
+      return 0;});
     if(this.isStraight()){
-
+      if (this.isSameColor(this.ratedHand)){
+        return new HandRating(9, this.ratedHand[0].value);
+      }
+      return new HandRating(5, this.ratedHand[0].value);
     }
 
+  }
+
+  //returns true if the Array contains 5 cards of the same color
+  isSameColor(cards: PlayingCard[]){
+    let colors : number[] = [4];
+    for (let col of cards) colors[col.color]++
+    for (let c of colors) if (c >= 5) return true;
+    return false
   }
 
   isStraight() {
