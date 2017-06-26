@@ -2,6 +2,7 @@ import {Component} from "@angular/core";
 import {AlertController, NavController} from "ionic-angular";
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
+import {ProfilePageComponent} from "../profile/profile-page.component";
 
 @Component({
   selector:'profile-page',
@@ -55,8 +56,8 @@ export class LoginPageComponent{
       .then( () => {
 
         //TODO - ein Observer für AuthChange erstellen, der alle Pages löscht mit this.navCtrl.popToRoot()
-
-        this.navCtrl.push(Prof)
+        console.log(this.firebaseAuth.auth.currentUser);
+        this.navCtrl.push(ProfilePageComponent)
       } );
   }
 
