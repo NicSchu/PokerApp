@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {AlertController, NavParams, ViewController} from "ionic-angular";
+import {AlertController, NavController, NavParams} from "ionic-angular";
 import {AuthService} from "./AuthService";
 
 @Component({
@@ -14,10 +14,15 @@ export class RegistryPageComponent {
 
   constructor(private alertCtrl : AlertController,
               private authService : AuthService,
-              private viewCtrl : ViewController,
-              private navParams : NavParams){
-    this.email = this.navParams.data[0];
-    this.password = this.navParams.data[1];
+              private navCtrl : NavController,
+              private navParams : NavParams) {
+
+
+    if (this.navParams.data) {
+      this.email = this.navParams.data.email;
+      this.password = this.navParams.data.password;
+    }
+
   }
 
   public createAccount(){
@@ -35,7 +40,7 @@ export class RegistryPageComponent {
               }
 
               if (code === "auth/invalid-email") {
-                altertMessage = 'Not a valid E-Mail'; //TODO - evtl Hinweis auf G-Mail
+                altertMessage = 'Not a valid E-Mail';
               }
 
               if (code === "auth/operation-not-allowed") {
@@ -54,15 +59,25 @@ export class RegistryPageComponent {
               alert.present();
             }
           }
-        );
-      this.viewCtrl.dismiss(this.email);
+        )
+        .then((user) => {
+          //TODO - wir müssen generell noch das Profile des Benutzers anlegen, welcher sich gerade angemeldet hat ()
+          //ggf können wir aus unserem Datenmodell den Login streichen und stattdessen die Ionic-ID mit unserem Profile verknüpfen
+          //(Sebi und Sebi haben da schon mit Herr Süß gesprochen, wie die Struktur in Firebase sein könnte.)
+
+          //TODO - hier muss das Profile-Model an die Tab-Page gepusht werden!
+        });
+
     } else {
+
       let alert = this.alertCtrl.create({
         title: 'Failure',
         message: '\"Password\" and \"Confirm-Password\" do not match',
         buttons: ['Dismiss']
       });
+
       alert.present();
+
     }
   }
 }

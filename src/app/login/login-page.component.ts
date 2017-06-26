@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {AlertController, ModalController, NavController} from "ionic-angular";
+import {AlertController, NavController} from "ionic-angular";
 import {AngularFireAuth} from "angularfire2/auth";
 import {AuthService} from "./AuthService";
 import {TabsPage} from "../tabs/tabs";
@@ -18,8 +18,10 @@ export class LoginPageComponent{
   constructor(private alertCtrl: AlertController,
               private firebaseAuth : AngularFireAuth,
               private navCtrl: NavController,
-              private authService: AuthService,
-              private modalCtrl: ModalController){
+              private authService: AuthService){
+
+    console.log("Wieder da");
+    console.log("WSASASDSADASD");
 
   }
 
@@ -59,7 +61,6 @@ export class LoginPageComponent{
       )
       .then( () => {
 
-        //TODO - ein Observer für AuthChange erstellen, der alle Pages löscht mit this.navCtrl.popToRoot()
         let observable = this.firebaseAuth.authState.subscribe((data) => {
           if(!data){
             let alert = this.alertCtrl.create({
@@ -68,7 +69,9 @@ export class LoginPageComponent{
               buttons: ['Dismiss']
             });
             alert.present();
+            //go back to Login-Page
             this.navCtrl.popToRoot();
+            //unsubscribe old "App"
             observable.unsubscribe();
           }
         });
@@ -77,13 +80,7 @@ export class LoginPageComponent{
   }
 
   public createAccount() {
-    let modal = this.modalCtrl.create(RegistryPageComponent,[this.email,this.password]);
-    modal.onDidDismiss(email => {
-      if(email){
-        this.email = email;
-      }
-    });
-    modal.present();
+    this.navCtrl.push(RegistryPageComponent, {email: this.email, password: this.password});
   }
 
 }

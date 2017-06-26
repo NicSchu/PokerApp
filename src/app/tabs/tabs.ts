@@ -15,6 +15,8 @@ export class TabsPage {
   tab3Root = FriendsPageComponent;
   tab4Root = SettingsPageComponent;
 
+  //TODO - hier wird das Profile denke gebraucht (siehe dazu auch entsprechendes HTML)
+
   constructor() {
 
   }

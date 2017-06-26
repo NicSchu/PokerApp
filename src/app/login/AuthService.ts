@@ -18,4 +18,7 @@ export class AuthService{
   public logout(){
     return this.firebaseAuth.auth.signOut();
   }
+
+  //TODO - evtl Methode einbauen, die überprüft ob man schon eingeloggt ist, damit könnte man den User
+  //direkt beim Starten der Anwendung einloggen, wenn er schon mal eingeloggt war
 }
