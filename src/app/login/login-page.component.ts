@@ -1,8 +1,10 @@
 import {Component} from "@angular/core";
-import {AlertController, NavController} from "ionic-angular";
-import {AngularFireDatabase} from "angularfire2/database";
+import {AlertController, ModalController, NavController} from "ionic-angular";
 import {AngularFireAuth} from "angularfire2/auth";
-import {ProfilePageComponent} from "../profile/profile-page.component";
+import {AuthService} from "./AuthService";
+import {TabsPage} from "../tabs/tabs";
+import {RegistryPageComponent} from "./registry-page.component";
+
 
 @Component({
   selector:'profile-page',
@@ -15,87 +17,73 @@ export class LoginPageComponent{
 
   constructor(private alertCtrl: AlertController,
               private firebaseAuth : AngularFireAuth,
-              private navCtrl: NavController){
+              private navCtrl: NavController,
+              private authService: AuthService,
+              private modalCtrl: ModalController){
 
   }
 
-  public signIn(){
-    this.firebaseAuth.auth.signInWithEmailAndPassword(this.email, this.password)
+  public login(){
+    this.authService.signIn(this.email, this.password)
       .catch(
-      (error: any) => {
+        (error: any) => {
 
-        if (error) {
+          if (error) {
 
-          let code = error.code;
-          let altertMessage = "";
-          if (code === "auth/user-disabled") {
-            altertMessage = 'Your account has beend disabled';
+            let code = error.code;
+            let altertMessage = "";
+            if (code === "auth/user-disabled") {
+              altertMessage = 'Your account has beend disabled';
+            }
+
+            if (code === "auth/invalid-email") {
+              altertMessage = 'Not a valid E-Mail';
+            }
+
+            if (code === "auth/wrong-password") {
+              altertMessage = 'Wrong password';
+            }
+
+            if (code === "auth/user-not-found") {
+              altertMessage = 'There is no user corresponding to the given E-Mail'
+            }
+            let alert = this.alertCtrl.create({
+              title: 'Something went wrong',
+              message: altertMessage,
+              buttons: ['Dismiss']
+            });
+
+            alert.present();
           }
-
-          if (code === "auth/invalid-email") {
-            altertMessage = 'Not a valid E-Mail';
-          }
-
-          if (code === "auth/wrong-password") {
-            altertMessage = 'Wrong password';
-          }
-
-          if (code === "auth/user-not-found") {
-            altertMessage = 'There is no user corresponding to the given E-Mail'
-          }
-          let alert = this.alertCtrl.create({
-            title: 'Something went wrong',
-            message: altertMessage,
-            buttons: ['Dismiss']
-          });
-
-          alert.present();
         }
-      }
-    )
+      )
       .then( () => {
 
         //TODO - ein Observer für AuthChange erstellen, der alle Pages löscht mit this.navCtrl.popToRoot()
-        console.log(this.firebaseAuth.auth.currentUser);
-        this.navCtrl.push(ProfilePageComponent)
+        let observable = this.firebaseAuth.authState.subscribe((data) => {
+          if(!data){
+            let alert = this.alertCtrl.create({
+              title: '',
+              message: 'You logged out',
+              buttons: ['Dismiss']
+            });
+            alert.present();
+            this.navCtrl.popToRoot();
+            observable.unsubscribe();
+          }
+        });
+        this.navCtrl.push(TabsPage)
       } );
   }
 
   public createAccount() {
-
-    let test  =
-    this.firebaseAuth.auth.createUserWithEmailAndPassword(this.email, this.password).catch(
-      (error: any) => {
-
-        if (error) {
-
-          let code = error.code;
-          let altertMessage = "";
-          if (code === "auth/email-already-in-use") {
-            altertMessage = 'E-Mail already in Use';
-          }
-
-          if (code === "auth/invalid-email") {
-            altertMessage = 'Not a valid E-Mail'; //TODO - evtl Hinweis auf G-Mail
-          }
-
-          if (code === "auth/operation-not-allowed") {
-            altertMessage = 'E-Mail and Password authentication is not enabled';
-          }
-
-          if (code === "auth/weak-password") {
-            altertMessage = error.message
-          }
-          let alert = this.alertCtrl.create({
-            title: 'Something went wrong',
-            message: altertMessage,
-            buttons: ['Dismiss']
-          });
-
-          alert.present();
-        }
+    let modal = this.modalCtrl.create(RegistryPageComponent,[this.email,this.password]);
+    modal.onDidDismiss(email => {
+      if(email){
+        this.email = email;
       }
-    );
-
+    });
+    modal.present();
   }
+
 }

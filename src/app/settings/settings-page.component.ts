@@ -1,4 +1,6 @@
 import {Component} from "@angular/core";
+import {AngularFireAuth} from "angularfire2/auth";
+import {AuthService} from "../login/AuthService";
 /**
  * Created by sebb9 on 08.06.2017.
  */
@@ -11,7 +13,11 @@ import {Component} from "@angular/core";
 export class SettingsPageComponent {
 
 
-  constructor() {
+  constructor(private authService : AuthService) {
+  }
+
+  public logout(){
+    this.authService.logout();
   }
 
 }

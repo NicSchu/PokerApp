@@ -15,6 +15,8 @@ import {FriendsPageComponent} from "./friends/friends-page.component";
 import {LoginPageComponent} from "./login/login-page.component";
 import {AngularFireModule} from "angularfire2";
 import {AngularFireAuth} from "angularfire2/auth";
+import {AuthService} from "./login/AuthService";
+import {RegistryPageComponent} from "./login/registry-page.component";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCi2KvgtcoIz_DqETuUE3d9G8-_GCNunmw",
@@ -33,7 +35,8 @@ export const firebaseConfig = {
     ProfilePageComponent,
     LobbyPageComponent,
     FriendsPageComponent,
-    TabsPage
+    TabsPage,
+    RegistryPageComponent
   ],
   imports: [
     BrowserModule,
@@ -49,14 +52,16 @@ export const firebaseConfig = {
     ProfilePageComponent,
     LobbyPageComponent,
     FriendsPageComponent,
-    TabsPage
+    TabsPage,
+    RegistryPageComponent
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AngularFireDatabase,
-    AngularFireAuth
+    AngularFireAuth,
+    AuthService
   ]
 })
 export class AppModule {}
