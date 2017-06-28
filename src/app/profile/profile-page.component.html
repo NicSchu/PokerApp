@@ -10,14 +10,11 @@
 
 <ion-content padding>
 
+  <!-- TODO - align image center! -->
+  <img style="align-items: center; width: 100vw; height: 50vh" id="profilePic" [src]="profilePictureURL" />
+
   <ion-list>
 
-    <ion-item>
-
-      <!-- TODO - muss noch mit echtem Attribute auf Profile versehen werden! -->
-      <ion-img id="profilePic" src="https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/800.jpg?alt=media&token=ac1ade47-8c44-4037-9993-5541a6e819dd"></ion-img>
-
-    </ion-item>
 
     <ion-item>
       <button ion-button (click)="uploadPicture()">Bild ändern</button>

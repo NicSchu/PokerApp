@@ -66,6 +66,7 @@ export class RegistryPageComponent {
           //(Sebi und Sebi haben da schon mit Herr Süß gesprochen, wie die Struktur in Firebase sein könnte.)
 
           //TODO - hier muss das Profile-Model an die Tab-Page gepusht werden!
+
         });
 
     } else {

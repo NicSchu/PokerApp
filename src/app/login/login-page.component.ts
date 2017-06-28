@@ -4,8 +4,6 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {AuthService} from "./AuthService";
 import {TabsPage} from "../tabs/tabs";
 import {RegistryPageComponent} from "./registry-page.component";
-import {AngularFireModule} from "angularfire2";
-import {AngularFireDatabase} from "angularfire2/database";
 
 
 @Component({
@@ -21,6 +19,11 @@ export class LoginPageComponent{
               private firebaseAuth : AngularFireAuth,
               private navCtrl: NavController,
               private authService: AuthService){
+
+    //TODO - workaround, weil firebaseAuth.auth.currentUser nicht sofort verfügbar ist, bzw erstmal null ist (warum auch immer)
+
+    let recordsJSON: string = localStorage.getItem('records');
+
   }
 
   public login(){
@@ -67,9 +70,7 @@ export class LoginPageComponent{
               buttons: ['Dismiss']
             });
             alert.present();
-            //go back to Login-Page
             this.navCtrl.popToRoot();
-            //unsubscribe old "App"
             observable.unsubscribe();
           }
         });

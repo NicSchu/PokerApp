@@ -1,15 +1,21 @@
 import {Component} from "@angular/core";
 import {Profile} from "./profile.model";
-import {NavParams} from "ionic-angular";
+import {AlertController, LoadingController, NavParams} from "ionic-angular";
 import {Achievement} from "../achievements/achievement.model";
-import {AngularFireDatabase} from "angularfire2/database";
 
 import {AuthService} from "../login/AuthService";
 import {ImagePicker} from "@ionic-native/image-picker";
+import {FirebaseApp} from "angularfire2";
+
+import 'firebase/storage';
+import * as firebase from "firebase/app";
+import Reference = firebase.storage.Reference;
+import {File} from "@ionic-native/file";
+import StringFormat = firebase.storage.StringFormat;
+import Storage = firebase.storage.Storage;
 /**
  * Created by sebb9 on 08.06.2017.
  */
-
 
 @Component({
   selector:'profile-page',
@@ -19,14 +25,21 @@ export class ProfilePageComponent {
 
   profile:Profile;
 
-  profilePictureRef : any;
+  profilePictureRef : Reference;
+
+  firebaseStorage : Storage;
+
+  profilePictureURL : string = '';
+
+  test : string = '';
 
   constructor(public navParams: NavParams,
-              private afDb : AngularFireDatabase,
               private authService : AuthService,
-              private imagePicker : ImagePicker) {
-
-    console.log("Sinep");
+              private imagePicker : ImagePicker,
+              private firebase : FirebaseApp,
+              private filesystem: File,
+              private loadingCtrl : LoadingController,
+              private alertCtrl: AlertController) {
 
     if (navParams.data.id) {
       // TODO - setze das richtige Profil vom Login....
@@ -39,9 +52,28 @@ export class ProfilePageComponent {
           ],
           400);
     }
+    //TODO - move to other place
+    this.firebaseStorage = this.firebase.storage();
 
-    // this.profilePictureRef = this.afDb.database.ref('users/' + this.authService.getCurrentUser().uid + '/photo');
-    this.profilePictureRef = this.afDb.database.ref('users/' + this.authService.getCurrentUser().uid + '/photo');
+    this.profilePictureRef = this.firebaseStorage.ref();
+
+
+    this.test = 'users/' + this.authService.getCurrentUser().uid + '/profilePic/';
+
+    //set Profile-Picture
+    this.refreshProfilePictureURL();
+  }
+
+  private refreshProfilePictureURL() : void {
+
+    this.firebaseStorage.ref().child(this.test).getDownloadURL()
+      .catch((error) => {
+        console.log(error);
+        this.profilePictureURL = '';
+      })
+      .then((url: string) => {
+        this.profilePictureURL = url;
+      });
 
   }
 
@@ -52,8 +84,60 @@ export class ProfilePageComponent {
         (results) => {
           if (results !== 'OK') {
             for (let i = 0; i < results.length; i++) {
-              console.log('Penis' + results[i]);
-              this.profilePictureRef.push({id:"image/jpeg" + results[i].getAsFile()})
+
+              let splittedPath = results[i].split("/");
+
+              let filePath  = '';
+              //ignore Filename (splittedPath.length- 1)
+              for (let i = 0; i < splittedPath.length- 1; i++) {
+                filePath += splittedPath[i] + '/';
+              }
+
+              //Read selected File from Filesystem, because we only get the absolute-path
+              this.filesystem.readAsDataURL(filePath, splittedPath[splittedPath.length -1])
+                .then((dataUrl) => {
+
+                  //show Loading-Screen
+                  let loading = this.loadingCtrl.create({
+                    content: 'Please Wait',
+                    spinner: 'crescent',
+                  });
+                  loading.onDidDismiss( (succeeded : boolean) => {
+                    if (succeeded) {
+                      //refresh ProfilePicture
+                      this.refreshProfilePictureURL();
+
+                      let alert = this.alertCtrl.create({
+                         title: 'Picture uploaded',
+                         message: 'Your Profile Picture was successfully updated.',
+                         buttons: ['Dismiss']
+                       });
+
+                       alert.present();
+                    } else {
+                      let alert = this.alertCtrl.create({
+                        title: 'Upload failed',
+                        message: 'Failed to upload your Profile Picture. Please check your network connection.',
+                        buttons: ['Dismiss']
+                      });
+                      alert.present();
+                    }
+                  });
+                  loading.present();
+
+                  //Upload File to Firebase
+                  this.profilePictureRef.child('users/' + this.authService.getCurrentUser().uid + '/profilePic/').putString(dataUrl, StringFormat.DATA_URL )
+                    .then((snapshot) => {
+                      // Do something here when the data is succesfully uploaded
+
+                      //
+                      loading.dismiss(true);
+                    })
+                  .catch((error) => {
+                    //TODO - ist keine Internet-Connection da, hängt der Spinner ständig(ggf. ändern)
+                    loading.dismiss();
+                  })
+                })
             }
           }
 
@@ -62,9 +146,11 @@ export class ProfilePageComponent {
             console.log(error);
         } );
 
-    // this.profilePictureRef.push()
   }
 
 
 
 }
+
+
+

@@ -18,6 +18,8 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {AuthService} from "./login/AuthService";
 import {RegistryPageComponent} from "./login/registry-page.component";
 import {ImagePicker} from "@ionic-native/image-picker";
+import {PhotoLibrary} from "@ionic-native/photo-library";
+import {File} from "@ionic-native/file";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCi2KvgtcoIz_DqETuUE3d9G8-_GCNunmw",
@@ -64,7 +66,9 @@ export const firebaseConfig = {
     AngularFireDatabase,
     AngularFireAuth,
     AuthService,
-    ImagePicker
+    ImagePicker,
+    PhotoLibrary,
+    File
   ]
 })
 export class AppModule {}
