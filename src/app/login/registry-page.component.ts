@@ -62,7 +62,7 @@ export class RegistryPageComponent {
         )
         .then((user) => {
           //TODO - wir müssen generell noch das Profile des Benutzers anlegen, welcher sich gerade angemeldet hat ()
-          //ggf können wir aus unserem Datenmodell den Login streichen und stattdessen die Ionic-ID mit unserem Profile verknüpfen
+          //ggf können wir aus unserem Datenmodell den Login streichen und stattdessen die Ioni-cID mit unserem Profile verknüpfen
           //(Sebi und Sebi haben da schon mit Herr Süß gesprochen, wie die Struktur in Firebase sein könnte.)
 
           //TODO - hier muss das Profile-Model an die Tab-Page gepusht werden!

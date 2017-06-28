@@ -1,11 +1,10 @@
-import {Login} from "../login/login.model";
 import {Achievement} from "../achievements/achievement.model";
 /**
  * Created by sebb9 on 08.06.2017.
  */
 export class Profile {
 
-  constructor(public login: Login,
+  constructor(public firebaseUserId: string,
               public name: string,
               public cash :number,
               public friends?: Profile[],

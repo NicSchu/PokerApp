@@ -4,6 +4,8 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {AuthService} from "./AuthService";
 import {TabsPage} from "../tabs/tabs";
 import {RegistryPageComponent} from "./registry-page.component";
+import {AngularFireModule} from "angularfire2";
+import {AngularFireDatabase} from "angularfire2/database";
 
 
 @Component({
@@ -19,10 +21,6 @@ export class LoginPageComponent{
               private firebaseAuth : AngularFireAuth,
               private navCtrl: NavController,
               private authService: AuthService){
-
-    console.log("Wieder da");
-    console.log("WSASASDSADASD");
-
   }
 
   public login(){
@@ -59,7 +57,7 @@ export class LoginPageComponent{
           }
         }
       )
-      .then( () => {
+      .then( (user) => {
 
         let observable = this.firebaseAuth.authState.subscribe((data) => {
           if(!data){
@@ -75,6 +73,8 @@ export class LoginPageComponent{
             observable.unsubscribe();
           }
         });
+
+        //TODO - create Profile for Firebase-User
         this.navCtrl.push(TabsPage)
       } );
   }

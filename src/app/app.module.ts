@@ -17,6 +17,7 @@ import {AngularFireModule} from "angularfire2";
 import {AngularFireAuth} from "angularfire2/auth";
 import {AuthService} from "./login/AuthService";
 import {RegistryPageComponent} from "./login/registry-page.component";
+import {ImagePicker} from "@ionic-native/image-picker";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCi2KvgtcoIz_DqETuUE3d9G8-_GCNunmw",
@@ -42,7 +43,8 @@ export const firebaseConfig = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    AngularFireModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -61,7 +63,8 @@ export const firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AngularFireDatabase,
     AngularFireAuth,
-    AuthService
+    AuthService,
+    ImagePicker
   ]
 })
 export class AppModule {}
