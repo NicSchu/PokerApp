@@ -11,9 +11,9 @@
 <ion-content padding>
 
   <!-- TODO - align image center! -->
-  <img style="align-items: center; width: 100vw; height: 50vh" id="profilePic" [src]="profilePictureURL" />
+  <img *ngIf="profile && allAchievements" style="align-items: center; width: 100vw; height: 50vh" [src]="profilePictureURL" />
 
-  <ion-list>
+  <ion-list *ngIf="profile && allAchievements">
 
 
     <ion-item>
@@ -31,7 +31,7 @@
 
       Achievements
 
-      <ion-badge item-end>{{profile.getAccomplishedAchievements()}}/{{profile.achievements.length}}</ion-badge>
+      <ion-badge item-end>{{profile.getAccomplishedAchievements()}}/{{allAchievements.length}}</ion-badge>
     </ion-item>
 
     <ion-item>

@@ -77,6 +77,10 @@ export class AchievementService {
   }
 
 
+  public getAllAchievments() : Observable<Achievement[]> {
+    return this.allAchievements;
+  }
+
   public createNewAchievement(achievement : Achievement) : void {
     this.fbAllAchievements.push(this.copyAndPrepareAchievement(achievement));
   }

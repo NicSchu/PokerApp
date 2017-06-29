@@ -53,10 +53,7 @@ export class LoginPageComponent {
         }
     };
     let thenCallback = (user : any) => {
-
-      //TODO - create Profile for Firebase-User
       this.navCtrl.push(TabsPage)
-
     };
 
     //now call Service with given CB's

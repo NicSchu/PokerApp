@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {Profile} from "./profile.model";
-import {AlertController, LoadingController, NavParams} from "ionic-angular";
+import {AlertController, LoadingController} from "ionic-angular";
 
 import {AuthService} from "../login/AuthService";
 import {ImagePicker} from "@ionic-native/image-picker";
@@ -9,6 +9,9 @@ import {FirebaseApp} from "angularfire2";
 import "firebase/storage";
 import * as firebase from "firebase/app";
 import {File} from "@ionic-native/file";
+import {ProfileService} from "./profile.service";
+import {Achievement} from "../achievements/achievement.model";
+import {AchievementService} from "../achievements/achievement.service";
 import Reference = firebase.storage.Reference;
 import StringFormat = firebase.storage.StringFormat;
 import Storage = firebase.storage.Storage;
@@ -22,41 +25,52 @@ import Storage = firebase.storage.Storage;
 })
 export class ProfilePageComponent {
 
-  profile:Profile;
+  private profile:Profile;
 
-  profilePictureRef : Reference;
+  private profilePictureRef : Reference;
 
-  firebaseStorage : Storage;
+  private firebaseStorage : Storage;
 
-  profilePictureURL : string = '';
+  private profilePictureURL : string = '';
 
-  test : string = '';
+  private test : string = '';
 
-  constructor(public navParams: NavParams,
-              private authService : AuthService,
+  private allAchievements : Achievement[];
+
+  constructor(private authService : AuthService,
               private imagePicker : ImagePicker,
               private firebase : FirebaseApp,
               private filesystem: File,
               private loadingCtrl : LoadingController,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private profileService : ProfileService,
+              private achievmentService : AchievementService) {
 
-    if (navParams.data.id) {
-      // TODO - setze das richtige Profil vom Login....
-      console.log(navParams.data.id);
-    } else {
-      //TODO - remove MOCK-Data!!!!
-      this.profile = new Profile('a');
-    }
     //TODO - default Profile-Picture (maybe set test-Variable to other Path)
     this.firebaseStorage = this.firebase.storage();
 
     this.profilePictureRef = this.firebaseStorage.ref();
 
-
     this.test = 'users/' + this.authService.getCurrentUser().uid + '/profilePic/';
 
     //set Profile-Picture
     this.refreshProfilePictureURL();
+  }
+
+  ionViewDidLoad() {
+    this.profileService.getCurrentProfile().subscribe(
+      (profile : Profile) => {
+
+        //otherwise the User is not logged in, because we create an profile with the first account creation
+        this.profile = profile;
+      }
+    );
+
+    this.achievmentService.getAllAchievments().subscribe(
+      (achievments : Achievement[]) => {
+        this.allAchievements = achievments;
+      }
+    );
   }
 
   private refreshProfilePictureURL() : void {
