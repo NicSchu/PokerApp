@@ -1,7 +1,6 @@
 import {Component} from "@angular/core";
 import {Profile} from "./profile.model";
 import {AlertController, LoadingController, NavParams} from "ionic-angular";
-import {Achievement} from "../achievements/achievement.model";
 
 import {AuthService} from "../login/AuthService";
 import {ImagePicker} from "@ionic-native/image-picker";
@@ -46,11 +45,7 @@ export class ProfilePageComponent {
       console.log(navParams.data.id);
     } else {
       //TODO - remove MOCK-Data!!!!
-      this.profile = new Profile('Test', 'Peter', 100000, undefined,
-          [new Achievement('ABC', 'MEga gutes Teil', 100, true),
-            new Achievement('DEF', 'Viel besser', 10000, false)
-          ],
-          400);
+      this.profile = new Profile('Penis', 'Dieter');
     }
     //TODO - default Profile-Picture (maybe set test-Variable to other Path)
     this.firebaseStorage = this.firebase.storage();

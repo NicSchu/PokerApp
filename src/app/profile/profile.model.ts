@@ -9,7 +9,7 @@ export class Profile {
               public cash :number = 10000,
               public friends: string[] = [],
               public achievements: Achievement[] = [],
-              public roundsPlayed: number) {
+              public roundsPlayed: number = 0) {
   }
 
   public getAccomplishedAchievements() : number {

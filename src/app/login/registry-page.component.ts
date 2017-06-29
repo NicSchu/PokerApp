@@ -3,6 +3,7 @@ import {AlertController, NavController, NavParams} from "ionic-angular";
 import {AuthService} from "./AuthService";
 import {AngularFireAuth} from "angularfire2/auth";
 import {ProfileService} from "../profile/profile.service";
+import {Profile} from "../profile/profile.model";
 
 @Component({
   selector:'registry-page',
@@ -11,6 +12,7 @@ import {ProfileService} from "../profile/profile.service";
 
 export class RegistryPageComponent {
   private email : string;
+  private displayname : string;
   private password : string;
   private passwordConfirmation : string;
 
@@ -68,7 +70,7 @@ export class RegistryPageComponent {
       };
       let thenCallback = (user: any) => {
 
-        this.profileService.createProfile(new Profile())
+        this.profileService.createProfile(new Profile(user.uid, this.displayname));
 
         //this function also push Tabs-Page
         this.loginCallback(this.email, this.password);

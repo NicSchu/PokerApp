@@ -20,6 +20,8 @@ import {RegistryPageComponent} from "./login/registry-page.component";
 import {ImagePicker} from "@ionic-native/image-picker";
 import {PhotoLibrary} from "@ionic-native/photo-library";
 import {File} from "@ionic-native/file";
+import {AchievementService} from "./achievements/achievement.service";
+import {ProfileService} from "./profile/profile.service";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCi2KvgtcoIz_DqETuUE3d9G8-_GCNunmw",
@@ -68,6 +70,8 @@ export const firebaseConfig = {
     AuthService,
     ImagePicker,
     PhotoLibrary,
+    ProfileService,
+    AchievementService,
     File
   ]
 })

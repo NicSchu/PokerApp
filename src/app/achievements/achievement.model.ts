@@ -3,10 +3,18 @@
  */
 export class Achievement {
 
-  constructor(public id: string,
-              public name: string,
-              public description: string,
-              public points :number,
-              public accomplished: boolean) {
+  constructor(public id?: string,
+              public name?: string,
+              public description?: string,
+              public points? :number,
+              public accomplished?: boolean) {
+
+
+  }
+
+
+
+  public static createWith(achievement : any) : Achievement {
+    return Object.assign(new Achievement(), achievement);
   }
 }
