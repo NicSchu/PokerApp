@@ -12,7 +12,25 @@
   <ion-list>
 
     <ion-item>
-      <button (click)="logout()">
+      <button ion-button full block clear (click)="showImpressum()">
+        Impressum
+      </button>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button full block clear (click)="showCardbacks()">
+        Cardbacks
+      </button>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button full block clear (click)="showClientOptions()">
+        Client Options
+      </button>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button full block clear (click)="logout()">
         Logout
       </button>
     </ion-item>
