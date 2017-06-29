@@ -55,18 +55,6 @@ export class LoginPageComponent {
         }
     };
     let thenCallback = (user : any) => {
-      let observable = this.firebaseAuth.authState.subscribe((data) => {
-        if(!data){
-          let alert = this.alertCtrl.create({
-            title: '',
-            message: 'You logged out',
-            buttons: ['Dismiss']
-          });
-          alert.present();
-          this.navCtrl.popToRoot();
-          observable.unsubscribe();
-        }
-      });
 
       //TODO - create Profile for Firebase-User
       this.navCtrl.push(TabsPage)
