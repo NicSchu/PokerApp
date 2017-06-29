@@ -6,7 +6,7 @@ import {RegistryPageComponent} from "./registry-page.component";
 
 
 @Component({
-  selector:'profile-page',
+  selector:'login-page',
   templateUrl: 'login-page.component.html'
 })
 export class LoginPageComponent {
