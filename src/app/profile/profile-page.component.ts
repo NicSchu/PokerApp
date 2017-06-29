@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {Profile} from "./profile.model";
-import {AlertController, LoadingController} from "ionic-angular";
+import {AlertController, LoadingController, NavController} from "ionic-angular";
 
 import {AuthService} from "../login/AuthService";
 import {ImagePicker} from "@ionic-native/image-picker";
@@ -12,6 +12,7 @@ import {File} from "@ionic-native/file";
 import {ProfileService} from "./profile.service";
 import {Achievement} from "../achievements/achievement.model";
 import {AchievementService} from "../achievements/achievement.service";
+import {AchievementListPageComponent} from "../achievements/achievement-list-page.component";
 import Reference = firebase.storage.Reference;
 import StringFormat = firebase.storage.StringFormat;
 import Storage = firebase.storage.Storage;
@@ -44,7 +45,8 @@ export class ProfilePageComponent {
               private loadingCtrl : LoadingController,
               private alertCtrl: AlertController,
               private profileService : ProfileService,
-              private achievmentService : AchievementService) {
+              private achievmentService : AchievementService,
+              private navCtrl: NavController) {
 
     //TODO - default Profile-Picture (maybe set test-Variable to other Path)
     this.firebaseStorage = this.firebase.storage();
@@ -169,6 +171,10 @@ export class ProfilePageComponent {
             console.log(error);
         } );
 
+  }
+
+  public showAchievements() : void {
+    this.navCtrl.push(AchievementListPageComponent, this.allAchievements);
   }
 
 

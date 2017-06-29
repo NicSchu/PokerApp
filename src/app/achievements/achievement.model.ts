@@ -1,6 +1,8 @@
 /**
  * Created by sebb9 on 08.06.2017.
  */
+
+//TODO - nachfrage, ob wir eine Kategorie einführen sollen!
 export class Achievement {
 
   constructor(public id?: string,
