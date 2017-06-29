@@ -3,7 +3,8 @@
  */
 export class Achievement {
 
-  constructor(public name: string,
+  constructor(public id: string,
+              public name: string,
               public description: string,
               public points :number,
               public accomplished: boolean) {

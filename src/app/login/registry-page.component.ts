@@ -1,6 +1,8 @@
 import {Component} from "@angular/core";
 import {AlertController, NavController, NavParams} from "ionic-angular";
 import {AuthService} from "./AuthService";
+import {AngularFireAuth} from "angularfire2/auth";
+import {ProfileService} from "../profile/profile.service";
 
 @Component({
   selector:'registry-page',
@@ -12,73 +14,67 @@ export class RegistryPageComponent {
   private password : string;
   private passwordConfirmation : string;
 
+  private loginCallback : (email : string, password:string) => void;
+
   constructor(private alertCtrl : AlertController,
               private authService : AuthService,
-              private navCtrl : NavController,
-              private navParams : NavParams) {
+              private navParams : NavParams,
+              private profileService : ProfileService,
+              private firebaseAuth : AngularFireAuth, //used by loginCallback()
+              private navCtrl : NavController,) { //used by loginCallback()
 
 
     if (this.navParams.data) {
       this.email = this.navParams.data.email;
       this.password = this.navParams.data.password;
+
+      if (this.navParams.data.loginCallback) {
+        this.loginCallback = this.navParams.data.loginCallback;
+      }
     }
 
   }
 
   public createAccount(){
-    if(this.password === this.passwordConfirmation){
-      this.authService.createAccount(this.email, this.password)
-        .catch(
-          (error: any) => {
+    if(this.password === this.passwordConfirmation) {
+      let catchCallBack = (error : any) => {
+        if (error) {
 
-            if (error) {
-
-              let code = error.code;
-              let altertMessage = "";
-              if (code === "auth/email-already-in-use") {
-                altertMessage = 'E-Mail already in Use';
-              }
-
-              if (code === "auth/invalid-email") {
-                altertMessage = 'Not a valid E-Mail';
-              }
-
-              if (code === "auth/operation-not-allowed") {
-                altertMessage = 'E-Mail and Password authentication is not enabled';
-              }
-
-              if (code === "auth/weak-password") {
-                altertMessage = error.message
-              }
-              let alert = this.alertCtrl.create({
-                title: 'Something went wrong',
-                message: altertMessage,
-                buttons: ['Dismiss']
-              });
-
-              alert.present();
-            }
+          let code = error.code;
+          let altertMessage = "";
+          if (code === "auth/email-already-in-use") {
+            altertMessage = 'E-Mail already in Use';
           }
-        )
-        .then((user) => {
-          //TODO - wir müssen generell noch das Profile des Benutzers anlegen, welcher sich gerade angemeldet hat ()
-          //ggf können wir aus unserem Datenmodell den Login streichen und stattdessen die Ioni-cID mit unserem Profile verknüpfen
-          //(Sebi und Sebi haben da schon mit Herr Süß gesprochen, wie die Struktur in Firebase sein könnte.)
 
-          //TODO - hier muss das Profile-Model an die Tab-Page gepusht werden!
+          if (code === "auth/invalid-email") {
+            altertMessage = 'Not a valid E-Mail';
+          }
 
-        });
+          if (code === "auth/operation-not-allowed") {
+            altertMessage = 'E-Mail and Password authentication is not enabled';
+          }
 
-    } else {
+          if (code === "auth/weak-password") {
+            altertMessage = error.message
+          }
+          let alert = this.alertCtrl.create({
+            title: 'Something went wrong',
+            message: altertMessage,
+            buttons: ['Dismiss']
+          });
 
-      let alert = this.alertCtrl.create({
-        title: 'Failure',
-        message: '\"Password\" and \"Confirm-Password\" do not match',
-        buttons: ['Dismiss']
-      });
+          alert.present();
+        }
+      };
+      let thenCallback = (user: any) => {
 
-      alert.present();
+        this.profileService.createProfile(new Profile())
 
+        //this function also push Tabs-Page
+        this.loginCallback(this.email, this.password);
+
+      };
+      this.authService.createAccount(this.email, this.password, catchCallBack, thenCallback);
     }
   }
 }

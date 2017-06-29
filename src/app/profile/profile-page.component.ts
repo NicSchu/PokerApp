@@ -7,10 +7,10 @@ import {AuthService} from "../login/AuthService";
 import {ImagePicker} from "@ionic-native/image-picker";
 import {FirebaseApp} from "angularfire2";
 
-import 'firebase/storage';
+import "firebase/storage";
 import * as firebase from "firebase/app";
-import Reference = firebase.storage.Reference;
 import {File} from "@ionic-native/file";
+import Reference = firebase.storage.Reference;
 import StringFormat = firebase.storage.StringFormat;
 import Storage = firebase.storage.Storage;
 /**
@@ -52,7 +52,7 @@ export class ProfilePageComponent {
           ],
           400);
     }
-    //TODO - move to other place
+    //TODO - default Profile-Picture (maybe set test-Variable to other Path)
     this.firebaseStorage = this.firebase.storage();
 
     this.profilePictureRef = this.firebaseStorage.ref();
@@ -67,13 +67,12 @@ export class ProfilePageComponent {
   private refreshProfilePictureURL() : void {
 
     this.firebaseStorage.ref().child(this.test).getDownloadURL()
-      .catch((error) => {
-        console.log(error);
-        this.profilePictureURL = '';
-      })
       .then((url: string) => {
         this.profilePictureURL = url;
-      });
+      }, (error) => {
+        console.log(error);
+        this.profilePictureURL = '';
+    });
 
   }
 
