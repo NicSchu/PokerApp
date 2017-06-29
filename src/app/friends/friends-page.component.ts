@@ -12,5 +12,7 @@ export class FriendsPageComponent {
 
 
   constructor() {
+
+
   }
 }

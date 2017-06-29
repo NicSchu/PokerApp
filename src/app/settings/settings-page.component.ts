@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {AuthService} from "../login/AuthService";
-import {AlertController, NavController} from "ionic-angular";
+import {AlertController, App, NavController} from "ionic-angular";
 import {LoginPageComponent} from "../login/login-page.component";
 import {ImpressumPageComponent} from "./impressum-page.component";
 import {CardbacksPageComponent} from "./cardbacks-page.component";
@@ -19,7 +19,8 @@ export class SettingsPageComponent {
 
   constructor(private authService : AuthService,
               private navCtrl : NavController,
-              private alertCtrl : AlertController) {
+              private alertCtrl : AlertController,
+              private appCtrl: App) {
   }
 
   public showImpressum() {
@@ -41,6 +42,9 @@ export class SettingsPageComponent {
       .then((a) => {
         console.log(a);
         console.log('a');
+
+        //dismiss actual View
+        this.appCtrl.getRootNav().popToRoot();
 
         //set LoginPage as new Root-Page(because Tabs-Page is the new Root(got new NavController))
         this.navCtrl.setRoot(LoginPageComponent);

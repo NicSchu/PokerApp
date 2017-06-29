@@ -70,7 +70,7 @@ export class RegistryPageComponent {
 
         this.profileService.createProfile(new Profile(this.displayname));
 
-        //this function also push Tabs-Page
+        //this function also push Tabs-Page and login the User!
         this.loginCallback(this.email, this.password);
 
       };

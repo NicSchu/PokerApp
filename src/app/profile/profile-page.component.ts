@@ -58,7 +58,7 @@ export class ProfilePageComponent {
   }
 
   ionViewDidLoad() {
-    this.profileService.getCurrentProfile().subscribe(
+    let profileSubscription = this.profileService.getCurrentProfile().subscribe(
       (profile : Profile) => {
 
         //otherwise the User is not logged in, because we create an profile with the first account creation
@@ -66,11 +66,26 @@ export class ProfilePageComponent {
       }
     );
 
-    this.achievmentService.getAllAchievments().subscribe(
+    let achievementSubscription = this.achievmentService.getAllAchievments().subscribe(
       (achievments : Achievement[]) => {
         this.allAchievements = achievments;
       }
     );
+
+    let authSubscription = this.authService.getAuthStateObservable().subscribe(
+      (user) => {
+        //if User is undefined, user logged off
+
+        if (!user) {
+          //unsubscribe all Subscriptions!!!
+          profileSubscription.unsubscribe();
+          achievementSubscription.unsubscribe();
+          authSubscription.unsubscribe();
+        }
+
+      }
+    );
+
   }
 
   private refreshProfilePictureURL() : void {
