@@ -19,21 +19,15 @@ export class ProfileService {
   constructor(private authService : AuthService,
               private afDb : AngularFireDatabase) {
 
-    this.fbProfile = afDb.object('user/' + authService.getCurrentUser().uid + '/profile');
-    console.log(this.fbProfile);
-
-    this.profile = this.fbProfile.map(
-      (fbProfile: any) : Profile => {
-        let profile = Profile.createWith(fbProfile);
-        profile.firebaseUserId = fbProfile.$key;
-        return profile;
-      }
-    )
-
+    //init-Function can't be placed here, because DI would execute it before we are logged in at Registry-Page
 
   }
 
   public createProfile(profile: Profile) : void {
+
+    //first init object to watch
+    this.initFirebaseObject();
+
     this.fbProfile.set(this.copyAndPrepareProfile(profile));
   }
 
@@ -42,18 +36,38 @@ export class ProfileService {
   }
 
   public getCurrentProfile() : Observable<Profile> {
+
+    //first init object to watch
+    this.initFirebaseObject();
+
     return this.profile;
   }
 
   private copyAndPrepareProfile(profile: any): Profile {
     let newProfile = Profile.createWith(profile);
-    newProfile.firebaseUserId = newProfile.firebaseUserId || null;
     newProfile.name = newProfile.name || null;
     newProfile.cash = newProfile.cash || null;
-    newProfile.friends = newProfile.friends || null;
-    newProfile.achievements = newProfile.achievements || null;
-    newProfile.roundsPlayed = newProfile.roundsPlayed || null;
     return newProfile;
+  }
+
+  private initFirebaseObject() {
+
+    //user must be logged in!
+
+    if (!this.fbProfile) {
+      this.fbProfile = this.afDb.object('users/' + this.authService.getCurrentUser().uid + '/profile');
+      console.log(this.fbProfile);
+
+      this.profile = this.fbProfile.map(
+        (fbProfile: any) : Profile => {
+          let profile = Profile.createWith(fbProfile);
+          return profile;
+        }
+      )
+    }
+
+
+
   }
 
 }

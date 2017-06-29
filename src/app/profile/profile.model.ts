@@ -4,8 +4,7 @@ import {Achievement} from "../achievements/achievement.model";
  */
 export class Profile {
 
-  constructor(public firebaseUserId: string,
-              public name: string,
+  constructor(public name: string,
               public cash :number = 10000,
               public friends: string[] = [],
               public achievements: Achievement[] = [],
@@ -17,7 +16,7 @@ export class Profile {
   }
 
   public static createWith(profile : any) : Profile{
-    return new Profile('passByFirebase', profile.name, profile.cash, profile.friends, profile.achievements, profile.roundsPlayed)
+    return new Profile(profile.name, profile.cash, profile.friends, profile.achievements, profile.roundsPlayed)
   }
 
 }

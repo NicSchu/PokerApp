@@ -1,6 +1,5 @@
 import {Component} from "@angular/core";
 import {AlertController, NavController} from "ionic-angular";
-import {AngularFireAuth} from "angularfire2/auth";
 import {AuthService} from "./AuthService";
 import {TabsPage} from "../tabs/tabs";
 import {RegistryPageComponent} from "./registry-page.component";
@@ -16,7 +15,6 @@ export class LoginPageComponent {
   private password : string;
 
   constructor(private alertCtrl: AlertController,
-              private firebaseAuth : AngularFireAuth,
               private navCtrl: NavController,
               private authService: AuthService){
 
@@ -60,7 +58,11 @@ export class LoginPageComponent {
       this.navCtrl.push(TabsPage)
 
     };
-    this.authService.signIn(email, password, catchCallback, thenCallback)
+
+    //now call Service with given CB's
+    this.authService.signIn(email, password)
+      .catch(catchCallback)
+      .then(thenCallback);
   }
 
   public createAccount() {

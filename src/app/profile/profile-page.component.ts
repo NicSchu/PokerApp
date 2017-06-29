@@ -45,7 +45,7 @@ export class ProfilePageComponent {
       console.log(navParams.data.id);
     } else {
       //TODO - remove MOCK-Data!!!!
-      this.profile = new Profile('Penis', 'Dieter');
+      this.profile = new Profile('a');
     }
     //TODO - default Profile-Picture (maybe set test-Variable to other Path)
     this.firebaseStorage = this.firebase.storage();

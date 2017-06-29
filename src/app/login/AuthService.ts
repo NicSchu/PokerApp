@@ -10,18 +10,12 @@ export class AuthService{
   constructor(private firebaseAuth: AngularFireAuth){
   }
 
-  public signIn(email : string, password : string,
-                catchCallback : (error: any) => void, thenCallback : (user: any) => void){
-    return this.firebaseAuth.auth.signInWithEmailAndPassword(email,password)
-      .catch(catchCallback)
-      .then(thenCallback);
+  public signIn(email : string, password : string){
+    return this.firebaseAuth.auth.signInWithEmailAndPassword(email,password);
   }
 
-  public createAccount(email : string, password : string,
-                       catchCallback : (error: any) => void, thenCallback : (user: any) => void) {
-    return this.firebaseAuth.auth.createUserWithEmailAndPassword(email, password)
-      .catch(catchCallback)
-      .then(thenCallback);
+  public createAccount(email : string, password : string) {
+    return this.firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
   }
 
   public logout(){

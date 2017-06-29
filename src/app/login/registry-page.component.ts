@@ -1,7 +1,6 @@
 import {Component} from "@angular/core";
 import {AlertController, NavController, NavParams} from "ionic-angular";
 import {AuthService} from "./AuthService";
-import {AngularFireAuth} from "angularfire2/auth";
 import {ProfileService} from "../profile/profile.service";
 import {Profile} from "../profile/profile.model";
 
@@ -22,7 +21,6 @@ export class RegistryPageComponent {
               private authService : AuthService,
               private navParams : NavParams,
               private profileService : ProfileService,
-              private firebaseAuth : AngularFireAuth, //used by loginCallback()
               private navCtrl : NavController,) { //used by loginCallback()
 
 
@@ -70,13 +68,17 @@ export class RegistryPageComponent {
       };
       let thenCallback = (user: any) => {
 
-        this.profileService.createProfile(new Profile(user.uid, this.displayname));
+        this.profileService.createProfile(new Profile(this.displayname));
 
         //this function also push Tabs-Page
         this.loginCallback(this.email, this.password);
 
       };
-      this.authService.createAccount(this.email, this.password, catchCallBack, thenCallback);
+
+      //now call Service with given CB's
+      this.authService.createAccount(this.email, this.password)
+        .catch(catchCallBack)
+        .then(thenCallback);
     }
   }
 }
