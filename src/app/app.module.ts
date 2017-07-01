@@ -25,6 +25,8 @@ import {ProfileService} from "./profile/profile.service";
 import {ImpressumPageComponent} from "./settings/impressum-page.component";
 import {ClientOptionsPageComponent} from "./settings/clientOptions-page.component";
 import {CardbacksPageComponent} from "./settings/cardbacks-page.component";
+import {AchievementListPageComponent} from "./achievements/achievement-list-page.component";
+import {AchievementDetailPageComponent} from "./achievements/achievement-detail-page.component";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCi2KvgtcoIz_DqETuUE3d9G8-_GCNunmw",
@@ -47,7 +49,9 @@ export const firebaseConfig = {
     RegistryPageComponent,
     ImpressumPageComponent,
     ClientOptionsPageComponent,
-    CardbacksPageComponent
+    CardbacksPageComponent,
+    AchievementListPageComponent,
+    AchievementDetailPageComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +72,9 @@ export const firebaseConfig = {
     RegistryPageComponent,
     ImpressumPageComponent,
     ClientOptionsPageComponent,
-    CardbacksPageComponent
+    CardbacksPageComponent,
+    AchievementListPageComponent,
+    AchievementDetailPageComponent
   ],
   providers: [
     StatusBar,

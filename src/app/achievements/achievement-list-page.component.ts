@@ -1,6 +1,7 @@
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {Achievement} from "./achievement.model";
-import {NavParams} from "ionic-angular";
+import {NavController, NavParams, Searchbar} from "ionic-angular";
+import {AchievementDetailPageComponent} from "./achievement-detail-page.component";
 /**
  * Created by sebastian on 29.06.17.
  */
@@ -11,15 +12,21 @@ import {NavParams} from "ionic-angular";
 })
 export class AchievementListPageComponent {
 
-  private allAchievements : Achievement[];
-  private filteredAchievements : Achievement[];
+  @ViewChild(Searchbar)
+  private searchbar : Searchbar;
+
+  private allAchievements : Achievement[] = [];
+  private filteredAchievements : Achievement[] = [];
+
+  private sumAchievementPoints : number = 0;
 
   private showSearchbar : boolean = false;
 
   private searchQuery: string = '';
 
   //pass all Achievements by Parameter, because Profile-Page already loaded them... (to save Data-Volumne)
-  constructor(private navParams : NavParams) {
+  constructor(private navParams : NavParams,
+              private navCtrl : NavController) {
 
     if (this.navParams.data) {
 
@@ -31,6 +38,8 @@ export class AchievementListPageComponent {
 
       this.filteredAchievements = this.allAchievements;
 
+      this.calculateSum();
+
     } else {
       //should not happen!!! (only call from Profile-Page with all Achievements as parameter)
     }
@@ -39,21 +48,29 @@ export class AchievementListPageComponent {
 
   public setShowSearchBar(showSearchbar : boolean) : void {
     this.showSearchbar = showSearchbar;
+
+    if (this.showSearchbar) {
+      setTimeout(() => {this.searchbar.setFocus()}, 300);
+    }
   }
 
   public doSearch() : void {
     //only Search by name
     this.filteredAchievements = this.allAchievements
-                              .filter((achievement) => {
+                              .filter((achievement) =>
                                 achievement.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-                              });
-    //TODO - maybe create temp array
+                              );
+
     this.sortByName(this.filteredAchievements);
+
+    this.calculateSum();
   }
 
   public clearSearchbar() : void {
     this.searchQuery = '';
     this.filteredAchievements = this.allAchievements;
+
+    this.calculateSum();
   }
 
   private sortByName(achievements : Achievement[]) {
@@ -66,6 +83,24 @@ export class AchievementListPageComponent {
       }
       return 0;
     });
+  }
+
+  private calculateSum() : void {
+
+    let accomplishedAchievements : Achievement[] = this.filteredAchievements.filter((achievement) => achievement.accomplished);
+
+    if (accomplishedAchievements.length > 0) {
+      this.sumAchievementPoints =     accomplishedAchievements
+                                      .map((achievement) => achievement.points)
+                                      .reduce( (a,b) => a + b );
+    } else {
+      this.sumAchievementPoints = 0;
+    }
+
+  }
+
+  public showAchievementDetails(achievement : Achievement) : void {
+    this.navCtrl.push(AchievementDetailPageComponent, achievement);
   }
 
 
