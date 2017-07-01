@@ -9,6 +9,8 @@ import {LoginPageComponent} from "./login/login-page.component";
   templateUrl: 'app.html'
 })
 export class MyApp {
+  //TODO - hier evtl die Abfrage auf den User einbauen, sodass man sofort eingeloggt wird... (Könnte aber Probleme beim Logout geben, da die Root-Page dann nicht mehr Login ist)
+
   rootPage:any = LoginPageComponent;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {

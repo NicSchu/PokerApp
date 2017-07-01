@@ -10,28 +10,28 @@
 
 <ion-content padding>
 
-  <ion-list>
+  <!-- TODO - align image center! -->
+  <img *ngIf="profile && allAchievements" style="align-items: center; width: 100vw; height: 50vh" [src]="profilePictureURL" />
+
+  <ion-list *ngIf="profile && allAchievements">
+
 
     <ion-item>
-
-      <!-- TODO - muss noch mit echtem Attribute auf Profile versehen werden! -->
-      <ion-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKSQW-ahU3u7N3pU3BkRIDDa9Rd3ODuc0ZHDwqQ0p9ibLjKvt5"></ion-img>
-
+      <button ion-button (click)="uploadPicture()">Bild ändern</button>
     </ion-item>
 
     <ion-item>
-      <!-- TODO - ist der Text wirklich notwendig? -->
       <p>Hier könnte ihre Werbung stehen!</p>
 
     </ion-item>
 
-    <ion-item>
+    <ion-item (click)="showAchievements()">
 
       <ion-icon name="ribbon" item-start></ion-icon>
 
       Achievements
 
-      <ion-badge item-end>{{profile.getAccomplishedAchievements()}}/{{profile.achievements.length}}</ion-badge>
+      <ion-badge item-end>{{profile.getAccomplishedAchievements()}}/{{allAchievements.length}}</ion-badge>
     </ion-item>
 
     <ion-item>

@@ -1,37 +1,69 @@
 import {Component} from "@angular/core";
-import {AlertController} from "ionic-angular";
-import {AngularFireDatabase} from "angularfire2/database";
+import {AlertController, NavController} from "ionic-angular";
+import {AuthService} from "./AuthService";
+import {TabsPage} from "../tabs/tabs";
+import {RegistryPageComponent} from "./registry-page.component";
+
 
 @Component({
-  selector:'profile-page',
+  selector:'login-page',
   templateUrl: 'login-page.component.html'
 })
-export class LoginPageComponent{
+export class LoginPageComponent {
 
-  private email : String;
-  private password : String;
+  private email : string;
+  private password : string;
 
-  constructor(public alertCtrl: AlertController){
+  constructor(private alertCtrl: AlertController,
+              private navCtrl: NavController,
+              private authService: AuthService){
+
+    //TODO - workaround, weil firebaseAuth.auth.currentUser nicht sofort verfügbar ist, bzw erstmal null ist (warum auch immer)
 
   }
 
-  signIn(){
-    console.log(this.email);
-    console.log(this.password);
-    if(this.email && this.password) {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-        .catch(function (err) {
+  public login(email : string, password : string) {
+    let catchCallback = (error : any) => {
+        if (error) {
+
+          let code = error.code;
+          let altertMessage = "";
+          if (code === "auth/user-disabled") {
+            altertMessage = 'Your account has beend disabled';
+          }
+
+          if (code === "auth/invalid-email") {
+            altertMessage = 'Not a valid E-Mail';
+          }
+
+          if (code === "auth/wrong-password") {
+            altertMessage = 'Wrong password';
+          }
+
+          if (code === "auth/user-not-found") {
+            altertMessage = 'There is no user corresponding to the given E-Mail'
+          }
           let alert = this.alertCtrl.create({
-            title: 'Eingabefehler',
-            message: "Falsche Email/Passwort Kombination :/",
-            buttons: ['Schliessen']
+            title: 'Something went wrong',
+            message: altertMessage,
+            buttons: ['Dismiss']
           });
+
           alert.present();
-        });
-    }
+        }
+    };
+    let thenCallback = (user : any) => {
+      this.navCtrl.push(TabsPage)
+    };
+
+    //now call Service with given CB's
+    this.authService.signIn(email, password)
+      .catch(catchCallback)
+      .then(thenCallback);
   }
 
-  createAccount(){
-    //TODO: hier neue page aufrufen
+  public createAccount() {
+    this.navCtrl.push(RegistryPageComponent, {email: this.email, password: this.password, loginCallback: this.login});
   }
+
 }
