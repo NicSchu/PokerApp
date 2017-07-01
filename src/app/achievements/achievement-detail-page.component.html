@@ -1,0 +1,31 @@
+<ion-header>
+
+  <ion-navbar *ngIf="!achievement.accomplished" color="danger">
+
+    <ion-title>{{pageTitle}}</ion-title>
+
+  </ion-navbar>
+
+  <ion-navbar *ngIf="achievement.accomplished" color="secondary">
+
+    <ion-title >{{pageTitle}}</ion-title>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list>
+
+    <ion-item>
+      <ion-label><strong>Points</strong><span float-right>{{achievement.points}}</span></ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label><strong>Description</strong><span float-right>{{achievement.description}}</span></ion-label>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

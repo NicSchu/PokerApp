@@ -19,7 +19,8 @@ export class LoginPageComponent {
               private authService: AuthService){
 
     //TODO - workaround, weil firebaseAuth.auth.currentUser nicht sofort verfügbar ist, bzw erstmal null ist (warum auch immer)
-
+    this.email = 'test@test.de';
+    this.password = '123456';
   }
 
   public login(email : string, password : string) {

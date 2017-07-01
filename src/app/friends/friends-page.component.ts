@@ -13,6 +13,11 @@ export class FriendsPageComponent {
 
   constructor() {
 
+    //TODO - npm install -g firebase-tools
 
+  }
+
+  public showAddFriend() : void {
+    //TODO - evtl modal machen, damit im onDidMiss die Friendlist aktualisiert wird
   }
 }

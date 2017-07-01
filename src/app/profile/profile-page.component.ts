@@ -177,6 +177,10 @@ export class ProfilePageComponent {
     this.navCtrl.push(AchievementListPageComponent, this.allAchievements);
   }
 
+  public getAccomplishedAchievementsLength() : number {
+    return this.profile.achievements.filter(e => e.accomplished).length;
+  }
+
 
 
 }
