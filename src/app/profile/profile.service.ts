@@ -43,12 +43,23 @@ export class ProfileService {
     return this.profile;
   }
 
+  //use this function to get a friend´s profile
+  public getProfileByUserId(uid : string) : Observable<Profile> {
+    return this.afDb.object('users/' + uid + '/profile').map(
+      (fbProfile: any) : Profile => {
+        let profile = Profile.createWith(fbProfile);
+        return profile;
+      }
+    );
+  }
+
   private copyAndPrepareProfile(profile: any): Profile {
     let newProfile = Profile.createWith(profile);
     newProfile.name = newProfile.name || null;
     newProfile.cash = newProfile.cash || null;
     return newProfile;
   }
+
 
   private initFirebaseObject() {
 
@@ -65,9 +76,5 @@ export class ProfileService {
         }
       )
     }
-
-
-
   }
-
 }

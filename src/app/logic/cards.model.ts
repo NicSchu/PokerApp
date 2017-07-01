@@ -3,5 +3,4 @@ export class PlayingCard {
     public value: number  = null,
     public color: number  = null
   ) {}
-
 }
