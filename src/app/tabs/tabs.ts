@@ -25,9 +25,6 @@ export class TabsPage {
               private authService : AuthService,
               private subScriptionService: TabsSubscriptionService) {
 
-    console.log('ASDasdasd');
-    console.log('profilexsdfgdfg');
-
   }
 
   ionViewDidLoad() {
