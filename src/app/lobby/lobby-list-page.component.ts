@@ -57,7 +57,7 @@ export class LobbyListPageComponent {
 
   public doSearch() : void {
     this.filteredLobbies = this.lobbies
-                          .filter( (lobby) => lobby.name.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase()));
+                          .filter( (lobby) => lobby.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
   }
 
   public joinLobby(lobby : Lobby) : void {
