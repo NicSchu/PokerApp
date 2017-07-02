@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-title>Lobby erstellen</ion-title>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+
+    <ion-item>
+      <ion-label>Lobby Name</ion-label>
+      <ion-input type="text" [(ngModel)]="lobby.name" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button (click)="dismissView()">Create</button>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

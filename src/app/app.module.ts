@@ -10,7 +10,7 @@ import {StatusBar} from "@ionic-native/status-bar";
 import {SplashScreen} from "@ionic-native/splash-screen";
 import {SettingsPageComponent} from "./settings/settings-page.component";
 import {ProfilePageComponent} from "./profile/profile-page.component";
-import {LobbyPageComponent} from "./lobby/lobby-page.component";
+import {LobbyListPageComponent} from "./lobby/lobby-list-page.component";
 import {FriendsPageComponent} from "./friends/friends-page.component";
 import {LoginPageComponent} from "./login/login-page.component";
 import {AngularFireModule} from "angularfire2";
@@ -27,6 +27,9 @@ import {ClientOptionsPageComponent} from "./settings/clientOptions-page.componen
 import {CardbacksPageComponent} from "./settings/cardbacks-page.component";
 import {AchievementListPageComponent} from "./achievements/achievement-list-page.component";
 import {AchievementDetailPageComponent} from "./achievements/achievement-detail-page.component";
+import {TabsSubscriptionService} from "./tabs/tabs.subscription.service";
+import {LobbyService} from "./lobby/lobby.service";
+import {LobbyCreationPageComponent} from "./lobby/lobby-creation-page.component";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCi2KvgtcoIz_DqETuUE3d9G8-_GCNunmw",
@@ -43,7 +46,7 @@ export const firebaseConfig = {
     SettingsPageComponent,
     LoginPageComponent,
     ProfilePageComponent,
-    LobbyPageComponent,
+    LobbyListPageComponent,
     FriendsPageComponent,
     TabsPage,
     RegistryPageComponent,
@@ -51,7 +54,8 @@ export const firebaseConfig = {
     ClientOptionsPageComponent,
     CardbacksPageComponent,
     AchievementListPageComponent,
-    AchievementDetailPageComponent
+    AchievementDetailPageComponent,
+    LobbyCreationPageComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +70,7 @@ export const firebaseConfig = {
     LoginPageComponent,
     SettingsPageComponent,
     ProfilePageComponent,
-    LobbyPageComponent,
+    LobbyListPageComponent,
     FriendsPageComponent,
     TabsPage,
     RegistryPageComponent,
@@ -74,7 +78,8 @@ export const firebaseConfig = {
     ClientOptionsPageComponent,
     CardbacksPageComponent,
     AchievementListPageComponent,
-    AchievementDetailPageComponent
+    AchievementDetailPageComponent,
+    LobbyCreationPageComponent
   ],
   providers: [
     StatusBar,
@@ -87,7 +92,9 @@ export const firebaseConfig = {
     PhotoLibrary,
     ProfileService,
     AchievementService,
-    File
+    File,
+    TabsSubscriptionService,
+    LobbyService
   ]
 })
 export class AppModule {}

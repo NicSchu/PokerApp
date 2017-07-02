@@ -20,7 +20,6 @@ export class FriendsPageComponent {
 
   constructor(private profileService : ProfileService,
               private authService : AuthService) {
-    //TODO - npm install -g firebase-tools
   }
 
   ionViewDidLoad() {

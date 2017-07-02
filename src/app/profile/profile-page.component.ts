@@ -13,6 +13,7 @@ import {ProfileService} from "./profile.service";
 import {Achievement} from "../achievements/achievement.model";
 import {AchievementService} from "../achievements/achievement.service";
 import {AchievementListPageComponent} from "../achievements/achievement-list-page.component";
+import {TabsSubscriptionService} from "../tabs/tabs.subscription.service";
 import Reference = firebase.storage.Reference;
 import StringFormat = firebase.storage.StringFormat;
 import Storage = firebase.storage.Storage;
@@ -46,6 +47,7 @@ export class ProfilePageComponent {
               private alertCtrl: AlertController,
               private profileService : ProfileService,
               private achievmentService : AchievementService,
+              private subScriptionService: TabsSubscriptionService,
               private navCtrl: NavController) {
 
     //TODO - default Profile-Picture (maybe set test-Variable to other Path)
@@ -60,34 +62,21 @@ export class ProfilePageComponent {
   }
 
   ionViewDidLoad() {
-    let profileSubscription = this.profileService.getCurrentProfile().subscribe(
-      (profile : Profile) => {
+    this.subScriptionService.addSubscription(
+      this.profileService.getCurrentProfile().subscribe(
+        (profile : Profile) => {
 
-        //otherwise the User is not logged in, because we create an profile with the first account creation
-        this.profile = profile;
-      }
-    );
-
-    let achievementSubscription = this.achievmentService.getAllAchievments().subscribe(
-      (achievments : Achievement[]) => {
-        this.allAchievements = achievments;
-      }
-    );
-
-    let authSubscription = this.authService.getAuthStateObservable().subscribe(
-      (user) => {
-        //if User is undefined, user logged off
-
-        if (!user) {
-          //unsubscribe all Subscriptions!!!
-          profileSubscription.unsubscribe();
-          achievementSubscription.unsubscribe();
-          authSubscription.unsubscribe();
+          //otherwise the User is not logged in, because we create an profile with the first account creation
+          this.profile = profile;
         }
+    ));
 
-      }
-    );
-
+    this.subScriptionService.addSubscription(
+      this.achievmentService.findAll().subscribe(
+        (achievments : Achievement[]) => {
+          this.allAchievements = achievments;
+        }
+    ));
   }
 
   private refreshProfilePictureURL() : void {

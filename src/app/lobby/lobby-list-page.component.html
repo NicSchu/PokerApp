@@ -1,0 +1,41 @@
+<ion-header>
+
+  <ion-navbar>
+
+    <ion-title *ngIf="!showSearchbar">Lobby</ion-title>
+
+    <ion-buttons *ngIf="!showSearchbar" end>
+      <button ion-button icon-only (click)="createLobby()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="setShowSearchBar(true)">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-searchbar  *ngIf="showSearchbar"
+                    [(ngModel)]="searchQuery"
+                    (ionInput)="doSearch()"
+                    (ionClear)="clearSearchbar()"
+                    [showCancelButton]="true"
+                    (ionCancel)="setShowSearchBar(false)">
+    </ion-searchbar>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list>
+
+    <button ion-item (click)="joinLobby(lobby)" *ngFor="let lobby of filteredLobbies">
+      <h2>{{lobby.name}}<span float-right>{{lobby.players.length}}/{{maxPlayerConst}}</span></h2>
+    </button>
+
+    <!-- TODO - vielleicht überall statt oben den Add-Button, hier unten einen FAB_Button verwenden? WObei diese vielleivht COntent überdeckt -->
+
+  </ion-list>
+
+
+</ion-content>
