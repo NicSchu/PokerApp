@@ -160,24 +160,35 @@ export class rules{
 
   //returns true if the Array contains 5 or more cards of the same color
   isSameColor(cards: PlayingCard[]){
-    let colors : number[] = [4];
-    for (let col of cards) colors[col.color]++
-    for (let c of colors) if (c >= 5) return true;
+    let colors = [0,0,0,0];
+    for (let i = 0; i < cards.length; i++) colors[cards[i].color]++
+    for (let i = 0; i < colors.length; i++) if (colors[i] >= 5) return true;
+
+    //for (let col of cards) colors[col.color]++
+    //for (let c of colors) if (c >= 5) return true;
     return false
   }
 
-  //checks if there is a straight of at least 5 cards in the selection of 7 PlayingCards
+//checks if there is a straight of at least 5 cards in the selection of 7 PlayingCards
   isStraight() {
-    let straightCounter: number = 0;
+    console.log(this.toBeRatedHand);
+    let straightCounter = 0;
+    let doubled = 0;
     for (let i: number = this.toBeRatedHand.length-1; i > 0; i--){
+      if ( this.toBeRatedHand[i].value == this.toBeRatedHand[i-1].value ){
+        this.ratedHand[straightCounter+doubled] = this.toBeRatedHand[i];
+        doubled ++;
+        continue;
+      }
       if ((this.toBeRatedHand[i].value - this.toBeRatedHand[i-1].value) == 1){
-        this.ratedHand[straightCounter] = this.toBeRatedHand[i];
+        this.ratedHand[straightCounter+doubled] = this.toBeRatedHand[i];
         straightCounter++;
-        if (straightCounter == 5){
+        if (straightCounter == 4){
+          this.ratedHand[straightCounter+doubled] = this.toBeRatedHand[i-1];
+          straightCounter++;
           break;
         }
-      }
-      else {
+      } else {
         straightCounter = 0;
       }
     }
