@@ -20,14 +20,11 @@
       <button ion-button (click)="uploadPicture()">Bild ändern</button>
     </ion-item>
 
-    <ion-item (click)="showAchievements()">
-
+    <button ion-item (click)="showAchievements()">
       <ion-icon name="ribbon" item-start></ion-icon>
-
       Achievements
-
       <ion-badge item-end>{{getAccomplishedAchievementsLength()}}/{{allAchievements.length}}</ion-badge>
-    </ion-item>
+    </button>
 
     <ion-item>
 

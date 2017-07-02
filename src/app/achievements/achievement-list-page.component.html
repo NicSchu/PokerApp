@@ -28,11 +28,12 @@
 
   <ion-list>
 
-    <ion-item *ngFor="let achievement of filteredAchievements">
-      <!-- TODO - mit ngClass die Farbe des Textes des Buttons ändern! -->
-      <button ion-button (click)="showAchievementDetails(achievement)" *ngIf="achievement.accomplished" color="secondary" >{{achievement.name}}<span float-right>{{achievement.points}}</span></button>
-      <button ion-button (click)="showAchievementDetails(achievement)" *ngIf="!achievement.accomplished" color="danger">{{achievement.name}}<span float-right>{{achievement.points}}</span></button>
-    </ion-item>
+    <button ion-item
+            *ngFor="let achievement of filteredAchievements"
+            (click)="showAchievementDetails(achievement)"
+            [ngClass]="{'colorLight' : !achievement.accomplished, 'colorBlack' : achievement.accomplished}" >
+      {{achievement.name}}<span float-right>{{achievement.points}}</span>
+    </button>
 
     <ion-item>
       <ion-label>Erreichte Punktzahl: <span float-right>{{sumAchievementPoints}}</span></ion-label>
