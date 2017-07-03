@@ -19,8 +19,13 @@ export class LoginPageComponent {
               private authService: AuthService){
 
     //TODO - workaround, weil firebaseAuth.auth.currentUser nicht sofort verfügbar ist, bzw erstmal null ist (warum auch immer)
-    this.email = 'test@test.de';
-    this.password = '123456';
+    // this.email = 'test@test.de';
+    // this.password = '123456';
+
+    //TODO - der Auto-Login geht nur so...
+    this.authService.getAuthStateObservable().subscribe((user) => {
+      console.log(user);
+    })
   }
 
   public login(email : string, password : string) {
