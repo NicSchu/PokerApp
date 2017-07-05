@@ -4,10 +4,10 @@ import {SettingsPageComponent} from "../settings/settings-page.component";
 import {ProfilePageComponent} from "../profile/profile-page.component";
 import {LobbyListPageComponent} from "../lobby/lobby-list-page.component";
 import {FriendsPageComponent} from "../friends/friends-page.component";
-import {ProfileService} from "../profile/profile.service";
 import {Profile} from "../profile/profile.model";
+import {NavParams} from "ionic-angular";
+import {SubscriptionService} from "./subscription.service";
 import {AuthService} from "../login/AuthService";
-import {TabsSubscriptionService} from "./tabs.subscription.service";
 
 @Component({
   templateUrl: 'tabs.html'
@@ -21,10 +21,15 @@ export class TabsPage {
 
   private profile : Profile;
 
-  constructor(private profileService: ProfileService,
-              private authService : AuthService,
-              private subScriptionService: TabsSubscriptionService) {
 
+  constructor(private navParams: NavParams,
+              private subScriptionService : SubscriptionService,
+              private authService : AuthService) {
+
+    //Profile passed by Login-Page
+    if (this.navParams.data) {
+      this.profile = this.navParams.data;
+    }
   }
 
   ionViewDidLoad() {
@@ -38,15 +43,7 @@ export class TabsPage {
             this.subScriptionService.unsubscribeAll();
           }
         }
-    ));
-  }
-
-  public setProfile(p :Profile) : void{
-    this.profile = p;
-  }
-
-  public getProfile() : Profile {
-    return this.profile;
+      ));
   }
 
 }

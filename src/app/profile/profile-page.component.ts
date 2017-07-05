@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {Profile} from "./profile.model";
-import {AlertController, LoadingController, NavController} from "ionic-angular";
+import {AlertController, LoadingController, NavController, NavParams} from "ionic-angular";
 
 import {AuthService} from "../login/AuthService";
 import {ImagePicker} from "@ionic-native/image-picker";
@@ -13,7 +13,7 @@ import {ProfileService} from "./profile.service";
 import {Achievement} from "../achievements/achievement.model";
 import {AchievementService} from "../achievements/achievement.service";
 import {AchievementListPageComponent} from "../achievements/achievement-list-page.component";
-import {TabsSubscriptionService} from "../tabs/tabs.subscription.service";
+import {SubscriptionService} from "../tabs/subscription.service";
 import Reference = firebase.storage.Reference;
 import StringFormat = firebase.storage.StringFormat;
 import Storage = firebase.storage.Storage;
@@ -35,7 +35,7 @@ export class ProfilePageComponent {
 
   private profilePictureURL : string = '';
 
-  private test : string = '';
+  private profilePicturePath : string = '';
 
   private allAchievements : Achievement[];
 
@@ -47,30 +47,25 @@ export class ProfilePageComponent {
               private alertCtrl: AlertController,
               private profileService : ProfileService,
               private achievmentService : AchievementService,
-              private subScriptionService: TabsSubscriptionService,
-              private navCtrl: NavController) {
+              private subScriptionService: SubscriptionService,
+              private navCtrl: NavController,
+              private navParams : NavParams) {
 
-    //TODO - default Profile-Picture (maybe set test-Variable to other Path)
+    if (this.navParams.data) {
+      this.profile = this.navParams.data;
+    }
+
     this.firebaseStorage = this.firebase.storage();
 
     this.profilePictureRef = this.firebaseStorage.ref();
 
-    this.test = 'users/' + this.authService.getCurrentUser().uid + '/profilePic/';
+    this.profilePicturePath = this.profileService.getProfilePicturePath();
 
     //set Profile-Picture
     this.refreshProfilePictureURL();
   }
 
   ionViewDidLoad() {
-    this.subScriptionService.addSubscription(
-      this.profileService.getCurrentProfile().subscribe(
-        (profile : Profile) => {
-
-          //otherwise the User is not logged in, because we create an profile with the first account creation
-          this.profile = profile;
-        }
-    ));
-
     this.subScriptionService.addSubscription(
       this.achievmentService.findAll().subscribe(
         (achievments : Achievement[]) => {
@@ -81,7 +76,7 @@ export class ProfilePageComponent {
 
   private refreshProfilePictureURL() : void {
 
-    this.firebaseStorage.ref().child(this.test).getDownloadURL()
+    this.firebaseStorage.ref().child(this.profilePicturePath).getDownloadURL()
       .then((url: string) => {
         this.profilePictureURL = url;
       }, (error) => {
@@ -140,7 +135,7 @@ export class ProfilePageComponent {
                   loading.present();
 
                   //Upload File to Firebase
-                  this.profilePictureRef.child('users/' + this.authService.getCurrentUser().uid + '/profilePic/').putString(dataUrl, StringFormat.DATA_URL )
+                  this.profilePictureRef.child(this.profilePicturePath).putString(dataUrl, StringFormat.DATA_URL )
                     .then((snapshot) => {
                       // Do something here when the data is succesfully uploaded
 

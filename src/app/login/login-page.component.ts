@@ -3,7 +3,9 @@ import {AlertController, NavController} from "ionic-angular";
 import {AuthService} from "./AuthService";
 import {TabsPage} from "../tabs/tabs";
 import {RegistryPageComponent} from "./registry-page.component";
-
+import {SubscriptionService} from "../tabs/subscription.service";
+import {ProfileService} from "../profile/profile.service";
+import {Profile} from "../profile/profile.model";
 
 @Component({
   selector:'login-page',
@@ -16,16 +18,36 @@ export class LoginPageComponent {
 
   constructor(private alertCtrl: AlertController,
               private navCtrl: NavController,
-              private authService: AuthService){
+              private authService: AuthService,
+              private subScriptionService:SubscriptionService,
+              private profileService : ProfileService){
 
-    //TODO - workaround, weil firebaseAuth.auth.currentUser nicht sofort verfügbar ist, bzw erstmal null ist (warum auch immer)
-    // this.email = 'test@test.de';
-    // this.password = '123456';
+  }
 
-    //TODO - der Auto-Login geht nur so...
-    this.authService.getAuthStateObservable().subscribe((user) => {
-      console.log(user);
-    })
+  ionViewDidLoad() {
+    //Subscribe User for Login-Logout Events
+    let userSubscription = this.authService.getAuthStateObservable().subscribe(
+        (user) => {
+          //just watch if User is logged in for auto-login
+          //if User is defined, go to TabsPage and unsubscribe here. We create new Subscription in Tabs-Page
+          if (user) {
+            //user is logged in, so we could get his profile
+            this.subScriptionService.addSubscription(
+              this.profileService.getCurrentProfile().subscribe(
+                (profile : Profile) => {
+                  if (profile) {
+                    userSubscription.unsubscribe();
+                    //pass profile to TabsPage
+                    this.navCtrl.push(TabsPage, profile);
+                  }
+                }
+              )
+            );
+
+          }
+
+        }
+      );
   }
 
   public login(email : string, password : string) {
@@ -59,7 +81,19 @@ export class LoginPageComponent {
         }
     };
     let thenCallback = (user : any) => {
-      this.navCtrl.push(TabsPage)
+
+      //just in case you press login-button
+      this.subScriptionService.addSubscription(
+        this.profileService.getCurrentProfile().subscribe(
+          (profile : Profile) => {
+            if (profile) {
+              //pass profile to TabsPage
+              this.navCtrl.push(TabsPage, profile);
+            }
+          }
+        )
+      );
+
     };
 
     //now call Service with given CB's
@@ -69,7 +103,7 @@ export class LoginPageComponent {
   }
 
   public createAccount() {
-    this.navCtrl.push(RegistryPageComponent, {email: this.email, password: this.password, loginCallback: this.login});
+    this.navCtrl.push(RegistryPageComponent, {email: this.email, password: this.password});
   }
 
 }
