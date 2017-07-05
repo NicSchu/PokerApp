@@ -20,7 +20,6 @@ export class ProfileService {
               private afDb : AngularFireDatabase) {
 
     //init-Function can't be placed here, because DI would execute it before we are logged in at Registry-Page
-
   }
 
   public createProfile(profile: Profile) : void {
@@ -77,4 +76,9 @@ export class ProfileService {
       )
     }
   }
+
+  public getProfilePicturePath() : string {
+    return 'users/' + this.authService.getCurrentUser().uid + '/profilePic/';
+  }
+
 }

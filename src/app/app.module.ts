@@ -27,7 +27,7 @@ import {ClientOptionsPageComponent} from "./settings/clientOptions-page.componen
 import {CardbacksPageComponent} from "./settings/cardbacks-page.component";
 import {AchievementListPageComponent} from "./achievements/achievement-list-page.component";
 import {AchievementDetailPageComponent} from "./achievements/achievement-detail-page.component";
-import {TabsSubscriptionService} from "./tabs/tabs.subscription.service";
+import {SubscriptionService} from "./tabs/subscription.service";
 import {LobbyService} from "./lobby/lobby.service";
 import {LobbyCreationPageComponent} from "./lobby/lobby-creation-page.component";
 
@@ -93,7 +93,7 @@ export const firebaseConfig = {
     ProfileService,
     AchievementService,
     File,
-    TabsSubscriptionService,
+    SubscriptionService,
     LobbyService
   ]
 })

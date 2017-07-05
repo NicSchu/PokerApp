@@ -15,8 +15,6 @@ export class RegistryPageComponent {
   private password : string;
   private passwordConfirmation : string;
 
-  private loginCallback : (email : string, password:string) => void;
-
   constructor(private alertCtrl : AlertController,
               private authService : AuthService,
               private navParams : NavParams,
@@ -27,10 +25,6 @@ export class RegistryPageComponent {
     if (this.navParams.data) {
       this.email = this.navParams.data.email;
       this.password = this.navParams.data.password;
-
-      if (this.navParams.data.loginCallback) {
-        this.loginCallback = this.navParams.data.loginCallback;
-      }
     }
 
   }
@@ -69,9 +63,6 @@ export class RegistryPageComponent {
       let thenCallback = (user: any) => {
 
         this.profileService.createProfile(new Profile(this.displayname));
-
-        //this function also push Tabs-Page and login the User!
-        this.loginCallback(this.email, this.password);
 
       };
 

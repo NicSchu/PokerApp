@@ -2,7 +2,7 @@ import {Component, ViewChild} from "@angular/core";
 import {LobbyService} from "./lobby.service";
 import {Lobby} from "./lobby.model";
 import {ModalController, Searchbar} from "ionic-angular";
-import {TabsSubscriptionService} from "../tabs/tabs.subscription.service";
+import {SubscriptionService} from "../tabs/subscription.service";
 import {LobbyCreationPageComponent} from "./lobby-creation-page.component";
 /**
  * Created by sebb9 on 08.06.2017.
@@ -23,7 +23,7 @@ export class LobbyListPageComponent {
   private maxPlayerConst : number = 4;
 
   constructor(private lobbyService : LobbyService,
-              private subscriptionService: TabsSubscriptionService,
+              private subscriptionService: SubscriptionService,
               private modalCtrl : ModalController) {
       //TODO - wir müssen uns noch überlegen, wann und wie die Lobbies wieder gelöscht werden....
   }
