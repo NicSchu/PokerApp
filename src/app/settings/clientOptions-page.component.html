@@ -10,5 +10,32 @@
 
 <ion-content padding>
 
+  <ion-list>
+    <ion-item>
+      <ion-label>Use custom options</ion-label>
+      <ion-toggle [(ngModel)]="useCustomOptions"></ion-toggle>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="useCustomOptions">
+    <header><strong>Cardbacks</strong></header>
+    <button ion-item style="color: #222" (click)="pushCardbackPickerPage()">
+      Change my Cardback<span float-right><ion-icon name="arrow-forward"></ion-icon></span>
+    </button>
+    <ion-item>
+      <ion-label>Appearance</ion-label>
+      <ion-select [(ngModel)]="cardbackAppearance">
+        <ion-option value="ShowOthersCardbacks">Display other´s cardbacks</ion-option>
+        <ion-option value="ShowOnlyMyCardback">Display only my cardback</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="useCustomOptions">
+    <header><strong>Others</strong></header>
+    <button ion-item style="color: #222" (click)="pushColorPickerPage()">
+      Client Color<span float-right><ion-icon name="arrow-forward"></ion-icon></span>
+    </button>
+  </ion-list>
 
 </ion-content>

@@ -2,7 +2,6 @@ import {Component} from "@angular/core";
 import {AuthService} from "../login/AuthService";
 import {AlertController, App, NavController} from "ionic-angular";
 import {ImpressumPageComponent} from "./impressum-page.component";
-import {CardbacksPageComponent} from "./cardbacks-page.component";
 import {ClientOptionsPageComponent} from "./clientOptions-page.component";
 /**
  * Created by sebb9 on 08.06.2017.
@@ -24,10 +23,6 @@ export class SettingsPageComponent {
 
   public showImpressum() {
     this.navCtrl.push(ImpressumPageComponent)
-  }
-
-  public showCardbacks() {
-    this.navCtrl.push(CardbacksPageComponent)
   }
 
   public showClientOptions() {

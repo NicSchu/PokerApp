@@ -6,6 +6,7 @@ import {RegistryPageComponent} from "./registry-page.component";
 import {SubscriptionService} from "../tabs/subscription.service";
 import {ProfileService} from "../profile/profile.service";
 import {Profile} from "../profile/profile.model";
+import {LocalStorageService} from "../common/local-storage.service";
 
 @Component({
   selector:'login-page',
@@ -20,7 +21,8 @@ export class LoginPageComponent {
               private navCtrl: NavController,
               private authService: AuthService,
               private subScriptionService:SubscriptionService,
-              private profileService : ProfileService){
+              private profileService : ProfileService,
+              private localStorageService : LocalStorageService){
 
   }
 
@@ -36,6 +38,7 @@ export class LoginPageComponent {
               this.profileService.getCurrentProfile().subscribe(
                 (profile : Profile) => {
                   if (profile) {
+                    this.localStorageService.initializeStorageIfNecessary();
                     userSubscription.unsubscribe();
                     //pass profile to TabsPage
                     this.navCtrl.push(TabsPage, profile);

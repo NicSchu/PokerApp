@@ -4,6 +4,7 @@ import {Achievement} from "../achievements/achievement.model";
  */
 export class Profile {
 
+  //TODO - insert attribute for cardbackURL
   constructor(public name: string,
               public cash :number = 10000,
               public friends: string[] = [],
