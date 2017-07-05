@@ -9,8 +9,9 @@ export class Achievement {
               public name?: string,
               public description?: string,
               public points? :number,
-              public accomplished?: boolean) {
-
+              public accomplished?: boolean,
+              public category? : string,
+              public reward? : number) {
 
   }
 

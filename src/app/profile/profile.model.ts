@@ -6,6 +6,7 @@ export class Profile {
 
   //TODO - insert attribute for cardbackURL
   constructor(public name: string,
+              public email: string,
               public cash :number = 10000,
               public friends: string[] = [],
               public achievements: Achievement[] = [],
@@ -13,7 +14,7 @@ export class Profile {
   }
 
   public static createWith(profile : any) : Profile{
-    return new Profile(profile.name, profile.cash, profile.friends, profile.achievements, profile.roundsPlayed)
+    return new Profile(profile.name, profile.email , profile.cash, profile.friends, profile.achievements, profile.roundsPlayed)
   }
 
 }

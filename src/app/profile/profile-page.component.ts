@@ -1,8 +1,6 @@
 import {Component} from "@angular/core";
 import {Profile} from "./profile.model";
 import {AlertController, LoadingController, NavController, NavParams} from "ionic-angular";
-
-import {AuthService} from "../login/AuthService";
 import {ImagePicker} from "@ionic-native/image-picker";
 import {FirebaseApp} from "angularfire2";
 
@@ -39,8 +37,7 @@ export class ProfilePageComponent {
 
   private allAchievements : Achievement[];
 
-  constructor(private authService : AuthService,
-              private imagePicker : ImagePicker,
+  constructor(private imagePicker : ImagePicker,
               private firebase : FirebaseApp,
               private filesystem: File,
               private loadingCtrl : LoadingController,

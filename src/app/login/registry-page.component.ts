@@ -62,7 +62,7 @@ export class RegistryPageComponent {
       };
       let thenCallback = (user: any) => {
 
-        this.profileService.createProfile(new Profile(this.displayname));
+        this.profileService.createProfile(new Profile(this.displayname, this.email));
 
       };
 
