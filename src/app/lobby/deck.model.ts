@@ -4,27 +4,26 @@
 import {PlayingCard} from "../logic/cards.model";
 
 export class Deck {
-  card: PlayingCard[]
+  cards: PlayingCard[] = [];
   constructor() {
     this.reCreateDeck();
   }
 
   reCreateDeck() {
     for (let i = 0; i <= 3; i++) {
-      for (let j = 1; j <= 13; j++) {
-        this.card[i*14 + j].value = j+1;
-        this.card[i*14 + j].color = i;
+      for (let j = 2; j <= 14; j++) {
+        // this.cards.push(new PlayingCard(j,i));
       }
     }
   }
 
   shuffle() {
-    var j, x, i;
-    for (i = this.card.length; i; i--) {
+    let j, x;
+    for (let i = this.cards.length; i; i--) {
       j = Math.floor(Math.random() * i);
-      x = this.card[i - 1];
-      this.card[i - 1] = this.card[j];
-      this.card[j] = x;
+      x = this.cards[i - 1];
+      this.cards[i - 1] = this.cards[j];
+      this.cards[j] = x;
     }
   }
 }

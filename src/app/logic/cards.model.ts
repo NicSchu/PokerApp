@@ -1,6 +1,6 @@
 export class PlayingCard {
-  constructor(
-    public value: number  = null,
-    public color: number  = null
-  ) {}
+  constructor(public value?: number,
+              public color?: number) {
+
+  }
 }
