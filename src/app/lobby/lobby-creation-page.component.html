@@ -1,5 +1,7 @@
 <ion-header>
-  <ion-title>Lobby erstellen</ion-title>
+  <ion-navbar>
+    <ion-title>Lobby erstellen</ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content>
@@ -13,7 +15,9 @@
 
     <ion-item>
       <button ion-button (click)="dismissView()">Create</button>
+      <button ion-button (click)="viewCtrl.dismiss()">Abort</button>
     </ion-item>
+
   </ion-list>
 
 </ion-content>

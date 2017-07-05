@@ -15,6 +15,7 @@ export class LobbyCreationPageComponent {
   constructor(private viewCtrl : ViewController,
               private alterCtrl : AlertController) {
     this.lobby = new Lobby();
+    //TODO - ermöglichen, dass man die Seite auch wieder verlassen kann....
   }
 
 

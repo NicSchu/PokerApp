@@ -80,8 +80,11 @@ export class LobbyListPageComponent {
     let modalCreationPage = this.modalCtrl.create(LobbyCreationPageComponent);
 
     modalCreationPage.onDidDismiss( (lobby:Lobby) => {
-      this.lobbyService.create(lobby);
+      if (lobby) {
+        this.lobbyService.create(lobby);
+      }
     });
+
 
     modalCreationPage.present();
   }
