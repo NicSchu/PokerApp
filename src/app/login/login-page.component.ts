@@ -26,7 +26,7 @@ export class LoginPageComponent {
 
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     //Subscribe User for Login-Logout Events
     let userSubscription = this.authService.getAuthStateObservable().subscribe(
         (user) => {
@@ -83,26 +83,26 @@ export class LoginPageComponent {
           alert.present();
         }
     };
-    let thenCallback = (user : any) => {
-
-      //just in case you press login-button
-      this.subScriptionService.addSubscription(
-        this.profileService.getCurrentProfile().subscribe(
-          (profile : Profile) => {
-            if (profile) {
-              //pass profile to TabsPage
-              this.navCtrl.push(TabsPage, profile);
-            }
-          }
-        )
-      );
-
-    };
+    // let thenCallback = (user : any) => {
+    //
+    //   //just in case you press login-button
+    //   this.subScriptionService.addSubscription(
+    //     this.profileService.getCurrentProfile().subscribe(
+    //       (profile : Profile) => {
+    //         if (profile) {
+    //           //pass profile to TabsPage
+    //           this.navCtrl.push(TabsPage, profile);
+    //         }
+    //       }
+    //     )
+    //   );
+    //
+    // };
 
     //now call Service with given CB's
     this.authService.signIn(email, password)
       .catch(catchCallback)
-      .then(thenCallback);
+      // .then(thenCallback);
   }
 
   public createAccount() {
