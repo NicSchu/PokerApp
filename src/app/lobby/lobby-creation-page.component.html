@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar [color]="localStorageService.getClientColor()">
     <ion-title>Create a Lobby</ion-title>
   </ion-navbar>
 </ion-header>
@@ -14,8 +14,8 @@
     </ion-item>
 
     <ion-item>
-      <button ion-button (click)="dismissView()">Create</button>
-      <button ion-button (click)="viewCtrl.dismiss()">Abort</button>
+      <button ion-button (click)="dismissView()" [color]="localStorageService.getClientColor()">Create</button>
+      <button ion-button (click)="viewCtrl.dismiss()" [color]="localStorageService.getClientColor()">Abort</button>
     </ion-item>
 
   </ion-list>

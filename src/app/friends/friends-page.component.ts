@@ -5,6 +5,7 @@ import {AuthService} from "../login/AuthService";
 import {Observable} from "rxjs";
 import {NavController, NavParams} from "ionic-angular";
 import {FriendsAddPageComponent} from "./friends-add-page.component";
+import {LocalStorageService} from "../common/local-storage.service";
 /**
  * Created by sebb9 on 08.06.2017.
  */
@@ -23,7 +24,8 @@ export class FriendsPageComponent {
   constructor(private profileService : ProfileService,
               private authService : AuthService,
               private navCtrl: NavController,
-              private navParams: NavParams) {
+              private navParams: NavParams,
+              private localStorageService: LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
 
     if (this.navParams.data) {
       //Profile passed by tabs-Page

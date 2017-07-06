@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar [color]="localStorageService.getClientColor()">
     <ion-title *ngIf="!showSearchbar">Achievements</ion-title>
 
     <ion-buttons *ngIf="!showSearchbar" end>

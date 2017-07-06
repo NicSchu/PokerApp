@@ -8,6 +8,7 @@ import {Profile} from "../profile/profile.model";
 import {NavParams} from "ionic-angular";
 import {SubscriptionService} from "./subscription.service";
 import {AuthService} from "../login/AuthService";
+import {LocalStorageService} from "../common/local-storage.service";
 
 @Component({
   templateUrl: 'tabs.html'
@@ -24,7 +25,8 @@ export class TabsPage {
 
   constructor(private navParams: NavParams,
               private subScriptionService : SubscriptionService,
-              private authService : AuthService) {
+              private authService : AuthService,
+              private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
 
     //Profile passed by Login-Page
     if (this.navParams.data) {

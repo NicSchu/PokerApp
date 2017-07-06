@@ -19,8 +19,8 @@ export class RegistryPageComponent {
               private authService : AuthService,
               private navParams : NavParams,
               private profileService : ProfileService,
-              private navCtrl : NavController,) { //used by loginCallback()
-
+              private navCtrl : NavController, //used by loginCallback()
+              ) {
 
     if (this.navParams.data) {
       this.email = this.navParams.data.email;
@@ -29,6 +29,7 @@ export class RegistryPageComponent {
 
   }
 
+  //TODO eventuell noch sowas einfügen : https://ionicframework.com/docs/api/components/slides/Slides/
   public createAccount(){
     if(this.password === this.passwordConfirmation) {
       let catchCallBack = (error : any) => {

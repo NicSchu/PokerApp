@@ -22,7 +22,7 @@ export class LoginPageComponent {
               private authService: AuthService,
               private subScriptionService:SubscriptionService,
               private profileService : ProfileService,
-              private localStorageService : LocalStorageService){
+              private localStorageService : LocalStorageService) {
 
   }
 

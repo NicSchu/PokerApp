@@ -15,6 +15,7 @@ import {SubscriptionService} from "../tabs/subscription.service";
 import Reference = firebase.storage.Reference;
 import StringFormat = firebase.storage.StringFormat;
 import Storage = firebase.storage.Storage;
+import {LocalStorageService} from "../common/local-storage.service";
 /**
  * Created by sebb9 on 08.06.2017.
  */
@@ -46,7 +47,8 @@ export class ProfilePageComponent {
               private achievmentService : AchievementService,
               private subScriptionService: SubscriptionService,
               private navCtrl: NavController,
-              private navParams : NavParams) {
+              private navParams : NavParams,
+              private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)) ) {
 
     if (this.navParams.data) {
       this.profile = this.navParams.data;
@@ -77,7 +79,6 @@ export class ProfilePageComponent {
       .then((url: string) => {
         this.profilePictureURL = url;
       }, (error) => {
-        console.log(error);
         this.profilePictureURL = '';
     });
 

@@ -4,6 +4,7 @@ import {Lobby} from "./lobby.model";
 import {ModalController, Searchbar} from "ionic-angular";
 import {SubscriptionService} from "../tabs/subscription.service";
 import {LobbyCreationPageComponent} from "./lobby-creation-page.component";
+import {LocalStorageService} from "../common/local-storage.service";
 /**
  * Created by sebb9 on 08.06.2017.
  */
@@ -24,7 +25,8 @@ export class LobbyListPageComponent {
 
   constructor(private lobbyService : LobbyService,
               private subscriptionService: SubscriptionService,
-              private modalCtrl : ModalController) {
+              private modalCtrl : ModalController,
+              private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
       //TODO - wir müssen uns noch überlegen, wann und wie die Lobbies wieder gelöscht werden....
   }
 

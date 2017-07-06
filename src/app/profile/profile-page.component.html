@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar [color]="localStorageService.getClientColor()">
 
     <ion-title>Profile</ion-title>
 
@@ -17,22 +17,21 @@
 
 
     <ion-item>
-      <button ion-button (click)="uploadPicture()">Bild ändern</button>
+      <button ion-button (click)="uploadPicture()" [color]="localStorageService.getClientColor()">Bild ändern</button>
     </ion-item>
 
     <button ion-item (click)="showAchievements()">
       <ion-icon name="ribbon" item-start></ion-icon>
       Achievements
-      <ion-badge item-end>{{getAccomplishedAchievementsLength()}}/{{allAchievements.length}}</ion-badge>
+      <ion-badge item-end [color]="localStorageService.getClientColor()">{{getAccomplishedAchievementsLength()}}/{{allAchievements.length}}</ion-badge>
     </button>
 
     <ion-item>
-
       <ion-icon name="logo-euro" item-start></ion-icon>
 
       Coins
 
-      <ion-badge item-end>{{profile.cash}}</ion-badge>
+      <ion-badge item-end [color]="localStorageService.getClientColor()">{{profile.cash}}</ion-badge>
     </ion-item>
 
   </ion-list>

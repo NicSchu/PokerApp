@@ -30,7 +30,6 @@ import {SubscriptionService} from "./tabs/subscription.service";
 import {LobbyService} from "./lobby/lobby.service";
 import {LobbyCreationPageComponent} from "./lobby/lobby-creation-page.component";
 import {LocalStorageService} from "./common/local-storage.service";
-import {ColorPickerComponent} from "./settings/clientOptions_subpages/colorPicker-page.component";
 import {CardbackPickerComponent} from "./settings/clientOptions_subpages/cardbackPicker-page.component";
 
 export const firebaseConfig = {
@@ -57,7 +56,6 @@ export const firebaseConfig = {
     AchievementListPageComponent,
     AchievementDetailPageComponent,
     LobbyCreationPageComponent,
-    ColorPickerComponent,
     CardbackPickerComponent
   ],
   imports: [
@@ -82,7 +80,6 @@ export const firebaseConfig = {
     AchievementListPageComponent,
     AchievementDetailPageComponent,
     LobbyCreationPageComponent,
-    ColorPickerComponent,
     CardbackPickerComponent
   ],
   providers: [

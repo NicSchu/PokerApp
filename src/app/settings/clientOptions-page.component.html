@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar [color]="localStorageService.getClientColor()">
 
     <ion-title>Client Options</ion-title>
 
@@ -13,14 +13,14 @@
   <ion-list>
     <ion-item>
       <ion-label>Use custom options</ion-label>
-      <ion-toggle [(ngModel)]="useCustomOptions"></ion-toggle>
+      <ion-toggle (ionChange)="toggleUseCustomOptions()" [color]="localStorageService.getClientColor()" [ngModel]="useCustomOptions"></ion-toggle>
     </ion-item>
   </ion-list>
 
   <ion-list *ngIf="useCustomOptions">
     <header><strong>Cardbacks</strong></header>
     <button ion-item style="color: #222" (click)="pushCardbackPickerPage()">
-      Change my Cardback<span float-right><ion-icon name="arrow-forward"></ion-icon></span>
+      Change my Cardback<span float-right><ion-icon md="md-arrow-forward"></ion-icon></span>
     </button>
     <ion-item>
       <ion-label>Appearance</ion-label>
@@ -32,10 +32,11 @@
   </ion-list>
 
   <ion-list *ngIf="useCustomOptions">
-    <header><strong>Others</strong></header>
-    <button ion-item style="color: #222" (click)="pushColorPickerPage()">
-      Client Color<span float-right><ion-icon name="arrow-forward"></ion-icon></span>
-    </button>
+    <header><strong>Colorize your app !</strong></header>
+    <ion-item>
+      <header><strong>Layout Color</strong></header>
+      <ion-range (ionChange)="adjustLayoutColor()" min="0" max="20" step="1" snaps="true" [color]="localStorageService.getClientColor()" [(ngModel)]="colorPickerValue"></ion-range>
+    </ion-item>
   </ion-list>
 
 </ion-content>
