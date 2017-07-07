@@ -66,8 +66,7 @@ export class LobbyListPageComponent {
 
   public joinLobby(lobby : Lobby) : void {
     //TODO - muss noch implementiert werden!
-    this.navCtrl.push(LobbyIngamePageComponent);
-
+    //this.navCtrl.push(LobbyIngamePageComponent, lobby);
   }
 
   private sortByName(lobbies : Lobby[]) : void {

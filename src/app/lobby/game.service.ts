@@ -4,18 +4,23 @@ import {Deck} from "./deck.model";
 import {Observable} from "rxjs/Observable";
 import {Lobby} from "./lobby.model";
 import {AngularFireDatabase, FirebaseObjectObservable} from "angularfire2/database";
+import {Injectable} from "@angular/core";
 
+@Injectable()
 export class GameService {
   private turnCounter: number = 0;
   private fbDeck: FirebaseObjectObservable<any>;
   public deck: Deck = new Deck();
   public activePlayer: FirebaseObjectObservable<any>;
 
-  constructor(public pot : number = 0,
-              public table: PlayingCard[] = new PlayingCard[5],
-              public players : Player[] = [],
-              private lobby: Lobby,
-              private afDb : AngularFireDatabase) {}
+  constructor(//public pot : number = 0,
+              //private lobby: Lobby,
+              public table: PlayingCard[],
+              public players : Player[],
+              private afDb : AngularFireDatabase) {
+    players = [];
+    table = new PlayingCard[5]
+  }
 
 
 
