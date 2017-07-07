@@ -1,10 +1,11 @@
 import {Component, ViewChild} from "@angular/core";
 import {LobbyService} from "./lobby.service";
 import {Lobby} from "./lobby.model";
-import {ModalController, Searchbar} from "ionic-angular";
+import {ModalController, NavController, Searchbar} from "ionic-angular";
 import {SubscriptionService} from "../tabs/subscription.service";
 import {LobbyCreationPageComponent} from "./lobby-creation-page.component";
 import {LocalStorageService} from "../common/local-storage.service";
+import {LobbyIngamePageComponent} from "./lobby-ingame-page.component"
 /**
  * Created by sebb9 on 08.06.2017.
  */
@@ -26,7 +27,8 @@ export class LobbyListPageComponent {
   constructor(private lobbyService : LobbyService,
               private subscriptionService: SubscriptionService,
               private modalCtrl : ModalController,
-              private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
+              private localStorageService : LocalStorageService,
+              private navCtrl: NavController) { //localStorageService is used in the HTML file (<ion-navbar> tag)
       //TODO - wir müssen uns noch überlegen, wann und wie die Lobbies wieder gelöscht werden....
   }
 
@@ -64,6 +66,8 @@ export class LobbyListPageComponent {
 
   public joinLobby(lobby : Lobby) : void {
     //TODO - muss noch implementiert werden!
+    this.navCtrl.push(LobbyIngamePageComponent);
+
   }
 
   private sortByName(lobbies : Lobby[]) : void {
