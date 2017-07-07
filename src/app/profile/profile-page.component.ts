@@ -115,12 +115,12 @@ export class ProfilePageComponent {
                       this.refreshProfilePictureURL();
 
                       let alert = this.alertCtrl.create({
-                         title: 'Picture uploaded',
-                         message: 'Your Profile Picture was successfully updated.',
-                         buttons: ['Dismiss']
-                       });
+                        title: 'Picture uploaded',
+                        message: 'Your Profile Picture was successfully updated.',
+                        buttons: ['Dismiss']
+                      });
 
-                       alert.present();
+                      alert.present();
                     } else {
                       let alert = this.alertCtrl.create({
                         title: 'Upload failed',
@@ -140,11 +140,25 @@ export class ProfilePageComponent {
                       //
                       loading.dismiss(true);
                     })
-                  .catch((error) => {
-                    //TODO - ist keine Internet-Connection da, hängt der Spinner ständig(ggf. ändern)
-                    loading.dismiss();
-                  })
-                })
+                    .catch((error) => {
+                      //TODO - ist keine Internet-Connection da, hängt der Spinner ständig(ggf. ändern)
+                      loading.dismiss();
+                    })
+                });
+              // x.then(
+              //   (a) => {
+              //     console.log('a');
+              //     console.log(a);
+              //   }
+              // ).catch(
+              //   (error) => {
+              //     console.log('error');
+              //     console.log(error);
+              //   }
+              // );
+
+              // console.log(x);
+
             }
           }
 
