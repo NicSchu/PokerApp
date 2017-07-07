@@ -12,14 +12,12 @@ export class GameService {
   private fbDeck: FirebaseObjectObservable<any>;
   public deck: Deck = new Deck();
   public activePlayer: FirebaseObjectObservable<any>;
+  public table: PlayingCard[] = [];
+  public players : Player[] = [];
 
   constructor(//public pot : number = 0,
               //private lobby: Lobby,
-              public table: PlayingCard[],
-              public players : Player[],
               private afDb : AngularFireDatabase) {
-    players = [];
-    table = new PlayingCard[5]
   }
 
 

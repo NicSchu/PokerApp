@@ -16,13 +16,13 @@ import {Lobby} from "./lobby.model";
 export class LobbyIngamePageComponent{
   showedTableCards: number = 1;
   lobby: Lobby;
-  constructor(public gameService: GameService,
-              public players: Player[],
-              table: PlayingCard[],
-              private navParams: NavParams) {
-    this.lobby = this.navParams.data;
+  constructor(public gameService: GameService
+              //public players: Player[],
+              //public table: PlayingCard[],
+              /*private navParams: NavParams*/) {
+    /*this.lobby = this.navParams.data;
     console.log(typeof this.navParams.data);
-    console.log(typeof this.lobby);
+    console.log(typeof this.lobby);*/
   }
 
   ionViewDidEnter(){
