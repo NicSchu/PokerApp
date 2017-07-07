@@ -12,7 +12,7 @@ export class Deck {
   reCreateDeck() {
     for (let i = 0; i <= 3; i++) {
       for (let j = 2; j <= 14; j++) {
-        // this.cards.push(new PlayingCard(j,i));
+        this.cards.push(new PlayingCard(j,i));
       }
     }
   }
@@ -25,5 +25,9 @@ export class Deck {
       this.cards[i - 1] = this.cards[j];
       this.cards[j] = x;
     }
+  }
+
+  public static createWith(deck: any) : Deck {
+    return Object.assign(new Deck(), deck);
   }
 }
