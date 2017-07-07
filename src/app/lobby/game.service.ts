@@ -2,29 +2,58 @@ import {Player} from "./player.model";
 import {PlayingCard} from "../logic/cards.model";
 import {Deck} from "./deck.model";
 import {Observable} from "rxjs/Observable";
+import {Lobby} from "./lobby.model";
+import {AngularFireDatabase, FirebaseObjectObservable} from "angularfire2/database";
 
 export class GameService {
-  turnCounter: number = 0;
-  public deck: Observable<Deck>;
+  private turnCounter: number = 0;
+  private fbDeck: FirebaseObjectObservable<any>;
+  public deck: Deck = new Deck();
+  public activePlayer: FirebaseObjectObservable<any>;
 
   constructor(public pot : number = 0,
               public table: PlayingCard[] = new PlayingCard[5],
-              public players : Player[] = []) {}
+              public players : Player[] = [],
+              private lobby: Lobby,
+              private afDb : AngularFireDatabase) {}
+
 
 
   initializeRound() {
-    //this.deck.shuffle();
+    this.deck = this.initFirebaseObject();
+    this.deck.shuffle();
+    this.fbDeck.set(this.copyAndPrepareDeck(this.deck));
 
     for (let i = 0; i < this.players.length; i++) {
-      //this.players[i].hand[1] = this.deck.card.pop();
-      //this.players[i].hand[2] = this.deck.card.pop();
+      //this.players[i].hand[1] = this.fbDeck.cards.pop();
+      //this.players[i].hand[2] = this.deck.cards.pop();
     }
     for (let i = 0; i < 5; i++) {
-      //this.table[i] = this.deck.card.pop();
+      this.table[i] = this.deck.cards.pop();
     }
   }
 
   reset() {
     //this.deck.reCreateDeck();
+  }
+
+
+  private copyAndPrepareDeck(deck: any) : Deck {
+    let newDeck = Deck.createWith(deck);
+    newDeck.cards = newDeck.cards || null;
+    return newDeck;
+  }
+
+  private initFirebaseObject() {
+
+    //user must be logged in!
+
+    if (!this.fbDeck) {
+      this.fbDeck = this.afDb.object('lobbies/deck');
+      console.log(this.fbDeck);
+
+      this.deck = Deck.createWith(this.fbDeck)
+      return this.deck;
+    }
   }
 }
