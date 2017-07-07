@@ -33,43 +33,13 @@ export class FriendsPageComponent {
     }
   }
 
-  // ionViewDidLoad() {
-    // let profileSubscription = this.profileService.getCurrentProfile().subscribe(
-    //   (profile : Profile) => {
-    //     this.profile = profile;
-    //
-    //     //fill friendProfiles & filteredFriendProfiles
-    //     if(this.profile) {
-    //       let index = 0;
-    //       this.profile.friends.forEach((friendUserID : string) => {
-    //         this.friendProfiles[index] = this.profileService.getProfileByUserId(friendUserID);
-    //         let friendSubscription = this.friendProfiles[index].subscribe((friendProfile : Profile) => {
-    //           if(!friendProfile) {
-    //             friendSubscription.unsubscribe();
-    //           } else {
-    //             this.filteredFriendProfiles[index] = friendProfile;
-    //           }
-    //         });
-    //         index += 1;
-    //       });
-    //
-    //     }
-    //   }
-    // );
-    // let authSubscription = this.authService.getAuthStateObservable().subscribe(
-    //   (user) => {
-    //     //if User is undefined, user logged off
-    //     if (!user) {
-    //       //unsubscribe all Subscriptions!!!
-    //       profileSubscription.unsubscribe();
-    //       authSubscription.unsubscribe();
-    //     }
-    //   }
-    // );
-  // }
+  ionViewDidLoad() {
+
+
+  }
 
   public showAddFriend() : void {
-    this.navCtrl.push(FriendsAddPageComponent);
+    this.navCtrl.push(FriendsAddPageComponent, this.profile);
   }
 
   public showFriendLeaderboard() : void {

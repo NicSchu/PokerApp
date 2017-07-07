@@ -9,12 +9,12 @@
   <ion-list>
 
     <ion-item>
-      <ion-label>Lobby Name</ion-label>
-      <ion-input type="text" [(ngModel)]="lobby.name" required></ion-input>
+      <ion-label>E-Mail</ion-label>
+      <ion-input type="text" [(ngModel)]="email" required placeholder="Your friend's E-Mail"></ion-input>
     </ion-item>
 
     <ion-item>
-      <button ion-button (click)="dismissView()">Create</button>
+      <button ion-button (click)="addFriendByEMail()">Add</button>
       <button ion-button (click)="viewCtrl.dismiss()">Abort</button>
     </ion-item>
 

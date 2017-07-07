@@ -31,6 +31,8 @@ import {LobbyService} from "./lobby/lobby.service";
 import {LobbyCreationPageComponent} from "./lobby/lobby-creation-page.component";
 import {LocalStorageService} from "./common/local-storage.service";
 import {CardbackPickerComponent} from "./settings/clientOptions_subpages/cardbackPicker-page.component";
+import {FriendsService} from "./friends/friends.service";
+import {FriendsAddPageComponent} from "./friends/friends-add-page.component";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCi2KvgtcoIz_DqETuUE3d9G8-_GCNunmw",
@@ -56,7 +58,8 @@ export const firebaseConfig = {
     AchievementListPageComponent,
     AchievementDetailPageComponent,
     LobbyCreationPageComponent,
-    CardbackPickerComponent
+    CardbackPickerComponent,
+    FriendsAddPageComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +83,8 @@ export const firebaseConfig = {
     AchievementListPageComponent,
     AchievementDetailPageComponent,
     LobbyCreationPageComponent,
-    CardbackPickerComponent
+    CardbackPickerComponent,
+    FriendsAddPageComponent
   ],
   providers: [
     StatusBar,
@@ -96,7 +100,8 @@ export const firebaseConfig = {
     File,
     SubscriptionService,
     LobbyService,
-    LocalStorageService
+    LocalStorageService,
+    FriendsService
   ]
 })
 export class AppModule {}
