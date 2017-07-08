@@ -33,22 +33,10 @@ export class LoginPageComponent {
           //just watch if User is logged in for auto-login
           //if User is defined, go to TabsPage and unsubscribe here. We create new Subscription in Tabs-Page
           if (user) {
-            //user is logged in, so we could get his profile
-            this.subScriptionService.addSubscription(
-              this.profileService.getCurrentProfile().subscribe(
-                (profile : Profile) => {
-                  if (profile) {
-                    this.localStorageService.initializeStorageIfNecessary();
-                    userSubscription.unsubscribe();
-                    //pass profile to TabsPage
-                    this.navCtrl.push(TabsPage, profile);
-                  }
-                }
-              )
-            );
-
+            this.localStorageService.initializeStorageIfNecessary();
+            userSubscription.unsubscribe();
+            this.navCtrl.push(TabsPage);
           }
-
         }
       );
   }
@@ -83,26 +71,10 @@ export class LoginPageComponent {
           alert.present();
         }
     };
-    // let thenCallback = (user : any) => {
-    //
-    //   //just in case you press login-button
-    //   this.subScriptionService.addSubscription(
-    //     this.profileService.getCurrentProfile().subscribe(
-    //       (profile : Profile) => {
-    //         if (profile) {
-    //           //pass profile to TabsPage
-    //           this.navCtrl.push(TabsPage, profile);
-    //         }
-    //       }
-    //     )
-    //   );
-    //
-    // };
 
     //now call Service with given CB's
     this.authService.signIn(email, password)
-      .catch(catchCallback)
-      // .then(thenCallback);
+      .catch(catchCallback);
   }
 
   public createAccount() {

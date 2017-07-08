@@ -17,6 +17,7 @@ export class AchievementDetailPageComponent {
   constructor(private navParams : NavParams) {
 
 
+    //TODO - auf spezielles attribut abfragen, da immer initialisiert
     if (this.navParams.data) {
       this.achievement = this.navParams.data;
       this.pageTitle = this.achievement.name;

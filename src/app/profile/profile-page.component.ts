@@ -16,6 +16,7 @@ import Reference = firebase.storage.Reference;
 import StringFormat = firebase.storage.StringFormat;
 import Storage = firebase.storage.Storage;
 import {LocalStorageService} from "../common/local-storage.service";
+import {AuthService} from "../login/AuthService";
 /**
  * Created by sebb9 on 08.06.2017.
  */
@@ -30,58 +31,60 @@ export class ProfilePageComponent {
 
   private profilePictureRef : Reference;
 
-  private firebaseStorage : Storage;
-
-  private profilePictureURL : string = '';
-
   private profilePicturePath : string = '';
 
   private allAchievements : Achievement[];
 
+  private isMyProfile : boolean = true;
+
   constructor(private imagePicker : ImagePicker,
-              private firebase : FirebaseApp,
               private filesystem: File,
               private loadingCtrl : LoadingController,
               private alertCtrl: AlertController,
               private profileService : ProfileService,
               private achievmentService : AchievementService,
-              private subScriptionService: SubscriptionService,
               private navCtrl: NavController,
+              private subscriptionService: SubscriptionService,
+              private authService: AuthService,
               private navParams : NavParams,
               private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)) ) {
 
-    if (this.navParams.data) {
-      this.profile = this.navParams.data;
+    //profile only passed by friends-page otherwise its the profile-page of logged in user
+    if (this.navParams.data.profile) {
+
+      this.isMyProfile = false;
+      this.profile = this.navParams.data.profile;
+
+    } else {
+
+      this.isMyProfile = true;
+
+      this.subscriptionService.addSubscription(
+        this.profileService.getCurrentProfile().subscribe(
+          (profile: Profile) => {
+            if (profile) {
+              this.profile = profile;
+            }
+          }
+        )
+      );
+
     }
 
-    this.firebaseStorage = this.firebase.storage();
+    this.profilePicturePath = this.profileService.getProfilePicturePath(this.authService.getCurrentUser().email);
 
-    this.profilePictureRef = this.firebaseStorage.ref();
+    this.profilePictureRef = this.profileService.getStorageRootReference();
+    this.profilePictureRef = this.profileService.getChildOfReference(this.profilePictureRef, this.profilePicturePath);
 
-    this.profilePicturePath = this.profileService.getProfilePicturePath();
-
-    //set Profile-Picture
-    this.refreshProfilePictureURL();
   }
 
   ionViewDidLoad() {
-    this.subScriptionService.addSubscription(
+    this.subscriptionService.addSubscription(
       this.achievmentService.findAll().subscribe(
         (achievments : Achievement[]) => {
           this.allAchievements = achievments;
         }
     ));
-  }
-
-  private refreshProfilePictureURL() : void {
-
-    this.firebaseStorage.ref().child(this.profilePicturePath).getDownloadURL()
-      .then((url: string) => {
-        this.profilePictureURL = url;
-      }, (error) => {
-        this.profilePictureURL = '';
-    });
-
   }
 
   public uploadPicture() {
@@ -111,8 +114,6 @@ export class ProfilePageComponent {
                   });
                   loading.onDidDismiss( (succeeded : boolean) => {
                     if (succeeded) {
-                      //refresh ProfilePicture
-                      this.refreshProfilePictureURL();
 
                       let alert = this.alertCtrl.create({
                         title: 'Picture uploaded',
@@ -133,12 +134,20 @@ export class ProfilePageComponent {
                   loading.present();
 
                   //Upload File to Firebase
-                  this.profilePictureRef.child(this.profilePicturePath).putString(dataUrl, StringFormat.DATA_URL )
+                  this.profilePictureRef.putString(dataUrl, StringFormat.DATA_URL)
                     .then((snapshot) => {
                       // Do something here when the data is succesfully uploaded
 
-                      //
-                      loading.dismiss(true);
+                      this.profilePictureRef.getDownloadURL().then(
+                        (newProfilePicture) => {
+
+                          this.profile.profilePicture = newProfilePicture;
+
+                          this.profileService.update(this.profile);
+
+                          loading.dismiss(true);
+                        }
+                      );
                     })
                     .catch((error) => {
                       //TODO - ist keine Internet-Connection da, hängt der Spinner ständig(ggf. ändern)
@@ -170,11 +179,16 @@ export class ProfilePageComponent {
   }
 
   public showAchievements() : void {
-    this.navCtrl.push(AchievementListPageComponent, this.allAchievements);
+    this.navCtrl.push(AchievementListPageComponent, {allAchievements: this.allAchievements, accAchievements: this.profile.accAchievements});
   }
 
   public getAccomplishedAchievementsLength() : number {
-    return this.profile.achievements.filter(e => e.accomplished).length;
+    if (this.profile.accAchievements) {
+      return this.profile.accAchievements.length;
+    } else {
+      return 0;
+    }
+
   }
 
 
