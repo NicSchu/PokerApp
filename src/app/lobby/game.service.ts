@@ -47,10 +47,12 @@ export class GameService {
     return newDeck;
   }
 
+  private pushPlayerIdToFb() {
+
+  }
+
   private initFirebaseObject() {
-
     //user must be logged in!
-
     if (!this.fbDeck) {
       this.fbDeck = this.afDb.object('lobbies/deck');
       console.log(this.fbDeck);
