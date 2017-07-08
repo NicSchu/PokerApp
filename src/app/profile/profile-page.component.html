@@ -11,7 +11,8 @@
 <ion-content padding>
 
   <!-- TODO - align image center! -->
-  <img *ngIf="profile && allAchievements" style="align-items: center; width: 100vw; height: 50vh" [src]="profilePictureURL" />
+  <img *ngIf="profile && allAchievements" style="align-items: center; width: 100vw; height: 50vh"
+       [src]="profile.profilePicture"/>
 
   <ion-list *ngIf="profile && allAchievements">
 

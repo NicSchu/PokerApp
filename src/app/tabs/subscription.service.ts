@@ -28,6 +28,8 @@ export class SubscriptionService {
 
   public unsubscribeAll() : void {
     this.subscriptions.forEach( (subscription) => subscription.unsubscribe() );
+    //clear list
+    this.subscriptions = [];
   }
 
 

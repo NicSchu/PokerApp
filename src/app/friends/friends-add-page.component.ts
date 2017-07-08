@@ -71,7 +71,7 @@ export class FriendsAddPageComponent {
     } else {
 
       let alert = this.altertCtrl.create({
-        title: 'Your Input seems to be not a valid E-Mail',
+        title: 'Your Input seems to be not a valid E-Mail or you are already friends.',
         message: 'Please insert a valid E-Mail',
         buttons: ['OK']
       });
@@ -86,7 +86,16 @@ export class FriendsAddPageComponent {
   //übernommen
   private validateEmail(email): boolean {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
+    return re.test(email) && this.email !== this.profile.email && !this.checkIfAlreadyFriends(this.email);
+  }
+
+  private checkIfAlreadyFriends(email: string): boolean {
+    for (let i = 0; i < this.profile.friends.length; i++) {
+      if (this.email === this.profile.friends[i]) {
+        return true;
+      }
+    }
+    return false;
   }
 
 

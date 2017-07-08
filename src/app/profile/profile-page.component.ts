@@ -31,10 +31,6 @@ export class ProfilePageComponent {
 
   private profilePictureRef : Reference;
 
-  private firebaseStorage : Storage;
-
-  private profilePictureURL : string = '';
-
   private profilePicturePath : string = '';
 
   private allAchievements : Achievement[];
@@ -45,15 +41,10 @@ export class ProfilePageComponent {
               private alertCtrl: AlertController,
               private profileService : ProfileService,
               private achievmentService : AchievementService,
-              private subScriptionService: SubscriptionService,
               private navCtrl: NavController,
-              private navParams : NavParams,
+              private subscriptionService: SubscriptionService,
               private authService: AuthService,
               private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)) ) {
-
-    if (this.navParams.data) {
-      this.profile = this.navParams.data;
-    }
 
     // this.firebaseStorage = this.firebase.storage();
     this.profilePicturePath = this.profileService.getProfilePicturePath(this.authService.getCurrentUser().email);
@@ -61,28 +52,25 @@ export class ProfilePageComponent {
     this.profilePictureRef = this.profileService.getStorageRootReference();
     this.profilePictureRef = this.profileService.getChildOfReference(this.profilePictureRef, this.profilePicturePath);
 
-    //set Profile-Picture
-    this.refreshProfilePictureURL();
   }
 
   ionViewDidLoad() {
-    this.subScriptionService.addSubscription(
+    this.subscriptionService.addSubscription(
+      this.profileService.getCurrentProfile().subscribe(
+        (profile: Profile) => {
+          if (profile) {
+            this.profile = profile;
+          }
+        }
+      )
+    );
+
+    this.subscriptionService.addSubscription(
       this.achievmentService.findAll().subscribe(
         (achievments : Achievement[]) => {
           this.allAchievements = achievments;
         }
     ));
-  }
-
-  private refreshProfilePictureURL() : void {
-
-    this.profilePictureRef.getDownloadURL()
-      .then((url: string) => {
-        this.profilePictureURL = url;
-      }, (error) => {
-        this.profilePictureURL = '';
-    });
-
   }
 
   public uploadPicture() {
@@ -112,8 +100,6 @@ export class ProfilePageComponent {
                   });
                   loading.onDidDismiss( (succeeded : boolean) => {
                     if (succeeded) {
-                      //refresh ProfilePicture
-                      this.refreshProfilePictureURL();
 
                       let alert = this.alertCtrl.create({
                         title: 'Picture uploaded',
@@ -138,8 +124,16 @@ export class ProfilePageComponent {
                     .then((snapshot) => {
                       // Do something here when the data is succesfully uploaded
 
-                      //
-                      loading.dismiss(true);
+                      this.profilePictureRef.getDownloadURL().then(
+                        (newProfilePicture) => {
+
+                          this.profile.profilePicture = newProfilePicture;
+
+                          this.profileService.update(this.profile);
+
+                          loading.dismiss(true);
+                        }
+                      );
                     })
                     .catch((error) => {
                       //TODO - ist keine Internet-Connection da, hängt der Spinner ständig(ggf. ändern)

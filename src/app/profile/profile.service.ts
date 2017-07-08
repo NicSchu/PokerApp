@@ -40,9 +40,12 @@ export class ProfileService {
     //first init object to watch
     this.initFirebaseObject();
 
-    //TODO - place here default Profile-Pic!!!!!
-
-    this.fbProfile.set(this.copyAndPrepareProfile(profile));
+    this.setDefaultProfilePic().then(
+      (profilePictureUrl) => {
+        profile.profilePicture = profilePictureUrl;
+        this.fbProfile.set(this.copyAndPrepareProfile(profile));
+      }
+    );
   }
 
   public update(profile : Profile) : void {
@@ -79,17 +82,15 @@ export class ProfileService {
 
     //user must be logged in!
 
-    if (!this.fbProfile) {
-      this.fbProfile = this.afDb.object('users/' + this.authService.getCurrentUser().uid + '/profile');
-      console.log(this.fbProfile);
+    this.fbProfile = this.afDb.object('users/' + this.authService.getCurrentUser().uid + '/profile');
+    console.log(this.fbProfile);
 
-      this.profile = this.fbProfile.map(
-        (fbProfile: any) : Profile => {
-          let profile = Profile.createWith(fbProfile);
-          return profile;
-        }
-      )
-    }
+    this.profile = this.fbProfile.map(
+      (fbProfile: any): Profile => {
+        let profile = Profile.createWith(fbProfile);
+        return profile;
+      }
+    )
   }
 
   public getProfilePicturePath(email: string): string {
@@ -102,6 +103,13 @@ export class ProfileService {
 
   public getChildOfReference(ref: Reference, path: string): Reference {
     return ref.child(path);
+  }
+
+  private setDefaultProfilePic() {
+    //NOTE!!! only use in createProfile() or to override users Profile with default!!
+    let defaultPicturePath = this.getStorageRootReference();
+    defaultPicturePath = this.getChildOfReference(defaultPicturePath, 'default/profilePic/default_picture_two.jpg');
+    return defaultPicturePath.getDownloadURL();
   }
 
 }

@@ -7,7 +7,7 @@ export class Profile {
   //TODO - insert attribute for cardbackURL
   constructor(public name: string,
               public email: string,
-              public profilePicture: string,
+              public profilePicture?: string,
               public cash :number = 10000,
               public friends: string[] = [],
               public achievements: Achievement[] = [],

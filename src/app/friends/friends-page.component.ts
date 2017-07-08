@@ -30,41 +30,47 @@ export class FriendsPageComponent {
               private authService: AuthService,
               private modalCtrl: ModalController,
               private subscriptionService: SubscriptionService,
-              private navParams: NavParams,
               private friendsService: FriendsService,
               private localStorageService: LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
-
-    if (this.navParams.data) {
-      //Profile passed by tabs-Page
-      this.profile = this.navParams.data;
-    }
   }
 
   ionViewDidLoad() {
     this.subscriptionService.addSubscription(
-      this.friendsService.findAll().subscribe(
-        (allProfiles: Profile[]) => {
-          //Ich hoffe er bekommt hier mit, wenn sich am eigentlichen "User"-Objekt was ändert, evtl notwendig für Freunde von Freunden!!!!
-          this.allProfiles = allProfiles;
+      this.profileService.getCurrentProfile().subscribe(
+        (profile: Profile) => {
+          if (profile) {
+            this.profile = profile;
 
-          //now filter friends of User
-          for (let i = 0; i < this.profile.friends.length; i++) {
-            for (let j = 0; j < this.allProfiles.length; j++) {
-              let foundFriendProfile: Profile;
-              if (this.profile.friends[i] === this.allProfiles[j].email) {
-                foundFriendProfile = this.allProfiles[j];
-                this.friendProfiles.push(foundFriendProfile);
+            //now get friends
+            let friendsSubscription = this.friendsService.findAll().subscribe(
+              (allProfiles: Profile[]) => {
+                //Ich hoffe er bekommt hier mit, wenn sich am eigentlichen "User"-Objekt was ändert, evtl notwendig für Freunde von Freunden!!!!
+                this.allProfiles = allProfiles;
+
+                //reset friends, because maybe user changed something
+                this.friendProfiles = [];
+
+                //now filter friends of User
+                for (let i = 0; i < this.profile.friends.length; i++) {
+                  for (let j = 0; j < this.allProfiles.length; j++) {
+                    let foundFriendProfile: Profile;
+                    if (this.profile.friends[i] === this.allProfiles[j].email) {
+                      foundFriendProfile = this.allProfiles[j];
+                      this.friendProfiles.push(foundFriendProfile);
+                    }
+                  }
+                }
+                //sort and set filtered to all....
+                this.sortByName(this.friendProfiles);
+                this.filteredFriendProfiles = this.friendProfiles;
+
+                friendsSubscription.unsubscribe();
               }
-            }
+            );
           }
-
-          //set filtered to all....
-          //TODO - maybe sort Friends by Name
-          this.filteredFriendProfiles = this.friendProfiles;
         }
       )
     );
-
   }
 
   public showAddFriend() : void {
@@ -80,11 +86,27 @@ export class FriendsPageComponent {
     //TODO - implement!!!!
   }
 
-  public getProfilePictureForFriend(friend: Profile): string {
-    let friendProfilePicture = this.profileService.getStorageRootReference();
-    friendProfilePicture = this.profileService.getChildOfReference(friendProfilePicture, friend.email);
-    friendProfilePicture.getDownloadURL().then((url) => {
-      return url;
-    });
+  private sortByName(friends: Profile[]) {
+    friends.sort(
+      (f1, f2) => {
+        if (f1.name < f2.name) {
+          return -1;
+        }
+        if (f1.name > f2.name) {
+          return 1;
+        }
+        return 0;
+      }
+    );
   }
+
+  public deleteFriend(friend: Profile): void {
+    let index = this.profile.friends.indexOf(friend.email);
+
+    this.profile.friends.splice(index, 1);
+
+    this.profileService.update(this.profile);
+  }
+
+
 }

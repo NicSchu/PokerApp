@@ -19,14 +19,23 @@
 <ion-content padding>
 
   <ion-list>
-    <ion-item *ngFor="let friendProfile of filteredFriendProfiles">
-      <ion-thumbnail item-start>
-        <img [src]=""/>
-      </ion-thumbnail>
-      <h2>{{friendProfile.name}}</h2>
-      <p>{{friendProfile.cash}} Coins</p>
-      <button ion-button clear item-end (click)="showFriendProfilePage(friendProfile)">View</button>
-    </ion-item>
+
+    <ion-item-sliding *ngFor="let friendProfile of filteredFriendProfiles">
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img [src]="friendProfile.profilePicture"/>
+        </ion-thumbnail>
+        <h2>{{friendProfile.name}}</h2>
+        <p>{{friendProfile.cash}} Coins</p>
+        <button ion-button clear item-end (click)="showFriendProfilePage(friendProfile)">View</button>
+      </ion-item>
+
+      <ion-item-sliding>
+        <button ion-button color="danger" (click)="deleteFriend(friendProfile)">Delete</button>
+      </ion-item-sliding>
+
+    </ion-item-sliding>
+
   </ion-list>
 
 </ion-content>

@@ -23,15 +23,9 @@ export class TabsPage {
   private profile : Profile;
 
 
-  constructor(private navParams: NavParams,
-              private subScriptionService : SubscriptionService,
+  constructor(private subScriptionService: SubscriptionService,
               private authService : AuthService,
               private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
-
-    //Profile passed by Login-Page
-    if (this.navParams.data) {
-      this.profile = this.navParams.data;
-    }
   }
 
   ionViewDidLoad() {
