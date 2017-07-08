@@ -2,7 +2,6 @@
  * Created by sebb9 on 01.07.2017.
  */
 import {PlayingCard} from "../logic/cards.model";
-import {Profile} from "../profile/profile.model";
 
 export class Player {
   constructor(public name: string,
@@ -12,7 +11,14 @@ export class Player {
   }
 
   static createWith(player: any) {
-    return new Player(player.name, player.cash, player.id, player.hand);
+    let newPlayer = new Player(null, null, null);
+    for (let i in newPlayer) {
+      for (let j in player) {
+        if (i == j) {
+          newPlayer[i] = player[j];
+        }
+      }
+    }
+    return newPlayer
   }
-
 }
