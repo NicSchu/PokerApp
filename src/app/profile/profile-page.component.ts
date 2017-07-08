@@ -16,6 +16,7 @@ import Reference = firebase.storage.Reference;
 import StringFormat = firebase.storage.StringFormat;
 import Storage = firebase.storage.Storage;
 import {LocalStorageService} from "../common/local-storage.service";
+import {AuthService} from "../login/AuthService";
 /**
  * Created by sebb9 on 08.06.2017.
  */
@@ -39,7 +40,6 @@ export class ProfilePageComponent {
   private allAchievements : Achievement[];
 
   constructor(private imagePicker : ImagePicker,
-              private firebase : FirebaseApp,
               private filesystem: File,
               private loadingCtrl : LoadingController,
               private alertCtrl: AlertController,
@@ -48,17 +48,18 @@ export class ProfilePageComponent {
               private subScriptionService: SubscriptionService,
               private navCtrl: NavController,
               private navParams : NavParams,
+              private authService: AuthService,
               private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)) ) {
 
     if (this.navParams.data) {
       this.profile = this.navParams.data;
     }
 
-    this.firebaseStorage = this.firebase.storage();
+    // this.firebaseStorage = this.firebase.storage();
+    this.profilePicturePath = this.profileService.getProfilePicturePath(this.authService.getCurrentUser().email);
 
-    this.profilePictureRef = this.firebaseStorage.ref();
-
-    this.profilePicturePath = this.profileService.getProfilePicturePath();
+    this.profilePictureRef = this.profileService.getStorageRootReference();
+    this.profilePictureRef = this.profileService.getChildOfReference(this.profilePictureRef, this.profilePicturePath);
 
     //set Profile-Picture
     this.refreshProfilePictureURL();
@@ -75,7 +76,7 @@ export class ProfilePageComponent {
 
   private refreshProfilePictureURL() : void {
 
-    this.firebaseStorage.ref().child(this.profilePicturePath).getDownloadURL()
+    this.profilePictureRef.getDownloadURL()
       .then((url: string) => {
         this.profilePictureURL = url;
       }, (error) => {
@@ -133,7 +134,7 @@ export class ProfilePageComponent {
                   loading.present();
 
                   //Upload File to Firebase
-                  this.profilePictureRef.child(this.profilePicturePath).putString(dataUrl, StringFormat.DATA_URL )
+                  this.profilePictureRef.putString(dataUrl, StringFormat.DATA_URL)
                     .then((snapshot) => {
                       // Do something here when the data is succesfully uploaded
 

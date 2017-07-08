@@ -21,7 +21,7 @@
   <ion-list>
     <ion-item *ngFor="let friendProfile of filteredFriendProfiles">
       <ion-thumbnail item-start>
-        <img src=""/>
+        <img [src]=""/>
       </ion-thumbnail>
       <h2>{{friendProfile.name}}</h2>
       <p>{{friendProfile.cash}} Coins</p>

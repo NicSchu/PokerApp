@@ -79,4 +79,12 @@ export class FriendsPageComponent {
   public showFriendProfilePage(profile: Profile): void {
     //TODO - implement!!!!
   }
+
+  public getProfilePictureForFriend(friend: Profile): string {
+    let friendProfilePicture = this.profileService.getStorageRootReference();
+    friendProfilePicture = this.profileService.getChildOfReference(friendProfilePicture, friend.email);
+    friendProfilePicture.getDownloadURL().then((url) => {
+      return url;
+    });
+  }
 }

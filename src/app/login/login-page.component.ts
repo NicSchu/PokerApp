@@ -33,15 +33,18 @@ export class LoginPageComponent {
           //just watch if User is logged in for auto-login
           //if User is defined, go to TabsPage and unsubscribe here. We create new Subscription in Tabs-Page
           if (user) {
+
+            this.localStorageService.initializeStorageIfNecessary();
+            userSubscription.unsubscribe();
+            this.navCtrl.push(TabsPage);
+
             //user is logged in, so we could get his profile
             this.subScriptionService.addSubscription(
               this.profileService.getCurrentProfile().subscribe(
                 (profile : Profile) => {
                   if (profile) {
-                    this.localStorageService.initializeStorageIfNecessary();
-                    userSubscription.unsubscribe();
                     //pass profile to TabsPage
-                    this.navCtrl.push(TabsPage, profile);
+
                   }
                 }
               )
