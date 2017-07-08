@@ -8,6 +8,7 @@ import {FriendsAddPageComponent} from "./friends-add-page.component";
 import {LocalStorageService} from "../common/local-storage.service";
 import {FriendsService} from "./friends.service";
 import {SubscriptionService} from "../tabs/subscription.service";
+import {ProfilePageComponent} from "../profile/profile-page.component";
 /**
  * Created by sebb9 on 08.06.2017.
  */
@@ -74,7 +75,6 @@ export class FriendsPageComponent {
   }
 
   public showAddFriend() : void {
-    //TODO - ich denke das hier muss mit einem Modal gemacht werden, damit wir im onDidMiss die Friendlist aktualisieren können!
     this.navCtrl.push(FriendsAddPageComponent, this.profile);
   }
 
@@ -82,8 +82,8 @@ export class FriendsPageComponent {
     //TODO - implement
   }
 
-  public showFriendProfilePage(profile: Profile): void {
-    //TODO - implement!!!!
+  public showFriendProfilePage(friendProfile: Profile): void {
+    this.navCtrl.push(ProfilePageComponent, {profile: friendProfile});
   }
 
   private sortByName(friends: Profile[]) {

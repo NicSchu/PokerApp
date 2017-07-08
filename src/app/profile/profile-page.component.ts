@@ -35,6 +35,8 @@ export class ProfilePageComponent {
 
   private allAchievements : Achievement[];
 
+  private isMyProfile : boolean = true;
+
   constructor(private imagePicker : ImagePicker,
               private filesystem: File,
               private loadingCtrl : LoadingController,
@@ -44,9 +46,31 @@ export class ProfilePageComponent {
               private navCtrl: NavController,
               private subscriptionService: SubscriptionService,
               private authService: AuthService,
+              private navParams : NavParams,
               private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)) ) {
 
-    // this.firebaseStorage = this.firebase.storage();
+    //profile only passed by friends-page otherwise its the profile-page of logged in user
+    if (this.navParams.data.profile) {
+
+      this.isMyProfile = false;
+      this.profile = this.navParams.data.profile;
+
+    } else {
+
+      this.isMyProfile = true;
+
+      this.subscriptionService.addSubscription(
+        this.profileService.getCurrentProfile().subscribe(
+          (profile: Profile) => {
+            if (profile) {
+              this.profile = profile;
+            }
+          }
+        )
+      );
+
+    }
+
     this.profilePicturePath = this.profileService.getProfilePicturePath(this.authService.getCurrentUser().email);
 
     this.profilePictureRef = this.profileService.getStorageRootReference();
@@ -55,16 +79,6 @@ export class ProfilePageComponent {
   }
 
   ionViewDidLoad() {
-    this.subscriptionService.addSubscription(
-      this.profileService.getCurrentProfile().subscribe(
-        (profile: Profile) => {
-          if (profile) {
-            this.profile = profile;
-          }
-        }
-      )
-    );
-
     this.subscriptionService.addSubscription(
       this.achievmentService.findAll().subscribe(
         (achievments : Achievement[]) => {
@@ -165,11 +179,16 @@ export class ProfilePageComponent {
   }
 
   public showAchievements() : void {
-    this.navCtrl.push(AchievementListPageComponent, this.allAchievements);
+    this.navCtrl.push(AchievementListPageComponent, {allAchievements: this.allAchievements, accAchievements: this.profile.accAchievements});
   }
 
   public getAccomplishedAchievementsLength() : number {
-    return this.profile.achievements.filter(e => e.accomplished).length;
+    if (this.profile.accAchievements) {
+      return this.profile.accAchievements.length;
+    } else {
+      return 0;
+    }
+
   }
 
 

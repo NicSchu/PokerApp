@@ -17,7 +17,7 @@
   <ion-list *ngIf="profile && allAchievements">
 
 
-    <ion-item>
+    <ion-item *ngIf="isMyProfile">
       <button ion-button (click)="uploadPicture()" [color]="localStorageService.getClientColor()">Bild ändern</button>
     </ion-item>
 

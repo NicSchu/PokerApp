@@ -59,6 +59,9 @@ export class FriendsAddPageComponent {
 
         //now persist that friend
         this.profileService.update(this.profile);
+
+        //just leave page
+        this.viewCtrl.dismiss();
       } else {
 
         let alert = this.altertCtrl.create({

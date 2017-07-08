@@ -33,7 +33,17 @@ export class AchievementListPageComponent {
     if (this.navParams.data) {
 
       //create new Array, because Object-Reference is passed by parameter
-      this.navParams.data.forEach((achievement) => {this.allAchievements.push(achievement)});
+      this.navParams.data.allAchievements.forEach((achievement) => {this.allAchievements.push(achievement)});
+
+      this.allAchievements.forEach((achievment : Achievement) => { //for each Achievement
+
+        this.navParams.data.accAchievements.forEach((accomplishedAchievmentID) => { //for each AchievmentID in profile
+
+          if(achievment.id === accomplishedAchievmentID) achievment.accomplished = true;
+
+        })
+
+      });
 
       //first sort all
       this.sortByName(this.allAchievements);
