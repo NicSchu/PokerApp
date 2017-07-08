@@ -5,6 +5,8 @@ import {Component} from "@angular/core";
 import {selector} from "rxjs/operator/multicast";
 import {NavParams} from "ionic-angular";
 import {Lobby} from "./lobby.model";
+import {ProfileService} from "../profile/profile.service";
+import {SubscriptionService} from "../tabs/subscription.service";
 /**
  * Created by Silas on 07.07.2017.
  */
@@ -18,13 +20,13 @@ export class LobbyIngamePageComponent{
   lobby: Lobby;
   public players: Player[];
   public table: PlayingCard[];
-  constructor(public gameService: GameService,
-              //public players: Player[],
-              //public table: PlayingCard[],
-              private navParams: NavParams) {
-    this.lobby = this.navParams.data;
-    //console.log(typeof this.navParams.data);
-    //console.log(typeof this.lobby);
+  constructor(private navParams: NavParams,
+              profileService: ProfileService,
+              subscriptionService: SubscriptionService,
+              public gameService: GameService) {
+    this.lobby = this.navParams.data.lobby;
+    gameService.update(new Player(profileService, subscriptionService));
+    gameService.pushPlayers(this.lobby)
   }
 
   ionViewDidEnter(){
