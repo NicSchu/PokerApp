@@ -39,16 +39,10 @@ export class GameService {
     //this.deck.reCreateDeck();
   }
 
-  public update(player: Player) : void {
+  public pushPlayer(player: Player) : void {
     this.fbPlayers.push(this.copyAndPreparePlayer(player))
   }
 
-
-  private copyAndPrepareDeck(deck: any) : Deck {
-    let newDeck = Deck.createWith(deck);
-    newDeck.cards = newDeck.cards || null;
-    return newDeck;
-  }
 
   public pushPlayers(lobby: Lobby) {
     this.fbPlayers = this.afDb.list('/lobbies/' + lobby.id + '/players')
@@ -76,10 +70,18 @@ export class GameService {
     }
   }
 
+  private copyAndPrepareDeck(deck: any) : Deck {
+    let newDeck = Deck.createWith(deck);
+    newDeck.cards = newDeck.cards || null;
+    return newDeck;
+  }
+
   private copyAndPreparePlayer(player: any): Player {
     let newPlayer = Player.createWith(player);
-    /*newPlayer.name = newPlayer.name || null;
-    newPlayer.cash = newPlayer.cash || null;*/
+    newPlayer.name = newPlayer.name || null;
+    newPlayer.cash = newPlayer.cash || null;
+    newPlayer.hand = newPlayer.hand || null;
+    newPlayer.id = newPlayer.id || null;
     return newPlayer;
   }
 }

@@ -35,6 +35,7 @@ import {FriendsService} from "./friends/friends.service";
 import {FriendsAddPageComponent} from "./friends/friends-add-page.component";
 import {LobbyIngamePageComponent} from "./lobby/lobby-ingame-page.component";
 import {GameService} from "./lobby/game.service";
+import {PlayerService} from "./lobby/player.service";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCi2KvgtcoIz_DqETuUE3d9G8-_GCNunmw",
@@ -106,7 +107,8 @@ export const firebaseConfig = {
     LobbyService,
     LocalStorageService,
     GameService,
-    FriendsService
+    FriendsService,
+    PlayerService
   ]
 })
 export class AppModule {}

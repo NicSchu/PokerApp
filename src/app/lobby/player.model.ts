@@ -5,16 +5,14 @@ import {PlayingCard} from "../logic/cards.model";
 import {Profile} from "../profile/profile.model";
 
 export class Player {
-  constructor(public cash: number,
+  constructor(public name: string,
+              public cash: number,
               public id: string,
-              public profile: Profile,
               public hand?: PlayingCard[]) {
-    this.cash = profile.cash;
-    this.id = profile.email;
   }
 
   static createWith(player: any) {
-    return player();
+    return new Player(player.name, player.cash, player.id, player.hand);
   }
 
 }

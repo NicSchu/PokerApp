@@ -28,7 +28,18 @@ export class LobbyService {
         )
       }
     );
+  }
 
+  public getObservableLobbies() {
+    return this.lobbyies;
+  }
+
+  public getLobbyObservableById(lobby: Lobby){
+    let localLobbies: Lobby[] = [];
+    this.lobbyies.subscribe((lobbies: Lobby[]) => {
+      localLobbies = lobbies;
+    }).unsubscribe();
+    return localLobbies.filter((localLobby) => localLobby.id == lobby.id)
   }
 
   public findAll() : Observable<Lobby[]> {
