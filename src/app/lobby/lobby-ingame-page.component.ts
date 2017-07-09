@@ -32,7 +32,8 @@ export class LobbyIngamePageComponent{
     this.lobby = this.navParams.data.lobby;
     //console.log(this.lobby);
 
-    //gameService.pushPlayer(this.playerService.createNewPlayer());
+
+    gameService.pushPlayer(this.playerService.createNewPlayer());
     gameService.pushPlayers(this.lobby)
 
     //TODO wie kommt man an das Observable von DIESER Lobby ran?
@@ -40,6 +41,8 @@ export class LobbyIngamePageComponent{
       this.lobbyService.getObservableLobbies().
     )*/
   }
+
+  //ansatz mit: ionviewdidload(), subscription auf profile,
 
   public getObservableLobby() {
     let localLobbies = this.lobbyService.getObservableLobbies();

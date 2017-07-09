@@ -21,8 +21,10 @@ export class PlayerService {
     this.profileObservable = this.profileService.getCurrentProfile();
 
     // TODO Wie Kann man das Profile direkt initialisieren lassen? Denn das passiert offenbar nicht.
+
+    // schmeiß den ganzen mist in lobby-ingame-page.component
     this.subscriptionService.addSubscription(
-      this.profileObservable.subscribe(
+      this.profileService.getCurrentProfile().subscribe(
         (profile: Profile) => {
           this.profile = profile;
           console.log(this.profile);
@@ -32,8 +34,6 @@ export class PlayerService {
   }
 
   createNewPlayer(): Player{
-
-
     console.log(this.profile);
     return new Player(this.profile.name, this.profile.cash, this.profile.email);
   }
