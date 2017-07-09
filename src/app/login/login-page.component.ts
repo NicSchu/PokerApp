@@ -23,7 +23,6 @@ export class LoginPageComponent {
               private subScriptionService:SubscriptionService,
               private profileService : ProfileService,
               private localStorageService : LocalStorageService) {
-
   }
 
   ionViewWillEnter() {
