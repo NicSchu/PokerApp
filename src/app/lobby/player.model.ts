@@ -7,7 +7,7 @@ export class Player {
   constructor(public name: string,
               public cash: number,
               public id: string,
-              public hand?: PlayingCard[]) {
+              public hand: PlayingCard[] = null) {
   }
 
   static createWith(player: any) {

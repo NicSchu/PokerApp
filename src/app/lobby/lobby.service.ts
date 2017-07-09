@@ -64,6 +64,7 @@ export class LobbyService {
     newLobby.name = newLobby.name || null;
     newLobby.deck = newLobby.deck || null;
     newLobby.status = newLobby.status || null;
+    newLobby.players = newLobby.players || null;
     newLobby.id = null;
 
     return newLobby;

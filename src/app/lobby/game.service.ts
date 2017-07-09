@@ -8,17 +8,16 @@ import {Injectable} from "@angular/core";
 
 @Injectable()
 export class GameService {
-  private turnCounter: number = 0;
+  //private turnCounter: number = 0;
   private fbDeck: FirebaseObjectObservable<any>;
   public deck: Deck = new Deck();
   public activePlayer: FirebaseObjectObservable<any>;
   public table: PlayingCard[] = [];
-  public players : Observable<Player[]>;
-  public fbPlayers: FirebaseListObservable<any[]>;
+  //public players : Observable<Player[]>;
+  //public fbPlayers: FirebaseListObservable<any[]>;
 
   constructor(private afDb : AngularFireDatabase) {
   }
-
 
 
   initializeRound() {
@@ -40,12 +39,12 @@ export class GameService {
   }
 
   public pushPlayer(player: Player) : void {
-    this.fbPlayers.push(this.copyAndPreparePlayer(player))
+    //this.fbPlayers.push(this.copyAndPreparePlayer(player))
   }
 
 
   public pushPlayers(lobby: Lobby) {
-    this.fbPlayers = this.afDb.list('/lobbies/' + lobby.id + '/players')
+    /*this.fbPlayers = this.afDb.list('/lobbies/' + lobby.id + '/players')
 
     this.players = this.fbPlayers.map(
       (fbPlayers: any[]): Player[] => {
@@ -56,8 +55,12 @@ export class GameService {
             return player;
           });
       }
-    )
+    )*/
   }
+
+  /*getPlayers(): Observable<Player[]> {
+    return this.players;
+  }*/
 
   private initFirebaseObject() {
     //user must be logged in!
