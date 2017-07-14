@@ -65,7 +65,7 @@ export class LobbyListPageComponent {
   }
 
   public joinLobby(lobby : Lobby) : void {
-    //TODO - muss noch implementiert werden!
+    //TODO - Check ob der Player schon drin ist sollte noch rein.
     this.navCtrl.push(LobbyIngamePageComponent, {lobby: lobby});
   }
 

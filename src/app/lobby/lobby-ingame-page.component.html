@@ -1,31 +1,98 @@
-<ion-header style="background: url('../../assets/table/table.png') no-repeat center;">
+<!--ion-header style="background: url('../../assets/table/table.png') no-repeat center;"-->
+<ion-header>
+  <!--link href="./lobby-ingame-page.component.scss" rel="stylesheet"-->
+  <style>
+    lobby-ingame-page {
 
+    }
+
+    ion-grid {
+      height: 100%;
+    }
+    table#t01 {
+      width: 100%;
+      height: 100%;
+      background: url('../../assets/table/table.png') no-repeat center;
+    }
+  </style>
 </ion-header>
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-fab bottom>
-          <button ion-fab><ion-icon name="Check"></ion-icon></button>
+  <ion-buttons>
+    <button ion-button (click)="quitLobby()">Leave</button>
+  </ion-buttons>
+
+  <table id="t01">
+    <tr>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+        <ion-fab>
+          <button ion-fab>A</button>
         </ion-fab>
-      </ion-col>
-      <ion-col>
-        <ion-fab bottom>
-          <button ion-fab><ion-icon name="Raise"></ion-icon></button>
+      </td>
+      <td>
+        <ion-fab>
+          <button ion-fab>B</button>
         </ion-fab>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-fab bottom>
-          <button ion-fab><ion-icon name="Call"></ion-icon></button>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+        <ion-fab>
+          <button ion-fab>C</button>
         </ion-fab>
-      </ion-col>
-      <ion-col>
-        <ion-fab bottom>
-          <button ion-fab><ion-icon name="Pass"></ion-icon></button>
+      </td>
+      <td>
+        <ion-fab>
+          <button ion-fab>D</button>
         </ion-fab>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+    </tr>
+  </table>
 </ion-content>
