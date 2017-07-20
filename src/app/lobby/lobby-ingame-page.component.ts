@@ -45,7 +45,7 @@ export class LobbyIngamePageComponent{
           this.profile = profile;
           console.log(this.profile);
           this.lobby.players[this.lobby.players.length] = new Player(
-            this.profile.name, this.profile.cash, this.profile.email
+            this.profile.name, this.profile.cash, this.profile.email/*, this.profile.accAchievements, this.profile.roundsPlayed*/
           );
           this.lobbyService.update(this.lobby);
         }

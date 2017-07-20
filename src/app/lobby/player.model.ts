@@ -7,11 +7,13 @@ export class Player {
   constructor(public name: string,
               public cash: number,
               public id: string,
+              //public achievements: string[],
+              //public roundsPlayed: number,
               public hand: PlayingCard[] = null) {
   }
 
   static createWith(player: any) {
-    let newPlayer = new Player(null, null, null);
+    let newPlayer = new Player(null, null, /*null, null,*/ null);
     for (let i in newPlayer) {
       for (let j in player) {
         if (i == j) {
