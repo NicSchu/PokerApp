@@ -66,6 +66,8 @@ export class LobbyListPageComponent {
 
   public joinLobby(lobby : Lobby) : void {
     //TODO - Check ob der Player schon drin ist sollte noch rein.
+    //localStorage.setItem("joinedLobby", "yes");
+    document.getElementsByClassName('tabbar')[0].setAttribute("display", "false");
     this.navCtrl.push(LobbyIngamePageComponent, {lobby: lobby});
   }
 

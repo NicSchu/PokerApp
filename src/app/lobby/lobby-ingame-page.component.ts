@@ -80,6 +80,8 @@ export class LobbyIngamePageComponent{
         {
           text: 'Leave',
           handler: () => {
+            //TODO kein error handling. funktioniert eben nur über diesen Button
+            document.getElementsByClassName('tabbar')[0].setAttribute("display", "true");
             this.canLeave = true;
             this.logoutFromLobby();
             this.navCtrl.pop();

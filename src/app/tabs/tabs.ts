@@ -1,11 +1,9 @@
 import {Component} from "@angular/core";
-
 import {SettingsPageComponent} from "../settings/settings-page.component";
 import {ProfilePageComponent} from "../profile/profile-page.component";
 import {LobbyListPageComponent} from "../lobby/lobby-list-page.component";
 import {FriendsPageComponent} from "../friends/friends-page.component";
 import {Profile} from "../profile/profile.model";
-import {NavParams} from "ionic-angular";
 import {SubscriptionService} from "./subscription.service";
 import {AuthService} from "../login/AuthService";
 import {LocalStorageService} from "../common/local-storage.service";
@@ -20,6 +18,7 @@ export class TabsPage {
   tab3Root = FriendsPageComponent;
   tab4Root = SettingsPageComponent;
 
+
   private profile : Profile;
 
 
@@ -27,6 +26,7 @@ export class TabsPage {
               private authService : AuthService,
               private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
   }
+
 
   ionViewDidLoad() {
     //Subscribe User for Login-Logout Events
@@ -40,6 +40,9 @@ export class TabsPage {
           }
         }
       ));
-  }
 
+    let a = document.getElementsByClassName('tabbar')[0].setAttribute("display", "true");
+
+
+  }
 }
