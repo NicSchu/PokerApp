@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -6,13 +8,17 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:xlink="http://www.w3.org/1999/xlink"
-   viewBox="0 0 61.599998 92"
-   height="92"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg126"
    width="61.599998"
-   id="svg20"
-   version="1.1">
+   height="92"
+   viewBox="0 0 61.599998 92"
+   sodipodi:docname="BubeHerz.svg"
+   inkscape:version="0.92.1 r15371">
   <metadata
-     id="metadata26">
+     id="metadata132">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -24,11 +30,31 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs24" />
+     id="defs130" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview128"
+     showgrid="false"
+     inkscape:zoom="2.5652174"
+     inkscape:cx="30.799999"
+     inkscape:cy="46"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg126" />
   <image
-     y="0"
-     x="0"
-     id="image28"
+     width="61.599998"
+     height="92"
+     preserveAspectRatio="none"
      xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE0AAABzCAIAAABSGxg6AAAAAXNSR0IArs4c6QAAAARnQU1BAACx
 jwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAoWSURBVHhe7Z3bmaM4EEYJxaEQCqEQCg8bCIHM
 g0Po937YPX+VJIuLAYPAPd7+v1qPuNdRVQkZPLMVquu6R38+0JqmFiHqun/+/WgBKM6w9NESamh+
@@ -78,7 +104,7 @@ mOgKTjSLGv65gkt0EacKdcJ5GSS6inNSqNeUZdJ1nChl75UZ67qWM4b0Ykh0KScipGdPfWZ1Naci
 eXkw0eWcb9Iv5ydp4//f4W9X3+sfgL70fn29+j+9fnbPf60/lflE67p/BFlV/wGn621Gu/AUiQAA
 AABJRU5ErkJggg==
 "
-     preserveAspectRatio="none"
-     height="92"
-     width="61.599998" />
+     id="image134"
+     x="0"
+     y="0" />
 </svg>

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -6,13 +8,17 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:xlink="http://www.w3.org/1999/xlink"
-   viewBox="0 0 61.599998 92"
-   height="92"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg326"
    width="61.599998"
-   id="svg50"
-   version="1.1">
+   height="92"
+   viewBox="0 0 61.599998 92"
+   sodipodi:docname="6Kreuz.svg"
+   inkscape:version="0.92.1 r15371">
   <metadata
-     id="metadata56">
+     id="metadata332">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -24,11 +30,31 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs54" />
+     id="defs330" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview328"
+     showgrid="false"
+     inkscape:zoom="2.5652174"
+     inkscape:cx="30.799999"
+     inkscape:cy="46"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg326" />
   <image
-     y="0"
-     x="0"
-     id="image58"
+     width="61.599998"
+     height="92"
+     preserveAspectRatio="none"
      xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE0AAABzCAIAAABSGxg6AAAAAXNSR0IArs4c6QAAAARnQU1BAACx
 jwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAASBSURBVHhe7Z3bldowEEC3FEqhFEpJKXykEApJ
 EfzzkVx5BiGMJBtLsj2K7/HJYf3Y1WVGo7HJJj/Cr05RPeF2u/3tlNufm9p2LOlxqvqybx73nCdB
@@ -53,7 +79,7 @@ UdNTYfR+e8dnKWgmh6QvLKeBZwKsfMQEgqbH2rOe5+c8rPhYZJK1PBOf+dadhBlW8vwMplDe6Mxk
 JU8qEJMzyrgatWG9vM1t7VmvDm3L4dkT7v+xWGV6bAur16qL9SY4yZ+ff790xxoHW2LpAAAAAElF
 TkSuQmCC
 "
-     preserveAspectRatio="none"
-     height="92"
-     width="61.599998" />
+     id="image334"
+     x="0"
+     y="0" />
 </svg>
