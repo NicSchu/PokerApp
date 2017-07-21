@@ -1,4 +1,3 @@
-import {Achievement} from "../achievements/achievement.model";
 /**
  * Created by sebb9 on 08.06.2017.
  */

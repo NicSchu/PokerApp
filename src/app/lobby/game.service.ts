@@ -1,9 +1,8 @@
 import {Player} from "./player.model";
 import {PlayingCard} from "../logic/cards.model";
 import {Deck} from "./deck.model";
-import {Observable} from "rxjs/Observable";
 import {Lobby} from "./lobby.model";
-import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/database";
+import {AngularFireDatabase, FirebaseObjectObservable} from "angularfire2/database";
 import {Injectable} from "@angular/core";
 
 @Injectable()

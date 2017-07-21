@@ -6,7 +6,7 @@ import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database
 import {Observable} from "rxjs/Observable";
 import {Profile} from "../profile/profile.model";
 import "rxjs/add/operator/map";
-import {Lobby} from "../lobby/lobby.model";
+
 @Injectable()
 export class FriendsService {
 

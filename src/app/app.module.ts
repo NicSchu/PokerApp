@@ -36,6 +36,7 @@ import {FriendsAddPageComponent} from "./friends/friends-add-page.component";
 import {LobbyIngamePageComponent} from "./lobby/lobby-ingame-page.component";
 import {GameService} from "./lobby/game.service";
 import {PlayerService} from "./lobby/player.service";
+import {ScreenOrientation} from "@ionic-native/screen-orientation";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCi2KvgtcoIz_DqETuUE3d9G8-_GCNunmw",
@@ -108,7 +109,8 @@ export const firebaseConfig = {
     LocalStorageService,
     GameService,
     FriendsService,
-    PlayerService
+    PlayerService,
+    ScreenOrientation
   ]
 })
 export class AppModule {}

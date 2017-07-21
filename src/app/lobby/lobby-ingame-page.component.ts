@@ -10,6 +10,7 @@ import {PlayerService} from "./player.service";
 import {LobbyService} from "./lobby.service";
 import {Profile} from "../profile/profile.model";
 import {Observable} from "rxjs/Observable";
+import {ScreenOrientation} from "@ionic-native/screen-orientation";
 /**
  * Created by Silas on 07.07.2017.
  */
@@ -34,7 +35,8 @@ export class LobbyIngamePageComponent{
               private profileService: ProfileService,
               private subscriptionService: SubscriptionService,
               private gameService: GameService,
-              private navCtrl: NavController) {
+              private navCtrl: NavController,
+              private screenOrientation: ScreenOrientation) {
     this.lobby = this.navParams.data.lobby;
     this.profileObservable = this.profileService.getCurrentProfile();
     console.log(this.lobby);
@@ -52,6 +54,7 @@ export class LobbyIngamePageComponent{
       )
     );
 
+
     //TODO wie kommt man an das Observable von DIESER Lobby ran?
     /*this.subscriptionService.addSubscription(
       this.lobbyService.getObservableLobbies().
@@ -60,7 +63,7 @@ export class LobbyIngamePageComponent{
 
   //ansatz mit: ionviewdidload(), subscription auf profile,
   ionViewDidLoad(){
-
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
   }
 
   ionViewWillLeave(){
@@ -82,6 +85,7 @@ export class LobbyIngamePageComponent{
           handler: () => {
             //TODO kein error handling. funktioniert eben nur über diesen Button
             document.getElementsByClassName('tabbar')[0].setAttribute("display", "true");
+            this.screenOrientation.unlock();
             this.canLeave = true;
             this.logoutFromLobby();
             this.navCtrl.pop();
@@ -102,10 +106,10 @@ export class LobbyIngamePageComponent{
     this.lobbyService.update(this.lobby);
   }
 
-  public getObservableLobby() {
+  /*public getObservableLobby() {
     let localLobbies = this.lobbyService.getObservableLobbies();
     //return localLobbies.filter((localLobby) => localLobby.id == this.lobby.id)
-  }
+  }*/
 
   ionViewDidEnter(){
     //changeOriantationLandspace()
