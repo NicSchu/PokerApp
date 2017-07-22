@@ -37,13 +37,13 @@ export class GameService {
     //this.deck.reCreateDeck();
   }
 
-  public pushPlayer(player: Player) : void {
+  /*public pushPlayer(player: Player) : void {
     //this.fbPlayers.push(this.copyAndPreparePlayer(player))
-  }
+  }*/
 
 
-  public pushPlayers(lobby: Lobby) {
-    /*this.fbPlayers = this.afDb.list('/lobbies/' + lobby.id + '/players')
+  /*public pushPlayers(lobby: Lobby) {
+    this.fbPlayers = this.afDb.list('/lobbies/' + lobby.id + '/players')
 
     this.players = this.fbPlayers.map(
       (fbPlayers: any[]): Player[] => {
@@ -54,8 +54,8 @@ export class GameService {
             return player;
           });
       }
-    )*/
-  }
+    )
+  }*/
 
   /*getPlayers(): Observable<Player[]> {
     return this.players;
@@ -78,12 +78,12 @@ export class GameService {
     return newDeck;
   }
 
-  private copyAndPreparePlayer(player: any): Player {
+  /*private copyAndPreparePlayer(player: any): Player {
     let newPlayer = Player.createWith(player);
     newPlayer.name = newPlayer.name || null;
     newPlayer.cash = newPlayer.cash || null;
     newPlayer.hand = newPlayer.hand || null;
     newPlayer.id = newPlayer.id || null;
     return newPlayer;
-  }
+  }*/
 }
