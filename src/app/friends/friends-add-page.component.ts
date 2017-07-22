@@ -4,6 +4,7 @@ import {Profile} from "../profile/profile.model";
 import {AlertController, NavParams, ViewController} from "ionic-angular";
 import {SubscriptionService} from "../tabs/subscription.service";
 import {ProfileService} from "../profile/profile.service";
+import {LocalStorageService} from "../common/local-storage.service";
 /**
  * Created by sebb9 on 05.07.2017.
  */
@@ -22,7 +23,9 @@ export class FriendsAddPageComponent {
               private subscriptionService: SubscriptionService,
               private altertCtrl: AlertController,
               private profileService: ProfileService,
-              private viewCtrl: ViewController) {
+              private viewCtrl: ViewController,
+              private localStorageService: LocalStorageService) //used for layout color
+  {
 
     //pass Profile by friends-page
     if (this.navParams.data) {

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar [color]="localStorageService.getClientColor()" >
     <ion-title>Add a Friend</ion-title>
   </ion-navbar>
 </ion-header>
@@ -14,8 +14,8 @@
     </ion-item>
 
     <ion-item>
-      <button ion-button (click)="addFriendByEMail()">Add</button>
-      <button ion-button (click)="viewCtrl.dismiss()">Abort</button>
+      <button ion-button (click)="addFriendByEMail()" [color]="localStorageService.getClientColor()">Add</button>
+      <button ion-button (click)="viewCtrl.dismiss()" [color]="localStorageService.getClientColor()">Abort</button>
     </ion-item>
 
   </ion-list>
