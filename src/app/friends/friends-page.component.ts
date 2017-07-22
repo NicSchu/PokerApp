@@ -9,6 +9,9 @@ import {LocalStorageService} from "../common/local-storage.service";
 import {FriendsService} from "./friends.service";
 import {SubscriptionService} from "../tabs/subscription.service";
 import {ProfilePageComponent} from "../profile/profile-page.component";
+import {AchievementService} from "../achievements/achievement.service";
+import {Achievement} from "../achievements/achievement.model";
+import {ClientOptionsConstants} from "../settings/clientOptions-page.constants";
 /**
  * Created by sebb9 on 08.06.2017.
  */
@@ -22,9 +25,12 @@ export class FriendsPageComponent {
 
   profile : Profile;
 
+  private typeOfList : string = "all";
+
   private allProfiles: Profile[];
   private friendProfiles: Profile[] = [];
-  private filteredFriendProfiles: Profile[] = [];
+
+  private achievements : Achievement[] = [];
 
   constructor(private profileService : ProfileService,
               private navCtrl: NavController,
@@ -32,10 +38,20 @@ export class FriendsPageComponent {
               private modalCtrl: ModalController,
               private subscriptionService: SubscriptionService,
               private friendsService: FriendsService,
+              private achievementService : AchievementService,
               private localStorageService: LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
   }
 
   ionViewDidLoad() {
+    this.subscriptionService.addSubscription(
+      this.achievementService.findAll().subscribe(
+        (achievemenets: Achievement[]) => {
+          if(achievemenets){
+            this.achievements = achievemenets;
+          }
+        }
+      )
+    );
     this.subscriptionService.addSubscription(
       this.profileService.getCurrentProfile().subscribe(
         (profile: Profile) => {
@@ -61,10 +77,6 @@ export class FriendsPageComponent {
                     }
                   }
                 }
-                //sort and set filtered to all....
-                this.sortByName(this.friendProfiles);
-                this.filteredFriendProfiles = this.friendProfiles;
-
                 friendsSubscription.unsubscribe();
               }
             );
@@ -78,10 +90,6 @@ export class FriendsPageComponent {
     this.navCtrl.push(FriendsAddPageComponent, this.profile);
   }
 
-  public showFriendLeaderboard() : void {
-    //TODO - implement
-  }
-
   public showFriendProfilePage(friendProfile: Profile): void {
     this.navCtrl.push(ProfilePageComponent, {profile: friendProfile});
   }
@@ -89,15 +97,62 @@ export class FriendsPageComponent {
   private sortByName(friends: Profile[]) {
     friends.sort(
       (f1, f2) => {
-        if (f1.name < f2.name) {
+        let f1Name = f1.name.toLowerCase();
+        let f2Name = f2.name.toLowerCase();
+        if (f1Name < f2Name) {
           return -1;
         }
-        if (f1.name > f2.name) {
+        if (f1Name > f2Name) {
           return 1;
         }
         return 0;
       }
     );
+    return friends;
+  }
+
+  private sortByChips(friends: Profile[]) {
+    friends.sort(
+      (f1, f2) => {
+        if (f1.cash < f2.cash) {
+          return 1;
+        }
+        if (f1.cash > f2.cash) {
+          return -1;
+        }
+        return 0;
+      }
+    );
+    return friends;
+  }
+
+  private sortByAchievements(friends: Profile[]) {
+
+    friends.sort(
+      (f1, f2) => {
+        let f1Points = this.getAchievementPointsOfFriend(f1);
+        let f2Points = this.getAchievementPointsOfFriend(f2);
+        if(f1Points < f2Points) {
+          return 1;
+        }
+        if(f1Points > f2Points) {
+          return -1;
+        }
+        return 0;
+      }
+    );
+    return friends;
+  }
+
+  public getAchievementPointsOfFriend(friend: Profile) {
+    let points = 0;
+    this.achievements.forEach((achievement : Achievement) => {
+      friend.accAchievements.forEach((achievementId : string) => {
+        //TODO wieder richtig machen (es geht um das '-', was firebase entfernt)
+        if(achievement.id.includes(achievementId)) points += achievement.points
+      })
+    });
+    return points;
   }
 
   public deleteFriend(friend: Profile): void {
@@ -108,5 +163,9 @@ export class FriendsPageComponent {
     this.profileService.update(this.profile);
   }
 
+  //return text color that matches to the background color (black to a yellow background)
+  public getCorrespondingTextColor(): string {
+    return ClientOptionsConstants.colorNameToTextColor[this.localStorageService.getClientColor()];
+  }
 
 }

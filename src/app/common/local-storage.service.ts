@@ -115,7 +115,7 @@ export class LocalStorageService {
     let currentUser = this.authService.getCurrentUser();
     if(currentUser) {
       if(this.getUseCustomOptions()) { //Be sure not to skip this "if" when reading this class
-        return this.getAll().clientColor;
+        return (this.getAll().clientColor);
       } else {
         return this.defaultNavbarColor;
       }

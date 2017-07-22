@@ -2,41 +2,90 @@
 
   <ion-navbar [color]="localStorageService.getClientColor()">
 
-    <ion-title>Friends</ion-title>
+  <ion-title>Friends</ion-title>
 
-    <ion-buttons end>
-      <button ion-button icon-only (click)="showFriendLeaderboard()">
-        <ion-icon name="podium"></ion-icon>
-      </button>
-      <button ion-button icon-only (click)="showAddFriend()">
-        <ion-icon name="person-add"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="typeOfList" [color]="getCorrespondingTextColor()">
+      <ion-segment-button value="all">
+        All
+      </ion-segment-button>
+      <ion-segment-button value="coins">
+        Coins
+      </ion-segment-button>
+      <ion-segment-button value="achievementPoints">
+        Points
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+</ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
 
-  <ion-list>
+  <div [ngSwitch]="typeOfList">
+<!-- ___________________ ALL TAB ___________________ -->
+    <ion-list *ngSwitchCase="'all'">
+      <ion-item-sliding *ngFor="let friendProfile of sortByName(friendProfiles)">
 
-    <ion-item-sliding *ngFor="let friendProfile of filteredFriendProfiles">
-
-      <ion-item>
+        <ion-item>
           <ion-thumbnail item-start>
             <img [src]="friendProfile.profilePicture"/>
           </ion-thumbnail>
           <h2>{{friendProfile.name}}</h2>
           <p>{{friendProfile.cash}} Coins</p>
           <button ion-button clear item-end (click)="showFriendProfilePage(friendProfile)">View</button>
-      </ion-item>
+        </ion-item>
 
-      <ion-item-options side="right">
-        <button ion-button color="danger" (click)="deleteFriend(friendProfile)">Delete</button>
-      </ion-item-options>
+        <ion-item-options side="right">
+          <button ion-button color="danger" (click)="deleteFriend(friendProfile)">Delete</button>
+        </ion-item-options>
 
-    </ion-item-sliding>
+      </ion-item-sliding>
+    </ion-list>
+<!-- ___________________ COINS TAB ___________________ -->
+    <ion-list *ngSwitchCase="'coins'">
+      <ion-item-sliding *ngFor="let friendProfile of sortByChips(friendProfiles)">
 
-  </ion-list>
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img [src]="friendProfile.profilePicture"/>
+          </ion-thumbnail>
+          <h2>{{friendProfile.name}}</h2>
+          <p>{{friendProfile.cash}} Coins</p>
+          <button ion-button clear item-end (click)="showFriendProfilePage(friendProfile)">View</button>
+        </ion-item>
+
+        <ion-item-options side="right">
+          <button ion-button color="danger" (click)="deleteFriend(friendProfile)">Delete</button>
+        </ion-item-options>
+
+      </ion-item-sliding>
+    </ion-list>
+<!-- ___________________ POINTS TAB ___________________ -->
+    <ion-list *ngSwitchCase="'achievementPoints'">
+      <ion-item-sliding *ngFor="let friendProfile of sortByAchievements(friendProfiles)">
+
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img [src]="friendProfile.profilePicture"/>
+          </ion-thumbnail>
+          <h2>{{friendProfile.name}}</h2>
+          <p>{{getAchievementPointsOfFriend(friendProfile)}} Points</p>
+          <button ion-button clear item-end (click)="showFriendProfilePage(friendProfile)">View</button>
+        </ion-item>
+
+        <ion-item-options side="right">
+          <button ion-button color="danger" (click)="deleteFriend(friendProfile)">Delete</button>
+        </ion-item-options>
+
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+
+  <ion-fab right bottom>
+    <button ion-fab [color]="localStorageService.getClientColor()" (click)="showAddFriend()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 
 </ion-content>
