@@ -1,7 +1,5 @@
-import {Player} from "./player.model";
 import {PlayingCard} from "../logic/cards.model";
 import {Deck} from "./deck.model";
-import {Lobby} from "./lobby.model";
 import {AngularFireDatabase, FirebaseObjectObservable} from "angularfire2/database";
 import {Injectable} from "@angular/core";
 

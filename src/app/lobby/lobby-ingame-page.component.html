@@ -19,6 +19,11 @@
   <ion-buttons>
     <button ion-button (click)="quitLobby()">Leave</button>
   </ion-buttons>
+  <ion-list *ngIf="lobby.players.length > 0">
+    <ion-label *ngFor="let player of lobby.players">
+      {{player.name}}
+    </ion-label>
+  </ion-list>
 
   <!--table id="t01">
     <tr>

@@ -2,7 +2,7 @@
  * Created by sebb9 on 01.07.2017.
  */
 import {Injectable} from "@angular/core";
-import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
+import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/database";
 import {Observable} from "rxjs/Observable";
 import {Lobby} from "./lobby.model";
 import "rxjs/add/operator/map";
@@ -32,6 +32,16 @@ export class LobbyService {
 
   public getObservableLobbies() {
     return this.lobbyies;
+  }
+
+  public getLobbyById(id : string) : Observable<Lobby> {
+    return this.afDb.object('lobbies/' + id).map(
+      (fbLobby: any) : Lobby => {
+        let lobby = Lobby.createWith(fbLobby);
+        lobby.id = fbLobby.$key;
+        return lobby;
+      }
+    );
   }
 
   public getLobbyObservableById(lobby: Lobby){
