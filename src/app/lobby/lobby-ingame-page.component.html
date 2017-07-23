@@ -16,158 +16,187 @@
   </style>
 </ion-header>
 <ion-content>
-  <ion-buttons>
-    <button ion-button (click)="quitLobby()">Leave</button>
+  <!--ion-buttons>
+
   </ion-buttons>
   <ion-list *ngIf="lobby.players.length > 0">
     <ion-label *ngFor="let player of lobby.players">
       {{player.name}}
     </ion-label>
-  </ion-list>
-
-  <!--table id="t01">
-    <tr>
-    </tr>
-    <tr>
-    </tr>
-    <tr>
-    </tr>
-    <tr>
-    </tr>
-    <tr>
-    </tr>
-    <tr>
-    </tr>
-    <tr>
-    </tr>
-    <tr>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-        <ion-fab>
-          <button ion-fab>A</button>
-        </ion-fab>
-      </td>
-      <td>
-        <ion-fab>
-          <button ion-fab>B</button>
-        </ion-fab>
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
-    </tr>
-    <tr>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-        <ion-fab>
-          <button ion-fab>C</button>
-        </ion-fab>
-      </td>
-      <td>
-        <ion-fab>
-          <button ion-fab>D</button>
-        </ion-fab>
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
-    </tr>
-    <tr>
-    </tr>
-    <tr>
-    </tr>
-    <tr>
-    </tr>
-  </table-->
+  </ion-list-->
 
   <!-- TODO Ist noch ungetestet, sieht vermutlich kacke aus, konnte keinen LocalHost machen -->
   <ion-grid>
     <ion-row>
       <ion-col>
-
+        1
       </ion-col>
       <ion-col>
-
+        2
       </ion-col>
       <ion-col>
-
+        3
       </ion-col>
       <ion-col>
-
+        Pot: xxxxx Chips
       </ion-col>
       <ion-col>
-
+        5
       </ion-col>
       <ion-col>
-
-      </ion-col>
-    </ion-row>
-    <ion-row>
-    </ion-row>
-    <ion-row>
-    </ion-row>
-    <ion-row>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-
+        6
       </ion-col>
       <ion-col>
-
-      </ion-col>
-      <ion-col>
-        <button ion-fab>A</button>
-      </ion-col>
-      <ion-col>
-        <button ion-fab>C</button>
-      </ion-col>
-      <ion-col>
-
-      </ion-col>
-      <ion-col>
-
+        <button ion-fab (click)="quitLobby()">Leave</button>
       </ion-col>
     </ion-row>
     <ion-row>
+      <ion-col>
+        <div>
+          <img src="../../assets/svg/cardbacks/custom1.svg">
+          <img src="../../assets/svg/cardbacks/custom1.svg">
+        </div>
+      </ion-col>
+      <ion-col>
+        2
+      </ion-col>
+      <ion-col>
+        3
+      </ion-col>
+      <ion-col>
+        4
+      </ion-col>
+      <ion-col>
+        5
+      </ion-col>
+      <ion-col>
+        6
+      </ion-col>
+      <ion-col>
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-
+        Player 3
+        Chips: xxxx
       </ion-col>
       <ion-col>
-
+        2
       </ion-col>
       <ion-col>
-        <button ion-fab>A</button>
+        3
       </ion-col>
       <ion-col>
-        <button ion-fab>C</button>
+        4
       </ion-col>
       <ion-col>
-
+        5
       </ion-col>
       <ion-col>
-
+        6
+      </ion-col>
+      <ion-col>
+        Player 4
+        Chips: xxxx
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        1
+      </ion-col>
+      <ion-col>
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+      </ion-col>
+      <ion-col>
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+      </ion-col>
+      <ion-col>
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+      </ion-col>
+      <ion-col>
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+      </ion-col>
+      <ion-col>
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+      </ion-col>
+      <ion-col>
+        7
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+      </ion-col>
+      <ion-col>
+        2
+      </ion-col>
+      <ion-col>
+        3
+      </ion-col>
+      <ion-col>
+        4
+      </ion-col>
+      <ion-col>
+        5
+      </ion-col>
+      <ion-col>
+        6
+      </ion-col>
+      <ion-col>
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        Player 2
+        Chips: xxxx
+      </ion-col>
+      <ion-col>
+        2
+      </ion-col>
+      <ion-col>
+        <button ion-fab>Raise</button>
+      </ion-col>
+      <ion-col>
+        4
+      </ion-col>
+      <ion-col>
+        <button ion-fab>Check</button>
+      </ion-col>
+      <ion-col>
+        6
+      </ion-col>
+      <ion-col>
+        Player 5
+        Chips: xxxx
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        1
+      </ion-col>
+      <ion-col>
+        2
+      </ion-col>
+      <ion-col>
+        <button ion-fab>Call</button>
+      </ion-col>
+      <ion-col>
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+        <img src="../../assets/svg/cardbacks/custom1.svg">
+      </ion-col>
+      <ion-col>
+        <button ion-fab>Pass</button>
+      </ion-col>
+      <ion-col>
+        6
+      </ion-col>
+      <ion-col>
+        7
       </ion-col>
     </ion-row>
   </ion-grid>

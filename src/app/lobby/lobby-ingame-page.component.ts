@@ -58,7 +58,7 @@ export class LobbyIngamePageComponent{
 
   //ansatz mit: ionviewdidload(), subscription auf profile,
   ionViewDidLoad(){
-    //this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
     this.subscriptionService.addSubscription(
       this.lobbyService.getLobbyById(this.lobby.id).subscribe(
         (lobby: Lobby) => {
