@@ -18,7 +18,6 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {AuthService} from "./login/AuthService";
 import {RegistryPageComponent} from "./login/registry-page.component";
 import {ImagePicker} from "@ionic-native/image-picker";
-import {PhotoLibrary} from "@ionic-native/photo-library";
 import {File} from "@ionic-native/file";
 import {AchievementService} from "./achievements/achievement.service";
 import {ProfileService} from "./profile/profile.service";
@@ -100,7 +99,6 @@ export const firebaseConfig = {
     AngularFireAuth,
     AuthService,
     ImagePicker,
-    PhotoLibrary,
     ProfileService,
     AchievementService,
     File,
