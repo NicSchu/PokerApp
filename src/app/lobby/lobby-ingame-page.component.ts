@@ -1,16 +1,15 @@
-import {GameService} from "./game.service";
 import {Player} from "./player.model";
 import {PlayingCard} from "../logic/cards.model";
 import {Component} from "@angular/core";
-import {AlertController, NavParams, NavController} from "ionic-angular";
+import {AlertController, NavParams, NavController, ModalController} from "ionic-angular";
 import {Lobby} from "./lobby.model";
 import {ProfileService} from "../profile/profile.service";
 import {SubscriptionService} from "../tabs/subscription.service";
-import {PlayerService} from "./player.service";
 import {LobbyService} from "./lobby.service";
 import {Profile} from "../profile/profile.model";
 import {Observable} from "rxjs/Observable";
 import {ScreenOrientation} from "@ionic-native/screen-orientation";
+import {LobbyWaitingPageComponent} from "./lobby-waiting-page.component";
 /**
  * Created by Silas on 07.07.2017.
  */
@@ -31,12 +30,11 @@ export class LobbyIngamePageComponent{
   constructor(private navParams: NavParams,
               private alterCtrl : AlertController,
               private lobbyService: LobbyService,
-              private playerService: PlayerService,
               private profileService: ProfileService,
               private subscriptionService: SubscriptionService,
-              private gameService: GameService,
               private navCtrl: NavController,
-              private screenOrientation: ScreenOrientation) {
+              private screenOrientation: ScreenOrientation,
+              private modalCtrl : ModalController) {
     this.lobby = this.navParams.data.lobby;
     this.profileObservable = this.profileService.getCurrentProfile();
     console.log(this.lobby);
@@ -54,6 +52,23 @@ export class LobbyIngamePageComponent{
         }
       )
     );
+
+  }
+
+  waitingPage(){
+    let modal = this.modalCtrl.create(LobbyWaitingPageComponent, {lobby: this.lobby});
+    modal.onDidDismiss(
+      ready => {
+        if (ready){
+          //TODO Spielstart definieren und insgesamt Spielablauf implementieren
+          //Starte Spiel
+        }else{
+          //irgendwas ist schief gegangen, deshalb
+          this.canLeave = true;
+          this.closeAndReset();
+        }
+      });
+    modal.present();
   }
 
   //ansatz mit: ionviewdidload(), subscription auf profile,
@@ -65,11 +80,20 @@ export class LobbyIngamePageComponent{
           this.lobby = lobby;
         }
       ));
+    this.waitingPage();
   }
 
   ionViewWillLeave(){
     if (this.canLeave) return true;
     this.quitLobby();
+  }
+
+  closeAndReset(){
+    document.getElementsByClassName('tabbar')[0].setAttribute("display", "true");
+    this.screenOrientation.unlock();
+    this.canLeave = true;
+    this.logoutFromLobby();
+    this.navCtrl.pop();
   }
 
   quitLobby(){
@@ -85,11 +109,7 @@ export class LobbyIngamePageComponent{
           text: 'Leave',
           handler: () => {
             //TODO kein error handling. funktioniert eben nur über diesen Button
-            document.getElementsByClassName('tabbar')[0].setAttribute("display", "true");
-            this.screenOrientation.unlock();
-            this.canLeave = true;
-            this.logoutFromLobby();
-            this.navCtrl.pop();
+            this.closeAndReset();
           }
         }]
     });

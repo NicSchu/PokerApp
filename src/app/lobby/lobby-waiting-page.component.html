@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <ion-header>
+    <ion-navbar>
+      <ion-title>Waiting</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-label>
+    <h2>Spieler in der Lobby:</h2>
+  </ion-label>
+  <ion-list *ngIf="lobby.players.length > 0">
+    <h5 *ngFor="let player of lobby.players">
+      {{player.name}}
+    </h5>
+  </ion-list>
+  <ion-buttons>
+    <button ion-button (click)="viewCtrl.dismiss(false)">Leave Lobby</button>
+    <button ion-button (click)="viewCrtl.dismiss(true)" *ngIf="lobby.players.length >= 2">Start Game</button>
+  </ion-buttons>
+</ion-content>
+</body>
+</html>

@@ -2,7 +2,7 @@
  * Created by sebb9 on 01.07.2017.
  */
 import {Injectable} from "@angular/core";
-import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/database";
+import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
 import {Observable} from "rxjs/Observable";
 import {Lobby} from "./lobby.model";
 import "rxjs/add/operator/map";
