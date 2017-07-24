@@ -34,6 +34,9 @@ import {FriendsService} from "./friends/friends.service";
 import {FriendsAddPageComponent} from "./friends/friends-add-page.component";
 import {LobbyIngamePageComponent} from "./lobby/lobby-ingame-page.component";
 import {GameService} from "./lobby/game.service";
+import {PlayerService} from "./lobby/player.service";
+import {ScreenOrientation} from "@ionic-native/screen-orientation";
+import {LobbyWaitingPageComponent} from "./lobby/lobby-waiting-page.component";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCi2KvgtcoIz_DqETuUE3d9G8-_GCNunmw",
@@ -61,7 +64,8 @@ export const firebaseConfig = {
     LobbyCreationPageComponent,
     CardbackPickerComponent,
     LobbyIngamePageComponent,
-    FriendsAddPageComponent
+    FriendsAddPageComponent,
+    LobbyWaitingPageComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +91,8 @@ export const firebaseConfig = {
     LobbyCreationPageComponent,
     CardbackPickerComponent,
     FriendsAddPageComponent,
-    LobbyIngamePageComponent
+    LobbyIngamePageComponent,
+    LobbyWaitingPageComponent
   ],
   providers: [
     StatusBar,
@@ -104,7 +109,9 @@ export const firebaseConfig = {
     LobbyService,
     LocalStorageService,
     GameService,
-    FriendsService
+    FriendsService,
+    PlayerService,
+    ScreenOrientation
   ]
 })
 export class AppModule {}

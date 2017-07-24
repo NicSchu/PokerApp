@@ -22,7 +22,7 @@ export class LobbyListPageComponent {
   private showSearchbar: boolean = false;
   private searchQuery : string = '';
 
-  private maxPlayerConst : number = 4;
+  private maxPlayerConst : number = 5;
 
   constructor(private lobbyService : LobbyService,
               private subscriptionService: SubscriptionService,
@@ -65,8 +65,12 @@ export class LobbyListPageComponent {
   }
 
   public joinLobby(lobby : Lobby) : void {
-    //TODO - muss noch implementiert werden!
-    this.navCtrl.push(LobbyIngamePageComponent, lobby);
+    //TODO - Check ob der Player schon drin ist sollte noch rein.
+    //localStorage.setItem("joinedLobby", "yes");
+    if (lobby.players.length < this.maxPlayerConst){
+      document.getElementsByClassName('tabbar')[0].setAttribute("display", "false");
+      this.navCtrl.push(LobbyIngamePageComponent, {lobby: lobby});
+    }
   }
 
   private sortByName(lobbies : Lobby[]) : void {

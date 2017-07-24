@@ -28,7 +28,28 @@ export class LobbyService {
         )
       }
     );
+  }
 
+  public getObservableLobbies() {
+    return this.lobbyies;
+  }
+
+  public getLobbyById(id : string) : Observable<Lobby> {
+    return this.afDb.object('lobbies/' + id).map(
+      (fbLobby: any) : Lobby => {
+        let lobby = Lobby.createWith(fbLobby);
+        lobby.id = fbLobby.$key;
+        return lobby;
+      }
+    );
+  }
+
+  public getLobbyObservableById(lobby: Lobby){
+    let localLobbies: Lobby[] = [];
+    this.lobbyies.subscribe((lobbies: Lobby[]) => {
+      localLobbies = lobbies;
+    }).unsubscribe();
+    return localLobbies.filter((localLobby) => localLobby.id == lobby.id)
   }
 
   public findAll() : Observable<Lobby[]> {
@@ -53,6 +74,7 @@ export class LobbyService {
     newLobby.name = newLobby.name || null;
     newLobby.deck = newLobby.deck || null;
     newLobby.status = newLobby.status || null;
+    newLobby.players = newLobby.players || null;
     newLobby.id = null;
 
     return newLobby;

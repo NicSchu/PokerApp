@@ -2,7 +2,6 @@ import {Component} from "@angular/core";
 import {Profile} from "./profile.model";
 import {AlertController, LoadingController, NavController, NavParams} from "ionic-angular";
 import {ImagePicker} from "@ionic-native/image-picker";
-import {FirebaseApp} from "angularfire2";
 
 import "firebase/storage";
 import * as firebase from "firebase/app";
@@ -14,7 +13,7 @@ import {AchievementListPageComponent} from "../achievements/achievement-list-pag
 import {SubscriptionService} from "../tabs/subscription.service";
 import Reference = firebase.storage.Reference;
 import StringFormat = firebase.storage.StringFormat;
-import Storage = firebase.storage.Storage;
+//import Storage = firebase.storage.Storage;
 import {LocalStorageService} from "../common/local-storage.service";
 import {AuthService} from "../login/AuthService";
 /**
