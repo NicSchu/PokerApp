@@ -83,7 +83,8 @@ export class LobbyIngamePageComponent{
       ready => {
         if (ready){
           //TODO Spielstart definieren und insgesamt Spielablauf implementieren
-
+          this.lobby.gameStarted = true;
+          this.lobbyService.update(this.lobby);
         }else{
           //irgendwas ist schief gegangen, deshalb
           this.canLeave = true;
