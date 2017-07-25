@@ -32,6 +32,16 @@ export class LobbyIngamePageComponent{
   //public players: Player[];
   public table: PlayingCard[];
 
+  /*TODO Liste für morgen den 26.07
+    1. WaitingPage für Nachzügler einrichten und testen, auch nicht Beachten der hinzukommenden unbedingt testen!
+    2. eigene Karten anzeigen und andere Karten auch nur bei Bedarf anzeigen
+    3. Tischkarten nach und nach umdrehen
+    4. Logic einbinden und Sieger bestimmen
+    5. Andere Siegfälle klären (alle leaven oder alle passen)
+    6. Achievements und Runden updaten
+    7. Bilder auf Handy fixen
+  * */
+
   constructor(private navParams: NavParams,
               private alertCtrl : AlertController,
               private lobbyService: LobbyService,
@@ -83,7 +93,6 @@ export class LobbyIngamePageComponent{
     modal.onDidDismiss(
       ready => {
         if (ready){
-          //TODO insgesamt Spielablauf implementieren
           if (this.playerNumber == 0) {
             this.lobby.gameStarted = true;
             for (let player of this.lobby.players) player.playing = true;
@@ -91,8 +100,6 @@ export class LobbyIngamePageComponent{
             this.beginRound();
             this.lobbyService.update(this.lobby);
           }
-          //TODO -> Mögen die Spiele beginnen!
-
         }else{
           this.canLeave = true;
           this.closeAndReset();
@@ -122,7 +129,6 @@ export class LobbyIngamePageComponent{
   }
 
   quitLobby(){
-    //TODO: Button, bzw ganze HTML zum Testen wäre nicht schlecht.
     let alert = this.alertCtrl.create({
       title: 'Leave Lobby',
       subTitle: 'Are you sure you want to leave the Lobby?',
@@ -133,7 +139,6 @@ export class LobbyIngamePageComponent{
         {
           text: 'Leave',
           handler: () => {
-            //TODO kein error handling. funktioniert eben nur über diesen Button
             this.closeAndReset();
           }
         }]
