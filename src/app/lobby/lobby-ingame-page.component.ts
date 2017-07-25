@@ -21,9 +21,11 @@ import {LobbyWaitingPageComponent} from "./lobby-waiting-page.component";
 export class LobbyIngamePageComponent{
   showedTableCards: number = 1;
   lobby: Lobby;
-  profileObservable : Observable<Profile>;
-  profile : Profile;
+  //profileObservable : Observable<Profile>;
+  profile : Profile = null;
   canLeave: boolean = false;
+  playerNumber: number;
+  firstRun : boolean = true;
 
   public players: Player[];
   public table: PlayingCard[];
@@ -36,7 +38,14 @@ export class LobbyIngamePageComponent{
               private screenOrientation: ScreenOrientation,
               private modalCtrl : ModalController) {
     this.lobby = this.navParams.data.lobby;
-    this.profileObservable = this.profileService.getCurrentProfile();
+
+
+  }
+
+  //ansatz mit: ionviewdidload(), subscription auf profile,
+  ionViewDidLoad(){
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
+    //this.profileObservable = this.profileService.getCurrentProfile();
     console.log(this.lobby);
 
     this.subscriptionService.addSubscription(
@@ -49,19 +58,35 @@ export class LobbyIngamePageComponent{
             /*, this.profile.accAchievements, this.profile.roundsPlayed*/
           );
           this.lobbyService.update(this.lobby);
+          this.subscriptionService.addSubscription(
+            this.lobbyService.getLobbyById(this.lobby.id).subscribe(
+              (lobby: Lobby) => {
+                this.lobby = lobby;
+                for (let i = 0; i < lobby.players.length; i++){
+                  if (lobby.players[i].id == this.profile.email){
+                    this.playerNumber = i;
+                    break;
+                  }
+                }
+                if (this.firstRun){
+                  this.waitingPage();
+                  this.firstRun = false;
+                }
+
+              }
+            ));
         }
       )
     );
-
   }
 
   waitingPage(){
-    let modal = this.modalCtrl.create(LobbyWaitingPageComponent, {lobby: this.lobby});
+    let modal = this.modalCtrl.create(LobbyWaitingPageComponent, {lobby: this.lobby, profile: this.profile});
     modal.onDidDismiss(
       ready => {
         if (ready){
           //TODO Spielstart definieren und insgesamt Spielablauf implementieren
-          //Starte Spiel
+
         }else{
           //irgendwas ist schief gegangen, deshalb
           this.canLeave = true;
@@ -69,18 +94,6 @@ export class LobbyIngamePageComponent{
         }
       });
     modal.present();
-  }
-
-  //ansatz mit: ionviewdidload(), subscription auf profile,
-  ionViewDidLoad(){
-    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
-    this.subscriptionService.addSubscription(
-      this.lobbyService.getLobbyById(this.lobby.id).subscribe(
-        (lobby: Lobby) => {
-          this.lobby = lobby;
-        }
-      ));
-    this.waitingPage();
   }
 
   ionViewWillLeave(){

@@ -11,7 +11,6 @@ export class Lobby {
               public deck: Deck = new Deck(),
               public pot : number = 0,
               public activePlayer : number = 0,
-              public hoster : number = 0,
               public players : Player[] = []) { //TODO - satus evtl duch klasse ersetzen, mit static => Enum
 
   }

@@ -6,6 +6,7 @@ import {Lobby} from "./lobby.model";
 import {SubscriptionService} from "../tabs/subscription.service";
 import {LobbyService} from "./lobby.service";
 import {NavParams, ViewController} from "ionic-angular";
+import {Profile} from "../profile/profile.model";
 
 @Component({
   selector: "lobby-waiting-page",
@@ -13,17 +14,28 @@ import {NavParams, ViewController} from "ionic-angular";
 })
 export class LobbyWaitingPageComponent {
   private lobby = new Lobby();
+  private playerNumber: number;
+  private profile : Profile;
 
   constructor(public viewCtrl: ViewController,
               private navParams: NavParams,
               private subscriptionService: SubscriptionService,
               private lobbyService: LobbyService){
     this.lobby = this.navParams.data.lobby;
+    this.profile = this.navParams.data;
+    console.log(this.profile)
+    console.log(this.lobby)
 
     this.subscriptionService.addSubscription(
       this.lobbyService.getLobbyById(this.lobby.id).subscribe(
         (lobby: Lobby) => {
           this.lobby = lobby;
+          for (let i = 0; i < lobby.players.length; i++){
+            if (lobby.players[i].id == this.profile.email){
+              this.playerNumber = i;
+              break;
+            }
+          }
         }
       ));
   }
