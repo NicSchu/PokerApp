@@ -26,6 +26,7 @@ export class LobbyIngamePageComponent{
   canLeave: boolean = false;
   playerNumber: number;
   firstRun : boolean = true;
+  loaded: boolean = false;
   raiseCash: number;
 
   //public players: Player[];
@@ -55,6 +56,7 @@ export class LobbyIngamePageComponent{
             /*, this.profile.accAchievements, this.profile.roundsPlayed*/
           );
           this.lobbyService.update(this.lobby);
+          this.loaded = true;
           this.subscriptionService.addSubscription(
             this.lobbyService.getLobbyById(this.lobby.id).subscribe(
               (lobby: Lobby) => {
@@ -150,6 +152,7 @@ export class LobbyIngamePageComponent{
         break;
       }
     }
+    this.loaded = false;
     this.lobbyService.update(this.lobby);
 
     this.navCtrl.pop();

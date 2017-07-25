@@ -192,7 +192,7 @@
         <button ion-fab (click)="raise()" *ngIf="lobby.activePlayer == playerNumber">Raise</button>
       </ion-col>
       <ion-col>
-        <ion-label *ngIf="lobby.players.length >= 1">
+        <ion-label *ngIf="loaded">
           {{lobby.players[playerNumber].name}}
         </ion-label>
         <img src="../../assets/cardbacks/custom1.png">
