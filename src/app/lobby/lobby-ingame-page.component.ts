@@ -26,6 +26,7 @@ export class LobbyIngamePageComponent{
   canLeave: boolean = false;
   playerNumber: number;
   firstRun : boolean = true;
+  raiseCash: number;
 
   public players: Player[];
   public table: PlayingCard[];
@@ -83,6 +84,7 @@ export class LobbyIngamePageComponent{
           if (this.playerNumber == 0) {
             this.lobby.gameStarted = true;
             for (let player of this.lobby.players) player.playing = true;
+            console.log(this.lobby.players);
             this.beginRound();
             this.lobbyService.update(this.lobby);
           }
@@ -106,6 +108,7 @@ export class LobbyIngamePageComponent{
     deck.shuffle();
     for (let player of this.lobby.players){
       if (player.playing){
+        player.hand = [];
         player.hand.push(deck.cards.pop());
         player.hand.push(deck.cards.pop());
       }
@@ -152,11 +155,21 @@ export class LobbyIngamePageComponent{
   }
 
   nextPlayersTurn(){
-    let next;
-    if (this.playerNumber < this.lobby.players.length && this.lobby.players[this.playerNumber+1].playing){
-      next = this.playerNumber + 1;
-    }else next = 0;
+    let next = this.playerNumber;
+    let activePlayer = this.lobby.players.filter(
+      (player) => {return !player.isCoward && player.playing}
+    );
+    if (activePlayer.length == 1) {
+      //-> Runde beenden
+    }else this.next(next);
     this.lobbyService.update(this.lobby);
+  }
+
+  next(next: number){
+    if (next < this.lobby.players.length && this.lobby.players[next+1].playing){
+      next = next + 1;
+    }else next = 0;
+    if (this.lobby.players[next].isCoward) this.next(next);
   }
 
   //geht immer, solange in der letzten Runde niemand geraised hat
@@ -173,7 +186,15 @@ export class LobbyIngamePageComponent{
   //muss ich mindestens machen, um im Spiel zu bleiben.
   //geht nicht, wenn keiner geraised hat
   call(){
-
+    let call = this.lobby.currentMaxEntry - this.lobby.players[this.playerNumber].entry;
+    if (this.lobby.players[this.playerNumber].cash >= call){
+      this.lobby.players[this.playerNumber].cash - call;
+      this.lobby.pot += call;
+    }else{
+      this.lobby.pot += this.lobby.players[this.playerNumber].cash;
+      this.lobby.players[this.playerNumber].cash = 0;
+    }
+    this.nextPlayersTurn();
   }
 
   //Geht immer -> aussteigen

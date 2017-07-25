@@ -181,7 +181,10 @@
         2
       </ion-col>
       <ion-col>
-        <button ion-fab>Raise</button>
+        <ion-fab>
+          <!--button ion-fab>Raise</--button-->
+          <ion-range min="10" max="lobby.players[playerNumber].cash" step="10" snaps="true" [(ngModel)]="raiseCash"></ion-range>
+        </ion-fab>
       </ion-col>
       <ion-col>
         <img src="../../assets/cardbacks/custom1.png">
