@@ -161,16 +161,17 @@ export class LobbyIngamePageComponent{
       (player) => {return !player.isCoward && player.playing}
     );
     if (activePlayer.length == 1) {
-      //-> Runde beenden
+      //
     }else this.next(next);
     this.lobbyService.update(this.lobby);
   }
 
   next(next: number){
-    if (next < this.lobby.players.length && this.lobby.players[next+1].playing){
+    if (next < this.lobby.players.length -1 && this.lobby.players[next+1].playing){
       next = next + 1;
     }else next = 0;
     if (this.lobby.players[next].isCoward) this.next(next);
+    else this.lobby.activePlayer = next;
   }
 
   //geht immer, solange in der letzten Runde niemand geraised hat
