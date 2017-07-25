@@ -28,10 +28,11 @@ export class LobbyIngamePageComponent{
   firstRun : boolean = true;
   raiseCash: number;
 
-  public players: Player[];
+  //public players: Player[];
   public table: PlayingCard[];
+
   constructor(private navParams: NavParams,
-              private alterCtrl : AlertController,
+              private alertCtrl : AlertController,
               private lobbyService: LobbyService,
               private profileService: ProfileService,
               private subscriptionService: SubscriptionService,
@@ -120,7 +121,7 @@ export class LobbyIngamePageComponent{
 
   quitLobby(){
     //TODO: Button, bzw ganze HTML zum Testen wäre nicht schlecht.
-    let alert = this.alterCtrl.create({
+    let alert = this.alertCtrl.create({
       title: 'Leave Lobby',
       subTitle: 'Are you sure you want to leave the Lobby?',
       buttons: [
@@ -180,7 +181,36 @@ export class LobbyIngamePageComponent{
 
   //geht immer, solange Geld vorhanden
   raise(){
+    let alert = this.alertCtrl.create({
+      title: 'Raise',
+      subTitle: 'How many chips you want to raise?',
+      inputs: [
+        {
+          name: 'chips',
+          placeholder: 'Chips'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler:() => {
 
+          }
+        },
+        {
+          text: 'Raise',
+          handler: (data) => {
+            let chips : number = parseInt(data.chips);
+            if (chips <= this.lobby.players[this.playerNumber].cash){
+              this.lobby.players[this.playerNumber].cash -= chips;
+              this.lobby.pot += chips;
+              this.lobby.currentMaxEntry += chips;
+            }else return false;
+            this.nextPlayersTurn();
+          }
+        }]
+    });
+    alert.present();
   }
 
   //muss ich mindestens machen, um im Spiel zu bleiben.

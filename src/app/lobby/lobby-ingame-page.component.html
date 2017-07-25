@@ -157,13 +157,13 @@
         2
       </ion-col>
       <ion-col>
-        <button ion-fab>Call</button>
+        <button ion-fab (click)="call()" *ngIf="lobby.activePlayer == playerNumber">Call</button>
       </ion-col>
       <ion-col>
         4
       </ion-col>
       <ion-col>
-        <button ion-fab>Check</button>
+        <button ion-fab (click)="check()" *ngIf="lobby.activePlayer == playerNumber">Check</button>
       </ion-col>
       <ion-col>
         6
@@ -181,17 +181,14 @@
         2
       </ion-col>
       <ion-col>
-        <ion-fab>
-          <!--button ion-fab>Raise</--button-->
-          <ion-range min="10" max="lobby.players[playerNumber].cash" step="10" snaps="true" [(ngModel)]="raiseCash"></ion-range>
-        </ion-fab>
+        <button ion-fab (click)="raise()" *ngIf="lobby.activePlayer == playerNumber">Raise</button>
       </ion-col>
       <ion-col>
         <img src="../../assets/cardbacks/custom1.png">
         <img src="../../assets/cardbacks/custom1.png">
       </ion-col>
       <ion-col>
-        <button ion-fab>Pass</button>
+        <button ion-fab (click)="pass()" *ngIf="lobby.activePlayer == playerNumber">Pass</button>
       </ion-col>
       <ion-col>
         6
