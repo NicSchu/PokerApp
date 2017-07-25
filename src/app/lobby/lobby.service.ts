@@ -72,7 +72,6 @@ export class LobbyService {
   private copyAndPrepareLobby(lobby: any) : Lobby {
     let newLobby = Lobby.createWith(lobby);
     newLobby.name = newLobby.name || null;
-    newLobby.deck = newLobby.deck || null;
     newLobby.status = newLobby.status || null;
     newLobby.players = newLobby.players || null;
     newLobby.id = null;

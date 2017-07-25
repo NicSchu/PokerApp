@@ -66,8 +66,7 @@ export const firebaseConfig = {
     CardbackPickerComponent,
     LobbyIngamePageComponent,
     FriendsAddPageComponent,
-    LobbyWaitingPageComponent,
-    Logic
+    LobbyWaitingPageComponent
   ],
   imports: [
     BrowserModule,
@@ -94,8 +93,7 @@ export const firebaseConfig = {
     CardbackPickerComponent,
     FriendsAddPageComponent,
     LobbyIngamePageComponent,
-    LobbyWaitingPageComponent,
-    Logic
+    LobbyWaitingPageComponent
   ],
   providers: [
     StatusBar,
