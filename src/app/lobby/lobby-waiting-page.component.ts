@@ -14,7 +14,7 @@ import {Profile} from "../profile/profile.model";
 })
 export class LobbyWaitingPageComponent {
   private lobby = new Lobby();
-  private playerNumber: number;
+  private playerNumber: number = -1;
   private profile : Profile;
 
   constructor(public viewCtrl: ViewController,
@@ -22,9 +22,9 @@ export class LobbyWaitingPageComponent {
               private subscriptionService: SubscriptionService,
               private lobbyService: LobbyService){
     this.lobby = this.navParams.data.lobby;
-    this.profile = this.navParams.data;
-    console.log(this.profile)
-    console.log(this.lobby)
+    this.profile = this.navParams.data.profile;
+    console.log(this.profile);
+    console.log(this.lobby);
 
     this.subscriptionService.addSubscription(
       this.lobbyService.getLobbyById(this.lobby.id).subscribe(
@@ -37,6 +37,7 @@ export class LobbyWaitingPageComponent {
             }
           }
         }
-      ));
+      )
+    );
   }
 }

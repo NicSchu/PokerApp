@@ -46,13 +46,11 @@ export class LobbyIngamePageComponent{
   ionViewDidLoad(){
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
     //this.profileObservable = this.profileService.getCurrentProfile();
-    console.log(this.lobby);
 
     this.subscriptionService.addSubscription(
       this.profileService.getCurrentProfile().subscribe(
         (profile: Profile) => {
           this.profile = profile;
-          console.log(this.profile);
           this.lobby.players[this.lobby.players.length] = new Player(
             this.profile.name, this.profile.cash, this.profile.email
             /*, this.profile.accAchievements, this.profile.roundsPlayed*/
@@ -72,7 +70,6 @@ export class LobbyIngamePageComponent{
                   this.waitingPage();
                   this.firstRun = false;
                 }
-
               }
             ));
         }
