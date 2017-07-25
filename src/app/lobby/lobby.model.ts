@@ -1,5 +1,5 @@
 import {Player} from "./player.model";
-import {Deck} from "./deck.model";
+import {PlayingCard} from "../logic/cards.model";
 /**
  * Created by sebb9 on 01.07.2017.
  */
@@ -8,7 +8,9 @@ export class Lobby {
   constructor(public id?: string,
               public name? : string,
               public status? : string, //TODO - ist das Attribut wirklich notwendig???
-              public deck: Deck = new Deck(),
+              public tableCards: PlayingCard[] = [],
+              public smallBlind: number = 0,
+              public currentMaxEntry: number = 0,
               public pot : number = 0,
               public activePlayer : number = 0,
               public gameStarted: boolean = false,

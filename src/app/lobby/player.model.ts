@@ -7,6 +7,9 @@ export class Player {
   constructor(public name: string,
               public cash: number,
               public id: string,
+              public playing: boolean = false,
+              public entry: number = 0,
+              public isCoward: boolean = false,
               //public achievements: string[],
               //public roundsPlayed: number,
               public hand: PlayingCard[] = null) {

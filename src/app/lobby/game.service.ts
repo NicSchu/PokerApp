@@ -35,30 +35,6 @@ export class GameService {
     //this.deck.reCreateDeck();
   }
 
-  /*public pushPlayer(player: Player) : void {
-    //this.fbPlayers.push(this.copyAndPreparePlayer(player))
-  }*/
-
-
-  /*public pushPlayers(lobby: Lobby) {
-    this.fbPlayers = this.afDb.list('/lobbies/' + lobby.id + '/players')
-
-    this.players = this.fbPlayers.map(
-      (fbPlayers: any[]): Player[] => {
-        return fbPlayers.map(
-          fbItem => {
-            let player = Player.createWith(fbItem);
-            player.id = fbItem.$key;
-            return player;
-          });
-      }
-    )
-  }*/
-
-  /*getPlayers(): Observable<Player[]> {
-    return this.players;
-  }*/
-
   private initFirebaseObject() {
     //user must be logged in!
     if (!this.fbDeck) {

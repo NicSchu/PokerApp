@@ -24,6 +24,8 @@ export class LobbyWaitingPageComponent {
     this.lobby = this.navParams.data.lobby;
     this.profile = this.navParams.data.profile;
 
+    //TODO Waitingpage für alle nicht Teilnehmer nach Spielstart hinzufügen
+    //TODO definiere endGame, um started Lobby zurückzusetzen
     this.subscriptionService.addSubscription(
       this.lobbyService.getLobbyById(this.lobby.id).subscribe(
         (lobby: Lobby) => {

@@ -1,7 +1,7 @@
 import {PlayingCard} from "./cards.model";
 import {HandRating} from "./hand-rating.module";
 
-export class LogicPageComponent{
+export class Logic{
   toBeRatedHand: PlayingCard[];
   ratedHand: PlayingCard[];
 

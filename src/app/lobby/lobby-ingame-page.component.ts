@@ -10,6 +10,7 @@ import {Profile} from "../profile/profile.model";
 import {Observable} from "rxjs/Observable";
 import {ScreenOrientation} from "@ionic-native/screen-orientation";
 import {LobbyWaitingPageComponent} from "./lobby-waiting-page.component";
+import {Deck} from "./deck.model";
 /**
  * Created by Silas on 07.07.2017.
  */
@@ -21,7 +22,6 @@ import {LobbyWaitingPageComponent} from "./lobby-waiting-page.component";
 export class LobbyIngamePageComponent{
   showedTableCards: number = 1;
   lobby: Lobby;
-  //profileObservable : Observable<Profile>;
   profile : Profile = null;
   canLeave: boolean = false;
   playerNumber: number;
@@ -38,14 +38,11 @@ export class LobbyIngamePageComponent{
               private screenOrientation: ScreenOrientation,
               private modalCtrl : ModalController) {
     this.lobby = this.navParams.data.lobby;
-
-
   }
 
   //ansatz mit: ionviewdidload(), subscription auf profile,
   ionViewDidLoad(){
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
-    //this.profileObservable = this.profileService.getCurrentProfile();
 
     this.subscriptionService.addSubscription(
       this.profileService.getCurrentProfile().subscribe(
@@ -82,11 +79,16 @@ export class LobbyIngamePageComponent{
     modal.onDidDismiss(
       ready => {
         if (ready){
-          //TODO Spielstart definieren und insgesamt Spielablauf implementieren
-          this.lobby.gameStarted = true;
-          this.lobbyService.update(this.lobby);
+          //TODO insgesamt Spielablauf implementieren
+          if (this.playerNumber == 0) {
+            this.lobby.gameStarted = true;
+            for (let player of this.lobby.players) player.playing = true;
+            this.beginRound();
+            this.lobbyService.update(this.lobby);
+          }
+          //TODO -> Mögen die Spiele beginnen!
+
         }else{
-          //irgendwas ist schief gegangen, deshalb
           this.canLeave = true;
           this.closeAndReset();
         }
@@ -99,12 +101,18 @@ export class LobbyIngamePageComponent{
     this.quitLobby();
   }
 
-  closeAndReset(){
-    document.getElementsByClassName('tabbar')[0].setAttribute("display", "true");
-    this.screenOrientation.unlock();
-    this.canLeave = true;
-    this.logoutFromLobby();
-    this.navCtrl.pop();
+  beginRound(){
+    let deck = new Deck();
+    deck.shuffle();
+    for (let player of this.lobby.players){
+      if (player.playing){
+        player.hand.push(deck.cards.pop());
+        player.hand.push(deck.cards.pop());
+      }
+    }
+    for (let i = 0; i < 5; i++){
+      this.lobby.tableCards.push(deck.cards.pop());
+    }
   }
 
   quitLobby(){
@@ -127,8 +135,11 @@ export class LobbyIngamePageComponent{
     alert.present();
   }
 
+  closeAndReset(){
+    document.getElementsByClassName('tabbar')[0].setAttribute("display", "true");
+    this.screenOrientation.unlock();
+    this.canLeave = true;
 
-  logoutFromLobby(){
     for (let i = 0; i < this.lobby.players.length; i++){
       if (this.lobby.players[i].id == this.profile.email){
         this.lobby.players.splice(i,1);
@@ -136,15 +147,38 @@ export class LobbyIngamePageComponent{
       }
     }
     this.lobbyService.update(this.lobby);
+
+    this.navCtrl.pop();
   }
 
-  /*public getObservableLobby() {
-    let localLobbies = this.lobbyService.getObservableLobbies();
-    //return localLobbies.filter((localLobby) => localLobby.id == this.lobby.id)
-  }*/
-
-  ionViewDidEnter(){
-    //changeOriantationLandspace()
+  nextPlayersTurn(){
+    let next;
+    if (this.playerNumber < this.lobby.players.length && this.lobby.players[this.playerNumber+1].playing){
+      next = this.playerNumber + 1;
+    }else next = 0;
+    this.lobbyService.update(this.lobby);
   }
 
+  //geht immer, solange in der letzten Runde niemand geraised hat
+  //-> Einsatz
+  check(){
+    this.nextPlayersTurn();
+  }
+
+  //geht immer, solange Geld vorhanden
+  raise(){
+
+  }
+
+  //muss ich mindestens machen, um im Spiel zu bleiben.
+  //geht nicht, wenn keiner geraised hat
+  call(){
+
+  }
+
+  //Geht immer -> aussteigen
+  pass(){
+    this.lobby.players[this.playerNumber].isCoward = true;
+    this.nextPlayersTurn();
+  }
 }
