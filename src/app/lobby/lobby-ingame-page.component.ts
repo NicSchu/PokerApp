@@ -53,14 +53,6 @@ export class LobbyIngamePageComponent{
     this.lobby = this.navParams.data.lobby;
   }
 
-  buildPicPath(pc: PlayingCard):string{
-    let str ="assets/svg/cardbacks/";
-    str += pc.color;
-    str += pc.value;
-    str += ".svg";
-    return str;
-  }
-
   //ansatz mit: ionviewdidload(), subscription auf profile,
   ionViewDidLoad(){
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
