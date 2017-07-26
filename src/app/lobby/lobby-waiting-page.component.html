@@ -18,9 +18,13 @@
     <h2>Spieler in der Lobby:</h2>
   </ion-label>
   <ion-list *ngIf="lobby.players.length > 0">
-    <h5 *ngFor="let player of lobby.players">
-      {{player.name}}
-    </h5>
+    <div *ngFor="let player of lobby.players">
+      <h5>
+        {{player.name}}
+      </h5>
+      <ion-label *ngIf="player.playing">In Game</ion-label>
+      <ion-label *ngIf="!player.playing">Waiting</ion-label>
+    </div>
   </ion-list>
 
   <ion-buttons>
