@@ -79,8 +79,7 @@ export class LobbyIngamePageComponent{
                   this.waitingPage();
                   this.firstRun = false;
                 } else if (this.lobby.showedTableCards != turnedCards)
-                    this.turnAroundCards(turnedCards)
-
+                  this.turnAroundCards(turnedCards)
               }
             ));
         }
@@ -156,21 +155,16 @@ export class LobbyIngamePageComponent{
     document.getElementsByClassName('tabbar')[0].setAttribute("display", "true");
     this.screenOrientation.unlock();
     this.canLeave = true;
+
     this.profile.cash = this.lobby.players[this.playerNumber].cash;
     this.lobby.players.splice(this.playerNumber,1);
 
-    /*for (let i = 0; i < this.lobby.players.length; i++){
-      if (this.lobby.players[i].id == this.profile.email){
-        this.lobby.players.splice(i,1);
-        break;
-      }
-    }*/
     this.loaded = false;
     this.lobbyService.update(this.lobby);
 
     this.subscriptionService.removeSubscription(this.subP);
     this.subscriptionService.removeSubscription(this.subL);
-    this.subP.unsubscribe();
+
     this.subL.unsubscribe();
 
     this.navCtrl.pop();
