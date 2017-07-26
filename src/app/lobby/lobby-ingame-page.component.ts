@@ -32,11 +32,9 @@ export class LobbyIngamePageComponent{
   public table: PlayingCard[];
 
   /*TODO Liste für morgen den 26.07
-    3. Tischkarten nach und nach umdrehen
     4. Logic einbinden und Sieger bestimmen
     5. Andere Siegfälle klären (alle leaven oder alle passen)
     6. Achievements und Runden updaten
-    7. Bilder auf Handy fixen
   * */
 
   constructor(private navParams: NavParams,
@@ -272,13 +270,15 @@ export class LobbyIngamePageComponent{
   call(){
     let call = this.lobby.currentMaxEntry - this.lobby.players[this.playerNumber].entry;
     if (this.lobby.players[this.playerNumber].cash >= call){
-      this.lobby.players[this.playerNumber].cash - call;
+      this.lobby.players[this.playerNumber].cash -= call;
       this.lobby.pot += call;
     }else{
       // All-In
-      this.lobby.pot += this.lobby.players[this.playerNumber].cash;
+      call = this.lobby.pot += this.lobby.players[this.playerNumber].cash;
+      this.lobby.pot += call;
       this.lobby.players[this.playerNumber].cash = 0;
     }
+    this.lobby.players[this.playerNumber].entry += call;
     this.nextPlayersTurn();
   }
 
