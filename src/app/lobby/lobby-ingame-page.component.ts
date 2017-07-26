@@ -83,7 +83,10 @@ export class LobbyIngamePageComponent{
                   this.waitingPage();
                   this.firstRun = false;
                 } else if (this.lobby.showedTableCards != turnedCards)
-                  this.turnAroundCards(turnedCards)
+                  this.turnAroundCards(turnedCards);
+                if (this.lobby.status == "fin" && this.playerNumber == 0){
+                  this.endRound();
+                }
               }
             ));
         }
@@ -98,7 +101,6 @@ export class LobbyIngamePageComponent{
         if (ready){
           if (this.playerNumber == 0) {
             this.lobby.gameStarted = true;
-            for (let player of this.lobby.players) player.playing = true;
             console.log(this.lobby.players);
             this.beginRound();
             this.lobbyService.update(this.lobby);
@@ -125,6 +127,8 @@ export class LobbyIngamePageComponent{
   beginRound(){
     let deck = new Deck();
     deck.shuffle();
+    this.lobby.status = "";
+    for (let player of this.lobby.players) player.playing = true;
     for (let player of this.lobby.players){
       if (player.playing){
         player.hand = [];
@@ -132,9 +136,15 @@ export class LobbyIngamePageComponent{
         player.hand.push(deck.cards.pop());
       }
     }
+    this.lobby.tableCards = [];
     for (let i = 0; i < 5; i++){
       this.lobby.tableCards.push(deck.cards.pop());
     }
+    //TODO mach irgendwas mit smallblind/bigblind
+    this.lobby.activePlayer = 0;
+    this.lobby.currentMaxEntry = 0;
+    this.lobby.pot = 0;
+    this.lobby.showedTableCards = 0;
   }
 
   quitLobby(){
@@ -168,7 +178,7 @@ export class LobbyIngamePageComponent{
 
     this.subscriptionService.removeSubscription(this.subP);
     this.subscriptionService.removeSubscription(this.subL);
-
+    this.subP.unsubscribe();
     this.subL.unsubscribe();
 
     this.navCtrl.pop();
@@ -181,7 +191,7 @@ export class LobbyIngamePageComponent{
       (player) => {return !player.isCoward && player.playing}
     );
     if (activePlayer.length == 1) {
-      this.endRound(activePlayer);
+      this.triggerHost();
     }else this.next(next);
 
     if (this.lobby.activePlayer == this.playerWithLastRaise)
@@ -218,10 +228,7 @@ export class LobbyIngamePageComponent{
       table.src = this.buildPicPath(this.lobby.tableCards[4]);
       this.lobby.showedTableCards = 5;
     }else{
-      let activePlayer = this.lobby.players.filter(
-        (player) => {return !player.isCoward && player.playing}
-      );
-      this.endRound(activePlayer);
+      this.triggerHost();
     }
   }
 
@@ -290,17 +297,36 @@ export class LobbyIngamePageComponent{
     this.nextPlayersTurn();
   }
 
-  endRound(possibleWinners: Player[]){
-    if (possibleWinners.length == 1){
-      this.lobby.lastRoundWinner = possibleWinners[0];
-      //wir haben einen Gewinner! hurra!
+  triggerHost(){
+    this.lobby.status = "fin";
+    this.lobbyService.update(this.lobby);
+  }
+
+  endRound(){
+    let possibleWinners = this.lobby.players.filter(
+      (player) => {return !player.isCoward && player.playing}
+    );
+    let winners: number[] = [0];
+    if (possibleWinners.length > 1){
+     let ratings: HandRating[] = [];
+      for (let player of possibleWinners){
+        ratings.push(this.logic.rateHand(this.lobby.tableCards, player.hand));
+      }
+      console.log(ratings);
+      for (let i = 1; i < ratings.length-1; i++){
+        switch (ratings[winners[0]].compare(ratings[i])){
+          case -1: winners = [i];
+            break;
+          case  0: winners.push(i);
+            break;
+        }
+      }
     }
-    let ratings: HandRating[] = [];
-    for (let player of possibleWinners){
-      ratings.push(this.logic.rateHand(this.lobby.tableCards, player.hand));
+    for (let index of winners){
+      possibleWinners[index].cash += this.lobby.pot/winners.length;
+      console.log(possibleWinners[index]);
     }
-    console.log(ratings);
-    //TODO nächste Runde vorbereiten
+    this.beginRound();
   }
 
   buildPicPath(pc: PlayingCard):string{
