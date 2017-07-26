@@ -16,6 +16,7 @@ export class LobbyWaitingPageComponent {
   private lobby = new Lobby();
   private playerNumber: number = -1;
   private profile : Profile;
+  private sub;
 
   constructor(public viewCtrl: ViewController,
               private navParams: NavParams,
@@ -27,7 +28,7 @@ export class LobbyWaitingPageComponent {
     //TODO Waitingpage für alle nicht Teilnehmer nach Spielstart hinzufügen
     //TODO definiere endGame, um started Lobby zurückzusetzen
     this.subscriptionService.addSubscription(
-      this.lobbyService.getLobbyById(this.lobby.id).subscribe(
+      this.sub = this.lobbyService.getLobbyById(this.lobby.id).subscribe(
         (lobby: Lobby) => {
           this.lobby = lobby;
           for (let i = 0; i < lobby.players.length; i++){
@@ -40,5 +41,11 @@ export class LobbyWaitingPageComponent {
         }
       )
     );
+  }
+
+  leaveWaiting(){
+    this.subscriptionService.removeSubscription(this.sub);
+    this.sub.unsubscribe();
+    this.viewCtrl.dismiss(false);
   }
 }
