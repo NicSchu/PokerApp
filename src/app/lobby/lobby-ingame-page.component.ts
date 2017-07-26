@@ -20,6 +20,7 @@ import {Deck} from "./deck.model";
 })
 export class LobbyIngamePageComponent{
   playerWithLastRaise: number = 0;
+  //showedTableCards: number = 0;
   lobby: Lobby;
   profile : Profile = null;
   canLeave: boolean = false;
@@ -69,6 +70,7 @@ export class LobbyIngamePageComponent{
           this.subscriptionService.addSubscription(
             this.subL = this.lobbyService.getLobbyById(this.lobby.id).subscribe(
               (lobby: Lobby) => {
+                let turnedCards = this.lobby.showedTableCards;
                 this.lobby = lobby;
                 for (let i = 0; i < lobby.players.length; i++){
                   if (lobby.players[i].id == this.profile.email){
@@ -80,7 +82,8 @@ export class LobbyIngamePageComponent{
                   this.waitingPage();
                   this.firstRun = false;
                 }
-                this.turnAroundCards()
+                else if (this.lobby.showedTableCards != turnedCards)
+                  this.turnAroundCards()
               }
             ));
         }
@@ -201,18 +204,21 @@ export class LobbyIngamePageComponent{
       table = document.getElementById("table3") as HTMLImageElement;
       table.src = this.buildPicPath(this.lobby.tableCards[3]);
       this.lobby.showedTableCards = 3;
+      //this.showedTableCards = 3;
       this.lobbyService.update(this.lobby);
     }
     else if (this.lobby.showedTableCards == 3) {
       let table = document.getElementById("table4") as HTMLImageElement;
       table.src = this.buildPicPath(this.lobby.tableCards[4]);
       this.lobby.showedTableCards = 4;
+      //this.showedTableCards = 4;
       this.lobbyService.update(this.lobby);
     }
     else if (this.lobby.showedTableCards == 4) {
       let table = document.getElementById("table5") as HTMLImageElement;
       table.src = this.buildPicPath(this.lobby.tableCards[5]);
       this.lobby.showedTableCards = 5;
+      //this.showedTableCards = 5;
       this.lobbyService.update(this.lobby);
     }
     else this.endRound();
