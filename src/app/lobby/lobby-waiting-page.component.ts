@@ -36,7 +36,7 @@ export class LobbyWaitingPageComponent {
               break;
             }
           }
-          if (this.playerNumber != 0 && lobby.gameStarted) viewCtrl.dismiss(true);
+          if (this.playerNumber != 0 && lobby.gameStarted && this.lobby.players[this.playerNumber].playing) viewCtrl.dismiss(true);
         }
       )
     );

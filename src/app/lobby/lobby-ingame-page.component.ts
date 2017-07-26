@@ -66,7 +66,9 @@ export class LobbyIngamePageComponent{
             /*, this.profile.accAchievements, this.profile.roundsPlayed*/
           );
           this.lobbyService.update(this.lobby);
+          //Ist das nicht zu früh?!
           this.loaded = true;
+          //TODO Anzeige!
           this.subscriptionService.addSubscription(
             this.lobbyService.getLobbyById(this.lobby.id).subscribe(
               (lobby: Lobby) => {

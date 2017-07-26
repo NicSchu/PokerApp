@@ -14,8 +14,8 @@ export class Lobby {
               public pot : number = 0,
               public activePlayer : number = 0,
               public gameStarted: boolean = false,
-              public players : Player[] = []) { //TODO - satus evtl duch klasse ersetzen, mit static => Enum
-
+              public players : Player[] = []) {
+    //TODO - satus evtl duch klasse ersetzen, mit static => Enum
   }
 
   public static createWith(lobby: any) : Lobby {

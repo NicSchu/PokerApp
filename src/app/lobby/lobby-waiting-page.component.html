@@ -7,10 +7,13 @@
 <body>
   <ion-header>
     <ion-navbar>
-      <ion-title>Waiting</ion-title>
+      <ion-title>Waiting in Lobby {{lobby.name}}</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content padding>
+  <ion-label *ngIf="lobby.players[0].playing">
+    <h2>Round is running. Please wait...</h2>
+  </ion-label>
   <ion-label>
     <h2>Spieler in der Lobby:</h2>
   </ion-label>
@@ -19,6 +22,7 @@
       {{player.name}}
     </h5>
   </ion-list>
+
   <ion-buttons>
     <button ion-button (click)="viewCtrl.dismiss(false)">Leave Lobby</button>
     <button ion-button (click)="viewCtrl.dismiss(true)" *ngIf="playerNumber == 0 && lobby.players.length >= 2">Start Game</button>
