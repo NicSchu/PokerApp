@@ -20,11 +20,14 @@
       justify-content: flex-end;
     }
 
+    ion-content {
+      background: url('assets/svg/Table/table.svg') no-repeat center center fixed;
+    }
+
     ion-grid {
       height: 100%;
       width: 100%;
       display:flex;
-      background: url('../../assets/svg/Table/table.svg') no-repeat center center fixed;
     }
   </style>
 </ion-header>
@@ -93,8 +96,8 @@
         <button ion-fab (click)="call()" *ngIf="lobby.activePlayer == playerNumber">Call</button>
       </ion-col>
       <ion-col class="align-center">
-        <img id="self1" src="assets/svg/cards/custom1.svg">
-        <img id="self2" src="assets/svg/cards/custom1.svg">
+        <img id="self1" src="assets/svg/cardbacks/custom1.svg">
+        <img id="self2" src="assets/svg/cardbacks/custom1.svg">
       </ion-col>
       <ion-col class="align-center">
         <button ion-fab (click)="check()" *ngIf="lobby.activePlayer == playerNumber">Check</button>

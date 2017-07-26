@@ -255,7 +255,7 @@ export class LobbyIngamePageComponent{
   }
 
   buildPicPath(pc: PlayingCard):string{
-    let str ="assets/svg/cards/";
+    let str ="assets/svg/Cards/";
     str += pc.color;
     str += pc.value;
     str += ".svg";
