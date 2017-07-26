@@ -105,9 +105,9 @@ export class LobbyIngamePageComponent{
           }
 
           //Change the own card(back) so it shows a face of a playing card
-          let self = document.getElementById("self1") as HTMLImageElement;
+          let self = document.getElementById("self0") as HTMLImageElement;
           self.src = this.buildPicPath(this.lobby.players[this.playerNumber].hand[0]);
-          self = document.getElementById("self2") as HTMLImageElement;
+          self = document.getElementById("self1") as HTMLImageElement;
           self.src = this.buildPicPath(this.lobby.players[this.playerNumber].hand[1]);
         }else{
           this.canLeave = true;
@@ -197,26 +197,26 @@ export class LobbyIngamePageComponent{
 
   turnAroundCards(turnedCards: number){
     if (turnedCards == 0) {
-      let table = document.getElementById("table1") as HTMLImageElement;
+      let table = document.getElementById("table0") as HTMLImageElement;
+      table.src = this.buildPicPath(this.lobby.tableCards[0]);
+      table = document.getElementById("table1") as HTMLImageElement;
       table.src = this.buildPicPath(this.lobby.tableCards[1]);
       table = document.getElementById("table2") as HTMLImageElement;
       table.src = this.buildPicPath(this.lobby.tableCards[2]);
-      table = document.getElementById("table3") as HTMLImageElement;
-      table.src = this.buildPicPath(this.lobby.tableCards[3]);
       this.lobby.showedTableCards = 3;
       //this.showedTableCards = 3;
       //this.lobbyService.update(this.lobby);
     }
     else if (turnedCards == 3) {
-      let table = document.getElementById("table4") as HTMLImageElement;
-      table.src = this.buildPicPath(this.lobby.tableCards[4]);
+      let table = document.getElementById("table3") as HTMLImageElement;
+      table.src = this.buildPicPath(this.lobby.tableCards[3]);
       this.lobby.showedTableCards = 4;
       //this.showedTableCards = 4;
       //this.lobbyService.update(this.lobby);
     }
     else if (turnedCards == 4) {
-      let table = document.getElementById("table5") as HTMLImageElement;
-      table.src = this.buildPicPath(this.lobby.tableCards[5]);
+      let table = document.getElementById("table4") as HTMLImageElement;
+      table.src = this.buildPicPath(this.lobby.tableCards[4]);
       this.lobby.showedTableCards = 5;
       //this.showedTableCards = 5;
       //this.lobbyService.update(this.lobby);

@@ -58,11 +58,11 @@
         </ion-label>
       </ion-col>
       <ion-col class="align-center">
+        <img id="table0" src="assets/svg/cardbacks/custom1.svg">
         <img id="table1" src="assets/svg/cardbacks/custom1.svg">
         <img id="table2" src="assets/svg/cardbacks/custom1.svg">
         <img id="table3" src="assets/svg/cardbacks/custom1.svg">
         <img id="table4" src="assets/svg/cardbacks/custom1.svg">
-        <img id="table5" src="assets/svg/cardbacks/custom1.svg">
       </ion-col>
       <ion-col class="align-right">
         <ion-label *ngIf="loaded && lobby.players.length >= 4 && lobby.players[(playerNumber+3)%lobby.players.length].playing" class="align-right">
@@ -96,8 +96,8 @@
         <button ion-fab (click)="call()" *ngIf="lobby.activePlayer == playerNumber">Call</button>
       </ion-col>
       <ion-col class="align-center">
+        <img id="self0" src="assets/svg/cardbacks/custom1.svg">
         <img id="self1" src="assets/svg/cardbacks/custom1.svg">
-        <img id="self2" src="assets/svg/cardbacks/custom1.svg">
       </ion-col>
       <ion-col class="align-center">
         <button ion-fab (click)="check()" *ngIf="lobby.activePlayer == playerNumber">Check</button>
