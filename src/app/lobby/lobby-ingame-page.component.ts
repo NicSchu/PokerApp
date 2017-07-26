@@ -102,6 +102,12 @@ export class LobbyIngamePageComponent{
             this.beginRound();
             this.lobbyService.update(this.lobby);
           }
+
+          //Change the own card(back) so it shows a face of a playing card
+          let self = document.getElementById("self1") as HTMLImageElement;
+          self.src = this.buildPicPath(this.lobby.players[this.playerNumber].hand[0]);
+          self = document.getElementById("self2") as HTMLImageElement;
+          self.src = this.buildPicPath(this.lobby.players[this.playerNumber].hand[1]);
         }else{
           this.canLeave = true;
           this.closeAndReset();
@@ -246,5 +252,14 @@ export class LobbyIngamePageComponent{
   pass(){
     this.lobby.players[this.playerNumber].isCoward = true;
     this.nextPlayersTurn();
+  }
+
+  buildPicPath(pc: PlayingCard):string{
+    let str ="assets/svg/cards/";
+    str += pc.color;
+    str += pc.value;
+    str += ".svg";
+    console.log(str);
+    return str;
   }
 }
