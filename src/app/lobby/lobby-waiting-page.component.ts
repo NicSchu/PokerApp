@@ -25,7 +25,6 @@ export class LobbyWaitingPageComponent {
     this.lobby = this.navParams.data.lobby;
     this.profile = this.navParams.data.profile;
 
-    //TODO Waitingpage für alle nicht Teilnehmer nach Spielstart hinzufügen
     //TODO definiere endGame, um started Lobby zurückzusetzen
     this.subscriptionService.addSubscription(
       this.sub = this.lobbyService.getLobbyById(this.lobby.id).subscribe(
@@ -37,15 +36,15 @@ export class LobbyWaitingPageComponent {
               break;
             }
           }
-          if (this.playerNumber != 0 && lobby.gameStarted && this.lobby.players[this.playerNumber].playing) viewCtrl.dismiss(true);
+          if (this.playerNumber != 0 && lobby.gameStarted && this.lobby.players[this.playerNumber].playing) this.leaveWaiting(true);
         }
       )
     );
   }
 
-  leaveWaiting(){
-    this.subscriptionService.removeSubscription(this.sub);
+  leaveWaiting(start: boolean){
     this.sub.unsubscribe();
-    this.viewCtrl.dismiss(false);
+    this.subscriptionService.removeSubscription(this.sub);
+    this.viewCtrl.dismiss(start);
   }
 }

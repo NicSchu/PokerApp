@@ -34,7 +34,7 @@ export class LobbyIngamePageComponent{
   public table: PlayingCard[];
 
   /*TODO Liste für morgen den 26.07
-    2. eigene Karten anzeigen und andere Karten auch nur bei Bedarf anzeigen
+    2. eigene Karten anzeigen
     3. Tischkarten nach und nach umdrehen
     4. Logic einbinden und Sieger bestimmen
     5. Andere Siegfälle klären (alle leaven oder alle passen)
@@ -51,6 +51,14 @@ export class LobbyIngamePageComponent{
               private screenOrientation: ScreenOrientation,
               private modalCtrl : ModalController) {
     this.lobby = this.navParams.data.lobby;
+  }
+
+  buildPicPath(pc: PlayingCard):string{
+    let str ="assets/svg/cardbacks/";
+    str += pc.color;
+    str += pc.value;
+    str += ".svg";
+    return str;
   }
 
   //ansatz mit: ionviewdidload(), subscription auf profile,
@@ -158,11 +166,11 @@ export class LobbyIngamePageComponent{
     document.getElementsByClassName('tabbar')[0].setAttribute("display", "true");
     this.screenOrientation.unlock();
     this.canLeave = true;
-    this.subscriptionService.removeSubscription(this.subP);
+    /*this.subscriptionService.removeSubscription(this.subP);
     this.subscriptionService.removeSubscription(this.subL);
     this.subP.unsubscribe();
     this.subL.unsubscribe();
-
+    */
     for (let i = 0; i < this.lobby.players.length; i++){
       if (this.lobby.players[i].id == this.profile.email){
         this.lobby.players.splice(i,1);

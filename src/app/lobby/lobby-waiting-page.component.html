@@ -28,8 +28,8 @@
   </ion-list>
 
   <ion-buttons>
-    <button ion-button (click)="leaveWaiting()">Leave Lobby</button>
-    <button ion-button (click)="viewCtrl.dismiss(true)" *ngIf="playerNumber == 0 && lobby.players.length >= 2">Start Game</button>
+    <button ion-button (click)="leaveWaiting(false)">Leave Lobby</button>
+    <button ion-button (click)="leaveWaiting(true)" *ngIf="playerNumber == 0 && lobby.players.length >= 2">Start Game</button>
   </ion-buttons>
 </ion-content>
 </body>
