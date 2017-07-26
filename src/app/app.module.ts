@@ -112,7 +112,8 @@ export const firebaseConfig = {
     GameService,
     FriendsService,
     PlayerService,
-    ScreenOrientation
+    ScreenOrientation,
+    Logic
   ]
 })
 export class AppModule {}

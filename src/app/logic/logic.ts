@@ -6,14 +6,6 @@ export class Logic{
   ratedHand: PlayingCard[];
 
   constructor(/*hand: PlayingCard[]*/){
-    this.toBeRatedHand = [
-      new PlayingCard(2,0),
-      new PlayingCard(5,2),
-      new PlayingCard(3,0),
-      new PlayingCard(14,0),
-      new PlayingCard(5,0),
-      new PlayingCard(11,0),
-      new PlayingCard(2,3)];
     this.ratedHand = [new PlayingCard];
   }
 
@@ -32,7 +24,9 @@ export class Logic{
   // 2 - Pair
   // 1 - High Card
   // */
-  rateHand() {
+  rateHand(tableCards: PlayingCard[], handcards:PlayingCard[]):HandRating {
+    this.toBeRatedHand = tableCards.concat(handcards);
+
     let hand : HandRating = null;
     this.toBeRatedHand.sort(function(a, b){return a.value-b.value});
     if(this.isStraight()){
@@ -174,10 +168,12 @@ export class Logic{
    * completes the hand - object with number of missing high cards to complete HandRating object to 5 cards
    * */
   highCards(numcards: number, forbiddenValue: number[], hand: HandRating){
+    debugger;
     let next = hand;
     while (next.nextHand != null) next = next.nextHand;
     for (let i = this.toBeRatedHand.length-1; numcards > 0; i--){
-      if (!(this.toBeRatedHand[i].value in forbiddenValue)){
+      console.log(forbiddenValue.indexOf(this.toBeRatedHand[i].value));
+      if (forbiddenValue.indexOf(this.toBeRatedHand[i].value) < 0){
         next.nextHand = new HandRating(1,this.toBeRatedHand[i].value);
         next = next.nextHand;
         numcards--;

@@ -10,6 +10,7 @@ export class Lobby {
               public status? : string, //TODO - ist das Attribut wirklich notwendig???
               public tableCards: PlayingCard[] = [],
               public smallBlind: number = 0,
+              public lastRoundWinner: Player = null, //die 5 ist niemand! niemand hat gewonnen
               public currentMaxEntry: number = 0,
               public showedTableCards: number = 0,
               public pot : number = 0,

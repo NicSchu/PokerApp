@@ -10,13 +10,16 @@ import {Profile} from "../profile/profile.model";
 import {ScreenOrientation} from "@ionic-native/screen-orientation";
 import {LobbyWaitingPageComponent} from "./lobby-waiting-page.component";
 import {Deck} from "./deck.model";
+import {Logic} from "../logic/logic";
+import {HandRating} from "../logic/hand-rating.module";
 /**
  * Created by Silas on 07.07.2017.
  */
 
 @Component({
   selector: "lobby-ingame-page",
-  templateUrl: "lobby-ingame-page.component.html"
+  templateUrl: "lobby-ingame-page.component.html",
+  providers: [Logic]
 })
 export class LobbyIngamePageComponent{
   playerWithLastRaise: number = 0;
@@ -37,7 +40,8 @@ export class LobbyIngamePageComponent{
     6. Achievements und Runden updaten
   * */
 
-  constructor(private navParams: NavParams,
+  constructor(private logic: Logic,
+              private navParams: NavParams,
               private alertCtrl : AlertController,
               private lobbyService: LobbyService,
               private profileService: ProfileService,
@@ -157,9 +161,9 @@ export class LobbyIngamePageComponent{
     this.canLeave = true;
 
     this.profile.cash = this.lobby.players[this.playerNumber].cash;
+    this.loaded = false;
     this.lobby.players.splice(this.playerNumber,1);
 
-    this.loaded = false;
     this.lobbyService.update(this.lobby);
 
     this.subscriptionService.removeSubscription(this.subP);
@@ -177,13 +181,21 @@ export class LobbyIngamePageComponent{
       (player) => {return !player.isCoward && player.playing}
     );
     if (activePlayer.length == 1) {
-      this.endRound();
+      this.endRound(activePlayer);
     }else this.next(next);
 
     if (this.lobby.activePlayer == this.playerWithLastRaise)
       this.turnAroundCards(this.lobby.showedTableCards);
 
     this.lobbyService.update(this.lobby);
+  }
+
+  next(next: number){
+    if (next < this.lobby.players.length -1 && this.lobby.players[next+1].playing){
+      next = next + 1;
+    }else next = 0;
+    if (this.lobby.players[next].isCoward) this.next(next);
+    else this.lobby.activePlayer = next;
   }
 
   turnAroundCards(turnedCards: number){
@@ -205,16 +217,12 @@ export class LobbyIngamePageComponent{
       let table = document.getElementById("table4") as HTMLImageElement;
       table.src = this.buildPicPath(this.lobby.tableCards[4]);
       this.lobby.showedTableCards = 5;
+    }else{
+      let activePlayer = this.lobby.players.filter(
+        (player) => {return !player.isCoward && player.playing}
+      );
+      this.endRound(activePlayer);
     }
-    else this.endRound();
-  }
-
-  next(next: number){
-    if (next < this.lobby.players.length -1 && this.lobby.players[next+1].playing){
-      next = next + 1;
-    }else next = 0;
-    if (this.lobby.players[next].isCoward) this.next(next);
-    else this.lobby.activePlayer = next;
   }
 
   //geht immer, solange in der letzten Runde niemand geraised hat
@@ -282,9 +290,17 @@ export class LobbyIngamePageComponent{
     this.nextPlayersTurn();
   }
 
-  //TODO
-  endRound(){
-
+  endRound(possibleWinners: Player[]){
+    if (possibleWinners.length == 1){
+      this.lobby.lastRoundWinner = possibleWinners[0];
+      //wir haben einen Gewinner! hurra!
+    }
+    let ratings: HandRating[] = [];
+    for (let player of possibleWinners){
+      ratings.push(this.logic.rateHand(this.lobby.tableCards, player.hand));
+    }
+    console.log(ratings);
+    //TODO nächste Runde vorbereiten
   }
 
   buildPicPath(pc: PlayingCard):string{
@@ -292,7 +308,6 @@ export class LobbyIngamePageComponent{
     str += pc.color;
     str += pc.value;
     str += ".svg";
-    console.log(str);
     return str;
   }
 }
