@@ -5,6 +5,7 @@ import {AlertController, NavParams, ViewController} from "ionic-angular";
 import {SubscriptionService} from "../tabs/subscription.service";
 import {ProfileService} from "../profile/profile.service";
 import {LocalStorageService} from "../common/local-storage.service";
+
 /**
  * Created by sebb9 on 05.07.2017.
  */
@@ -90,7 +91,7 @@ export class FriendsAddPageComponent {
 
   //TODO - evtl. muss das in die Softwaredoku - Funktion aus https://stackoverflow.com/questions/46155/how-to-validate-email-address-in-javascript
   //übernommen
-  private validateEmail(email): boolean {
+  private validateEmail(email : string): boolean {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email) && this.email !== this.profile.email && !this.checkIfAlreadyFriends(this.email);
   }

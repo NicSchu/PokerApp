@@ -9,22 +9,22 @@
 
     <ion-item>
       <ion-label>Displayname</ion-label>
-      <ion-input type="text" [(ngModel)]="displayname"></ion-input>
+      <ion-input type="text" required [(ngModel)]="displayname"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>E-Mail</ion-label>
-      <ion-input type="email"[(ngModel)]="email"></ion-input>
+      <ion-input type="email" required [(ngModel)]="email"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>Password</ion-label>
-      <ion-input type="password" [(ngModel)]="password"></ion-input>
+      <ion-input type="password" required [(ngModel)]="password"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>Confirm Password</ion-label>
-      <ion-input type="password" [(ngModel)]="passwordConfirmation"></ion-input>
+      <ion-input type="password" required [(ngModel)]="passwordConfirmation"></ion-input>
     </ion-item>
   </ion-list>
 
