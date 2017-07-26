@@ -7,7 +7,7 @@ export class Lobby {
 
   constructor(public id?: string,
               public name? : string,
-              public status? : string, //TODO - ist das Attribut wirklich notwendig???
+              public status : string = null,
               public tableCards: PlayingCard[] = [],
               public smallBlind: number = 0,
               public lastRoundWinner: Player = null, //die 5 ist niemand! niemand hat gewonnen

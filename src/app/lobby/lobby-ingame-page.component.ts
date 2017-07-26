@@ -127,10 +127,33 @@ export class LobbyIngamePageComponent{
   beginRound(){
     let deck = new Deck();
     deck.shuffle();
+    /*
+    * set all cards to backs
+    * */
+    if (this.lobby.status != null){
+      let path = "assets/svg/cardbacks/custom1.svg";
+      let img;
+      for (let i = 0; i < 5; i++){
+        img = document.getElementById("table"+i) as HTMLImageElement;
+        img.src = path;
+      }
+      img = document.getElementById("self0") as HTMLImageElement;
+      img.src = path;
+      img = document.getElementById("self1") as HTMLImageElement;
+      img.src = path;
+      for (let i = 2; i < 6; i++){
+        for (let j = 0; j < 2; j++){
+          img = document.getElementById("p"+i+j) as HTMLImageElement;
+          img.src = path;
+        }
+      }
+    }
     this.lobby.status = "";
     for (let player of this.lobby.players) player.playing = true;
     for (let player of this.lobby.players){
       if (player.playing){
+        player.entry = 0;
+        player.isCoward = false;
         player.hand = [];
         player.hand.push(deck.cards.pop());
         player.hand.push(deck.cards.pop());
@@ -257,6 +280,7 @@ export class LobbyIngamePageComponent{
           }
         },
         {
+          //TODO bevor Raise ausgeführt wird, muss gegebenenfalls gecalled werden
           text: 'Raise',
           handler: (data) => {
             let chips : number = parseInt(data.chips);
@@ -326,7 +350,6 @@ export class LobbyIngamePageComponent{
       possibleWinners[index].cash += this.lobby.pot/winners.length;
       console.log(possibleWinners[index]);
     }
-    this.beginRound();
   }
 
   buildPicPath(pc: PlayingCard):string{

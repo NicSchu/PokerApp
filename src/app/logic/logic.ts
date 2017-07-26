@@ -172,7 +172,6 @@ export class Logic{
     let next = hand;
     while (next.nextHand != null) next = next.nextHand;
     for (let i = this.toBeRatedHand.length-1; numcards > 0; i--){
-      console.log(forbiddenValue.indexOf(this.toBeRatedHand[i].value));
       if (forbiddenValue.indexOf(this.toBeRatedHand[i].value) < 0){
         next.nextHand = new HandRating(1,this.toBeRatedHand[i].value);
         next = next.nextHand;
