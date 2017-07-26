@@ -28,6 +28,7 @@ export class LobbyIngamePageComponent{
   firstRun : boolean = true;
   loaded: boolean = false;
   raiseCash: number;
+  private subP; subL;
 
   //public players: Player[];
   public table: PlayingCard[];
@@ -58,7 +59,7 @@ export class LobbyIngamePageComponent{
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
 
     this.subscriptionService.addSubscription(
-      this.profileService.getCurrentProfile().subscribe(
+      this.subP = this.profileService.getCurrentProfile().subscribe(
         (profile: Profile) => {
           this.profile = profile;
           this.lobby.players[this.lobby.players.length] = new Player(
@@ -70,7 +71,7 @@ export class LobbyIngamePageComponent{
           this.loaded = true;
           //TODO Anzeige!
           this.subscriptionService.addSubscription(
-            this.lobbyService.getLobbyById(this.lobby.id).subscribe(
+            this.subL = this.lobbyService.getLobbyById(this.lobby.id).subscribe(
               (lobby: Lobby) => {
                 this.lobby = lobby;
                 for (let i = 0; i < lobby.players.length; i++){
@@ -152,6 +153,10 @@ export class LobbyIngamePageComponent{
     document.getElementsByClassName('tabbar')[0].setAttribute("display", "true");
     this.screenOrientation.unlock();
     this.canLeave = true;
+    this.subscriptionService.removeSubscription(this.subP);
+    this.subscriptionService.removeSubscription(this.subL);
+    this.subP.unsubscribe();
+    this.subL.unsubscribe();
 
     for (let i = 0; i < this.lobby.players.length; i++){
       if (this.lobby.players[i].id == this.profile.email){
