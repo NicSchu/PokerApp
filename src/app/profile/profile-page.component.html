@@ -2,7 +2,7 @@
 
   <ion-navbar [color]="localStorageService.getClientColor()">
 
-    <ion-title>Profile</ion-title>
+    <ion-title>{{profile.name}}</ion-title>
 
   </ion-navbar>
 
@@ -18,7 +18,7 @@
 
 
     <ion-item *ngIf="isMyProfile">
-      <button ion-button (click)="uploadPicture()" [color]="localStorageService.getClientColor()">Bild ändern</button>
+      <button ion-button (click)="uploadPicture()" [color]="localStorageService.getClientColor()">Change picture</button>
     </ion-item>
 
     <button ion-item (click)="showAchievements()">
