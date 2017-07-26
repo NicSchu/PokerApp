@@ -81,9 +81,9 @@ export class LobbyIngamePageComponent{
                 if (this.firstRun){
                   this.waitingPage();
                   this.firstRun = false;
-                }
-                else if (this.lobby.showedTableCards != turnedCards)
-                  this.turnAroundCards()
+                } else if (this.lobby.showedTableCards != turnedCards)
+                    this.turnAroundCards(turnedCards)
+
               }
             ));
         }
@@ -190,13 +190,13 @@ export class LobbyIngamePageComponent{
     }else this.next(next);
 
     if (this.lobby.activePlayer == this.playerWithLastRaise)
-      this.turnAroundCards();
+      this.turnAroundCards(this.lobby.showedTableCards);
 
     this.lobbyService.update(this.lobby);
   }
 
-  turnAroundCards(){
-    if (this.lobby.showedTableCards == 0) {
+  turnAroundCards(turnedCards: number){
+    if (turnedCards == 0) {
       let table = document.getElementById("table1") as HTMLImageElement;
       table.src = this.buildPicPath(this.lobby.tableCards[1]);
       table = document.getElementById("table2") as HTMLImageElement;
@@ -205,21 +205,21 @@ export class LobbyIngamePageComponent{
       table.src = this.buildPicPath(this.lobby.tableCards[3]);
       this.lobby.showedTableCards = 3;
       //this.showedTableCards = 3;
-      this.lobbyService.update(this.lobby);
+      //this.lobbyService.update(this.lobby);
     }
-    else if (this.lobby.showedTableCards == 3) {
+    else if (turnedCards == 3) {
       let table = document.getElementById("table4") as HTMLImageElement;
       table.src = this.buildPicPath(this.lobby.tableCards[4]);
       this.lobby.showedTableCards = 4;
       //this.showedTableCards = 4;
-      this.lobbyService.update(this.lobby);
+      //this.lobbyService.update(this.lobby);
     }
-    else if (this.lobby.showedTableCards == 4) {
+    else if (turnedCards == 4) {
       let table = document.getElementById("table5") as HTMLImageElement;
       table.src = this.buildPicPath(this.lobby.tableCards[5]);
       this.lobby.showedTableCards = 5;
       //this.showedTableCards = 5;
-      this.lobbyService.update(this.lobby);
+      //this.lobbyService.update(this.lobby);
     }
     else this.endRound();
   }
