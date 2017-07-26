@@ -7,7 +7,6 @@ import {ProfileService} from "../profile/profile.service";
 import {SubscriptionService} from "../tabs/subscription.service";
 import {LobbyService} from "./lobby.service";
 import {Profile} from "../profile/profile.model";
-import {Observable} from "rxjs/Observable";
 import {ScreenOrientation} from "@ionic-native/screen-orientation";
 import {LobbyWaitingPageComponent} from "./lobby-waiting-page.component";
 import {Deck} from "./deck.model";
@@ -20,21 +19,20 @@ import {Deck} from "./deck.model";
   templateUrl: "lobby-ingame-page.component.html"
 })
 export class LobbyIngamePageComponent{
-  showedTableCards: number = 1;
+  showedTableCards: number = 0;
+  playerWithLastRaise: number = 0;
   lobby: Lobby;
   profile : Profile = null;
   canLeave: boolean = false;
   playerNumber: number;
   firstRun : boolean = true;
   loaded: boolean = false;
-  raiseCash: number;
   private subP; subL;
 
   //public players: Player[];
   public table: PlayingCard[];
 
   /*TODO Liste für morgen den 26.07
-    2. eigene Karten anzeigen
     3. Tischkarten nach und nach umdrehen
     4. Logic einbinden und Sieger bestimmen
     5. Andere Siegfälle klären (alle leaven oder alle passen)
@@ -158,21 +156,25 @@ export class LobbyIngamePageComponent{
     document.getElementsByClassName('tabbar')[0].setAttribute("display", "true");
     this.screenOrientation.unlock();
     this.canLeave = true;
-    /*this.subscriptionService.removeSubscription(this.subP);
-    this.subscriptionService.removeSubscription(this.subL);
-    this.subP.unsubscribe();
-    this.subL.unsubscribe();
-    */
-    for (let i = 0; i < this.lobby.players.length; i++){
+    this.profile.cash = this.lobby.players[this.playerNumber].cash;
+    this.lobby.players.splice(this.playerNumber,1);
+
+    /*for (let i = 0; i < this.lobby.players.length; i++){
       if (this.lobby.players[i].id == this.profile.email){
         this.lobby.players.splice(i,1);
         break;
       }
-    }
+    }*/
     this.loaded = false;
     this.lobbyService.update(this.lobby);
 
+    this.subscriptionService.removeSubscription(this.subP);
+    this.subscriptionService.removeSubscription(this.subL);
+    this.subP.unsubscribe();
+    this.subL.unsubscribe();
+
     this.navCtrl.pop();
+    this.profileService.update(this.profile);
   }
 
   nextPlayersTurn(){
@@ -181,8 +183,33 @@ export class LobbyIngamePageComponent{
       (player) => {return !player.isCoward && player.playing}
     );
     if (activePlayer.length == 1) {
-      //
+      this.endRound();
     }else this.next(next);
+
+    //turn tableCards around
+    if (this.lobby.activePlayer == this.playerWithLastRaise) {
+      if (this.showedTableCards == 0) {
+        let table = document.getElementById("table1") as HTMLImageElement;
+        table.src = this.buildPicPath(this.lobby.tableCards[1]);
+        table = document.getElementById("table2") as HTMLImageElement;
+        table.src = this.buildPicPath(this.lobby.tableCards[2]);
+        table = document.getElementById("table3") as HTMLImageElement;
+        table.src = this.buildPicPath(this.lobby.tableCards[3]);
+        this.showedTableCards = 3;
+      }
+      else if (this.showedTableCards == 3) {
+        let table = document.getElementById("table4") as HTMLImageElement;
+        table.src = this.buildPicPath(this.lobby.tableCards[4]);
+        this.showedTableCards = 4;
+      }
+      else if (this.showedTableCards == 4) {
+        let table = document.getElementById("table5") as HTMLImageElement;
+        table.src = this.buildPicPath(this.lobby.tableCards[5]);
+        this.showedTableCards = 5;
+      }
+      else this.endRound();
+
+    }
     this.lobbyService.update(this.lobby);
   }
 
@@ -222,10 +249,11 @@ export class LobbyIngamePageComponent{
           text: 'Raise',
           handler: (data) => {
             let chips : number = parseInt(data.chips);
-            if (chips <= this.lobby.players[this.playerNumber].cash){
+            if ((chips > 0) && (chips <= this.lobby.players[this.playerNumber].cash)){
               this.lobby.players[this.playerNumber].cash -= chips;
               this.lobby.pot += chips;
               this.lobby.currentMaxEntry += chips;
+              this.playerWithLastRaise = this.playerNumber;
             }else return false;
             this.nextPlayersTurn();
           }
@@ -252,6 +280,11 @@ export class LobbyIngamePageComponent{
   pass(){
     this.lobby.players[this.playerNumber].isCoward = true;
     this.nextPlayersTurn();
+  }
+
+  //TODO
+  endRound(){
+
   }
 
   buildPicPath(pc: PlayingCard):string{

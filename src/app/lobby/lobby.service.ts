@@ -44,14 +44,6 @@ export class LobbyService {
     );
   }
 
-  public getLobbyObservableById(lobby: Lobby){
-    let localLobbies: Lobby[] = [];
-    this.lobbyies.subscribe((lobbies: Lobby[]) => {
-      localLobbies = lobbies;
-    }).unsubscribe();
-    return localLobbies.filter((localLobby) => localLobby.id == lobby.id)
-  }
-
   public findAll() : Observable<Lobby[]> {
     return this.lobbyies;
   }
@@ -74,6 +66,11 @@ export class LobbyService {
     newLobby.name = newLobby.name || null;
     newLobby.status = newLobby.status || null;
     newLobby.players = newLobby.players || null;
+    newLobby.pot = newLobby.pot || null;
+    newLobby.activePlayer = newLobby.activePlayer || null;
+    newLobby.tableCards = newLobby.tableCards || null;
+    newLobby.gameStarted = newLobby.gameStarted || null;
+    newLobby.currentMaxEntry = newLobby.currentMaxEntry || null;
     newLobby.id = null;
 
     return newLobby;
