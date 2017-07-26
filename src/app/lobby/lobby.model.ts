@@ -11,6 +11,7 @@ export class Lobby {
               public tableCards: PlayingCard[] = [],
               public smallBlind: number = 0,
               public currentMaxEntry: number = 0,
+              public showedTableCards: number = 0,
               public pot : number = 0,
               public activePlayer : number = 0,
               public gameStarted: boolean = false,

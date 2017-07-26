@@ -19,7 +19,6 @@ import {Deck} from "./deck.model";
   templateUrl: "lobby-ingame-page.component.html"
 })
 export class LobbyIngamePageComponent{
-  showedTableCards: number = 0;
   playerWithLastRaise: number = 0;
   lobby: Lobby;
   profile : Profile = null;
@@ -81,6 +80,7 @@ export class LobbyIngamePageComponent{
                   this.waitingPage();
                   this.firstRun = false;
                 }
+                else this.turnAroundCards()
               }
             ));
         }
@@ -186,31 +186,36 @@ export class LobbyIngamePageComponent{
       this.endRound();
     }else this.next(next);
 
-    //turn tableCards around
-    if (this.lobby.activePlayer == this.playerWithLastRaise) {
-      if (this.showedTableCards == 0) {
-        let table = document.getElementById("table1") as HTMLImageElement;
-        table.src = this.buildPicPath(this.lobby.tableCards[1]);
-        table = document.getElementById("table2") as HTMLImageElement;
-        table.src = this.buildPicPath(this.lobby.tableCards[2]);
-        table = document.getElementById("table3") as HTMLImageElement;
-        table.src = this.buildPicPath(this.lobby.tableCards[3]);
-        this.showedTableCards = 3;
-      }
-      else if (this.showedTableCards == 3) {
-        let table = document.getElementById("table4") as HTMLImageElement;
-        table.src = this.buildPicPath(this.lobby.tableCards[4]);
-        this.showedTableCards = 4;
-      }
-      else if (this.showedTableCards == 4) {
-        let table = document.getElementById("table5") as HTMLImageElement;
-        table.src = this.buildPicPath(this.lobby.tableCards[5]);
-        this.showedTableCards = 5;
-      }
-      else this.endRound();
+    if (this.lobby.activePlayer == this.playerWithLastRaise)
+      this.turnAroundCards();
 
-    }
     this.lobbyService.update(this.lobby);
+  }
+
+  turnAroundCards(){
+    if (this.lobby.showedTableCards == 0) {
+      let table = document.getElementById("table1") as HTMLImageElement;
+      table.src = this.buildPicPath(this.lobby.tableCards[1]);
+      table = document.getElementById("table2") as HTMLImageElement;
+      table.src = this.buildPicPath(this.lobby.tableCards[2]);
+      table = document.getElementById("table3") as HTMLImageElement;
+      table.src = this.buildPicPath(this.lobby.tableCards[3]);
+      this.lobby.showedTableCards = 3;
+      this.lobbyService.update(this.lobby);
+    }
+    else if (this.lobby.showedTableCards == 3) {
+      let table = document.getElementById("table4") as HTMLImageElement;
+      table.src = this.buildPicPath(this.lobby.tableCards[4]);
+      this.lobby.showedTableCards = 4;
+      this.lobbyService.update(this.lobby);
+    }
+    else if (this.lobby.showedTableCards == 4) {
+      let table = document.getElementById("table5") as HTMLImageElement;
+      table.src = this.buildPicPath(this.lobby.tableCards[5]);
+      this.lobby.showedTableCards = 5;
+      this.lobbyService.update(this.lobby);
+    }
+    else this.endRound();
   }
 
   next(next: number){

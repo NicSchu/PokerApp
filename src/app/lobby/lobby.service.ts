@@ -71,6 +71,7 @@ export class LobbyService {
     newLobby.tableCards = newLobby.tableCards || null;
     newLobby.gameStarted = newLobby.gameStarted || null;
     newLobby.currentMaxEntry = newLobby.currentMaxEntry || null;
+    newLobby.showedTableCards = newLobby.showedTableCards ||null;
     newLobby.id = null;
 
     return newLobby;
