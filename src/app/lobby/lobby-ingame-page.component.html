@@ -100,7 +100,7 @@
         <img id="self1" src="assets/svg/cardbacks/custom1.svg">
       </ion-col>
       <ion-col class="align-center">
-        <button ion-fab (click)="check()" *ngIf="lobby.activePlayer == playerNumber">Check</button>
+        <button ion-fab (click)="check()" *ngIf="lobby.activePlayer == playerNumber && lobby.currentMaxEntry == lobby.players[playerNumber].entry">Check</button>
       </ion-col>
       <ion-col class="align-right">
         <ion-label *ngIf="loaded && lobby.players.length == 5 && lobby.players[(playerNumber+4)%lobby.players.length].playing" class="align-right">
@@ -114,7 +114,7 @@
 
       </ion-col>
       <ion-col class="align-center">
-        <button ion-fab (click)="raise()" *ngIf="lobby.activePlayer == playerNumber">Raise</button>
+        <button ion-fab (click)="raise()" *ngIf="lobby.activePlayer == playerNumber && lobby.players[playerNumber].cash > 0">Raise</button>
       </ion-col>
       <ion-col class="align-center">
         <ion-label *ngIf="loaded" class="align-center">
