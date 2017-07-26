@@ -80,7 +80,7 @@ export class LobbyIngamePageComponent{
                   this.waitingPage();
                   this.firstRun = false;
                 }
-                else this.turnAroundCards()
+                this.turnAroundCards()
               }
             ));
         }

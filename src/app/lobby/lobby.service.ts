@@ -66,12 +66,12 @@ export class LobbyService {
     newLobby.name = newLobby.name || null;
     newLobby.status = newLobby.status || null;
     newLobby.players = newLobby.players || null;
-    newLobby.pot = newLobby.pot || null;
+    /*newLobby.pot = newLobby.pot || null;
     newLobby.activePlayer = newLobby.activePlayer || null;
     newLobby.tableCards = newLobby.tableCards || null;
     newLobby.gameStarted = newLobby.gameStarted || null;
     newLobby.currentMaxEntry = newLobby.currentMaxEntry || null;
-    newLobby.showedTableCards = newLobby.showedTableCards ||null;
+    newLobby.showedTableCards = newLobby.showedTableCards ||null;*/
     newLobby.id = null;
 
     return newLobby;
