@@ -34,20 +34,24 @@
   <ion-grid>
     <ion-row>
       <ion-col class="align-left">
-        <img src="assets/svg/cardbacks/custom1.svg">
-        <img src="assets/svg/cardbacks/custom1.svg">
+        <div *ngIf="loaded && lobby.players.length >= 3 && lobby.players[(playerNumber+2)%lobby.players.length].playing">
+          <img src="assets/svg/cardbacks/custom1.svg">
+          <img src="assets/svg/cardbacks/custom1.svg">
+        </div>
       </ion-col>
       <ion-col class="align-center">
         <h5>Pot: {{lobby.pot}}</h5>
       </ion-col>
       <ion-col class="align-right">
-        <img src="assets/svg/cardbacks/custom1.svg">
-        <img src="assets/svg/cardbacks/custom1.svg">
+        <div *ngIf="loaded && lobby.players.length >= 4 && lobby.players[(playerNumber+3)%lobby.players.length].playing">
+          <img src="assets/svg/cardbacks/custom1.svg">
+          <img src="assets/svg/cardbacks/custom1.svg">
+        </div>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="align-left">
-        <ion-label *ngIf="loaded && lobby.players.length >= 3 && lobby.players[(playerNumber+2)%lobby.players.length].playing" class="align-center">
+        <ion-label *ngIf="loaded && lobby.players.length >= 3 && lobby.players[(playerNumber+2)%lobby.players.length].playing" class="align-left">
           <p>{{lobby.players[(playerNumber+2)%lobby.players.length].name}}</p>
           <p>(Chips: {{lobby.players[(playerNumber+2)%lobby.players.length].cash}})</p>
         </ion-label>
@@ -60,7 +64,7 @@
         <img src="assets/svg/cardbacks/custom1.svg">
       </ion-col>
       <ion-col class="align-right">
-        <ion-label *ngIf="loaded && lobby.players.length >= 4 && lobby.players[(playerNumber+3)%lobby.players.length].playing" class="align-center">
+        <ion-label *ngIf="loaded && lobby.players.length >= 4 && lobby.players[(playerNumber+3)%lobby.players.length].playing" class="align-right">
           <p>{{lobby.players[(playerNumber+3)%lobby.players.length].name}}</p>
           <p>(Chips: {{lobby.players[(playerNumber+3)%lobby.players.length].cash}})</p>
         </ion-label>
@@ -68,17 +72,21 @@
     </ion-row>
     <ion-row>
       <ion-col class="align-left">
-        <img src="assets/svg/cardbacks/custom1.svg">
-        <img src="assets/svg/cardbacks/custom1.svg">
+        <div *ngIf="loaded && lobby.players.length >= 2 && lobby.players[(playerNumber+1)%lobby.players.length].playing">
+          <img src="assets/svg/cardbacks/custom1.svg">
+          <img src="assets/svg/cardbacks/custom1.svg">
+        </div>
       </ion-col>
       <ion-col class="align-right">
-        <img src="assets/svg/cardbacks/custom1.svg">
-        <img src="assets/svg/cardbacks/custom1.svg">
+        <div *ngIf="loaded && lobby.players.length == 5 && lobby.players[(playerNumber+4)%lobby.players.length].playing">
+          <img src="assets/svg/cardbacks/custom1.svg">
+          <img src="assets/svg/cardbacks/custom1.svg">
+        </div>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="align-left">
-        <ion-label *ngIf="loaded && lobby.players.length >= 2 && lobby.players[(playerNumber+1)%lobby.players.length].playing" class="align-center">
+        <ion-label *ngIf="loaded && lobby.players.length >= 2 && lobby.players[(playerNumber+1)%lobby.players.length].playing" class="align-left">
           <p>{{lobby.players[(playerNumber+1)%lobby.players.length].name}}</p>
           <p>(Chips: {{lobby.players[(playerNumber+1)%lobby.players.length].cash}})</p>
         </ion-label>
@@ -94,7 +102,7 @@
         <button ion-fab (click)="check()" *ngIf="lobby.activePlayer == playerNumber">Check</button>
       </ion-col>
       <ion-col class="align-right">
-        <ion-label *ngIf="loaded && lobby.players.length == 5 && lobby.players[(playerNumber+4)%lobby.players.length].playing" class="align-center">
+        <ion-label *ngIf="loaded && lobby.players.length == 5 && lobby.players[(playerNumber+4)%lobby.players.length].playing" class="align-right">
           <p>{{lobby.players[(playerNumber+4)%lobby.players.length].name}}</p>
           <p>(Chips: {{lobby.players[(playerNumber+4)%lobby.players.length].cash}})</p>
         </ion-label>

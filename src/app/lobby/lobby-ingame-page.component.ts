@@ -34,7 +34,6 @@ export class LobbyIngamePageComponent{
   public table: PlayingCard[];
 
   /*TODO Liste für morgen den 26.07
-    1. WaitingPage für Nachzügler einrichten und testen, auch nicht Beachten der hinzukommenden unbedingt testen!
     2. eigene Karten anzeigen und andere Karten auch nur bei Bedarf anzeigen
     3. Tischkarten nach und nach umdrehen
     4. Logic einbinden und Sieger bestimmen
