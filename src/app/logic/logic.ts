@@ -168,7 +168,6 @@ export class Logic{
    * completes the hand - object with number of missing high cards to complete HandRating object to 5 cards
    * */
   highCards(numcards: number, forbiddenValue: number[], hand: HandRating){
-    debugger;
     let next = hand;
     while (next.nextHand != null) next = next.nextHand;
     for (let i = this.toBeRatedHand.length-1; numcards > 0; i--){

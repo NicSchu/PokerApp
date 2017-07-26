@@ -143,7 +143,8 @@ export class LobbyIngamePageComponent{
       img.src = path;
       for (let i = 2; i < 6; i++){
         for (let j = 0; j < 2; j++){
-          img = document.getElementById("p"+i+j) as HTMLImageElement;
+          //TODO "p"+i+j -> cannot set property src of null
+          img = document.getElementById("p"+i+""+j) as HTMLImageElement;
           img.src = path;
         }
       }
