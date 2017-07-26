@@ -2,7 +2,8 @@
 
   <ion-navbar [color]="localStorageService.getClientColor()">
 
-    <ion-title>{{profile.name}}</ion-title>
+
+    <ion-title *ngIf="profile">{{profile.name}}</ion-title>
 
   </ion-navbar>
 
