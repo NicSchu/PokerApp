@@ -10,7 +10,7 @@ export class Lobby {
               public status : string = "",
               public tableCards: PlayingCard[] = [],
               public smallBlind: number = 0,
-              public lastRoundWinner: Player = null, //die 5 ist niemand! niemand hat gewonnen
+              public lastRoundWinner: string = "", //die 5 ist niemand! niemand hat gewonnen
               public currentPlayers: Player[] = [],
               public playerWithLastRaise: number = 0,
               public currentMaxEntry: number = 0,

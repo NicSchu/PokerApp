@@ -101,6 +101,17 @@ export class LobbyIngamePageComponent{
                     this.resetCardBacks();
                   }
                 }
+                if (oldStat == "fin" && this.lobby.status == "fin2"){
+                  let alert = this.alertCtrl.create({
+                    title: 'Winner:',
+                    subTitle: 'Congratulations to ' + this.lobby.lastRoundWinner + "!",
+                    buttons: [
+                      {
+                        text: 'OK'
+                      }]
+                  });
+                  alert.present();
+                }
               }
             ));
         }
@@ -153,14 +164,29 @@ export class LobbyIngamePageComponent{
     for (let i = 0; i < 5; i++){
       this.lobby.tableCards.push(deck.cards.pop());
     }
-    this.lobby.activePlayer = 0;
+    this.lobby.lastRoundWinner = "";
     this.lobby.currentMaxEntry = 0;
     this.lobby.pot = 0;
     this.lobby.showedTableCards = 0;
     //TODO setze Smallblind
-    this.lobby.playerWithLastRaise = this.lobby.smallBlind;
+    this.lobby.smallBlind = (this.lobby.smallBlind+1)%this.lobby.currentPlayers.length;
+    this.lobby.playerWithLastRaise = (this.lobby.smallBlind+1)%this.lobby.currentPlayers.length;
+    this.lobby.activePlayer = (this.lobby.smallBlind+2)%this.lobby.currentPlayers.length;
+
+    this.setBlinds(this.lobby.players);
+    this.lobby.playerWithLastRaise = (this.lobby.playerWithLastRaise+1)%this.lobby.currentPlayers.length;
+    //this.setBlinds(this.lobby.currentPlayers);
     this.resetCardBacks();
     this.lobbyService.update(this.lobby);
+  }
+
+  setBlinds(player: Player[]){
+    this.lobby.pot += 75; //25+50
+    this.lobby.currentMaxEntry = 50;
+    player[this.lobby.smallBlind].cash -= 25;
+    player[this.lobby.smallBlind].entry = 25;
+    player[this.lobby.playerWithLastRaise].cash -= 50;
+    player[this.lobby.playerWithLastRaise].entry = 50;
   }
 
   resetCardBacks(){
@@ -377,23 +403,22 @@ export class LobbyIngamePageComponent{
         }
       }
     }
-    let finalWinners: string = "";
     for (let index of winners){
       possibleWinners[index].cash += this.lobby.pot/winners.length;
       for (let player of this.lobby.players){
         if (player.id == possibleWinners[index].id) {
           player.cash += this.lobby.pot / winners.length;
-          finalWinners += player.name + " ";
+          this.lobby.lastRoundWinner += player.name + "\n";
         }
       }
       console.log(possibleWinners[index]);
     }
     let alert = this.alertCtrl.create({
       title: 'Winner:',
-      subTitle: 'Congratulations to ' + finalWinners + "!",
+      subTitle: 'Congratulations to ' + this.lobby.lastRoundWinner + "!",
       buttons: [
         {
-          text: 'OK',
+          text: 'OK'
         }]
     });
     alert.present();
