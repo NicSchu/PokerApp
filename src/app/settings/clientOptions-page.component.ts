@@ -3,6 +3,7 @@ import {NavController} from "ionic-angular";
 import {CardbackPickerComponent} from "./clientOptions_subpages/cardbackPicker-page.component";
 import {LocalStorageService} from "../common/local-storage.service";
 import {ClientOptionsConstants} from "./clientOptions-page.constants";
+import {ProfileService} from "../profile/profile.service";
 /**
  * Created by Sebastian on 29.06.2017.
  */
@@ -19,6 +20,7 @@ export class ClientOptionsPageComponent {
 
   constructor(private navCtrl : NavController,
               private locStorageService : LocalStorageService,
+              private profileService : ProfileService,
               private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
     this.useCustomOptions = locStorageService.getUseCustomOptions();
     this.cardbackAppearance = locStorageService.getCardbackAppearance();
@@ -33,6 +35,14 @@ export class ClientOptionsPageComponent {
     this.useCustomOptions = !this.useCustomOptions;
     this.localStorageService.setUseCustomOptions(this.useCustomOptions);
     this.colorPickerValue = this.localStorageService.getColorPickerValue();
+
+    this.profileService.getCurrentProfile().subscribe(
+      (profile) => {
+        console.log("here");
+        profile.usingDefaultCardback = !this.useCustomOptions;
+        this.profileService.update(profile);
+      }
+    ).unsubscribe()
   }
 
   public pushCardbackPickerPage() {

@@ -7,6 +7,7 @@ import * as firebase from "firebase/app";
 import Storage = firebase.storage.Storage;
 
 import Reference = firebase.storage.Reference;
+import {Profile} from "../../profile/profile.model";
 
 @Injectable()
 export class CardbackPickerSerivce {
@@ -36,5 +37,14 @@ export class CardbackPickerSerivce {
     let defaultCardbackPath = this.getStorageRootReference();
     defaultCardbackPath = this.getChildOfReference(defaultCardbackPath, 'default/cardback/default.svg');
     return defaultCardbackPath.getDownloadURL();
+  }
+
+  //diese methode für die player.cardback benutzen
+  public getCardbackUrlFromProfile(profile : Profile) : string {
+    if(profile.usingDefaultCardback) {
+      return "https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fdefault.svg?alt=media&token=bd39ef90-49ee-46ac-92af-78997814d0dc";
+    } else {
+      return profile.cardback;
+    }
   }
 }
