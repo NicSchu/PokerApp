@@ -12,6 +12,8 @@ import {LobbyWaitingPageComponent} from "./lobby-waiting-page.component";
 import {Deck} from "./deck.model";
 import {Logic} from "../logic/logic";
 import {HandRating} from "../logic/hand-rating.module";
+import {CardbackPickerSerivce} from "../settings/clientOptions_subpages/cardbackPicker.service";
+
 /**
  * Created by Silas on 07.07.2017.
  */
@@ -42,6 +44,7 @@ export class LobbyIngamePageComponent{
   * */
 
   constructor(private logic: Logic,
+              private cardbackPickerPageService: CardbackPickerSerivce,
               private navParams: NavParams,
               private alertCtrl : AlertController,
               private lobbyService: LobbyService,
@@ -84,7 +87,8 @@ export class LobbyIngamePageComponent{
                 if (this.firstRun){
                   this.waitingPage();
                   this.firstRun = false;
-                } else if (this.lobby.showedTableCards != turnedCards && oldStat != "fin")
+                } else if (this.lobby.showedTableCards != turnedCards
+                  && oldStat != "fin" && oldStat != "fin2")
                   this.turnAroundCards(turnedCards);
                 if (this.lobby.status == "fin"){
                   if (this.playerNumber == 0){
@@ -121,6 +125,7 @@ export class LobbyIngamePageComponent{
           }
           //Change the own card(back) so it shows a face of a playing card
           this.showOwnCards();
+          this.resetCardBacks();
         }else{
           this.canLeave = true;
           this.closeAndReset();
@@ -144,18 +149,17 @@ export class LobbyIngamePageComponent{
       player.hand.push(deck.cards.pop());
       player.hand.push(deck.cards.pop());
     }
-    this.resetCardBacks();
     this.lobby.tableCards = [];
     for (let i = 0; i < 5; i++){
       this.lobby.tableCards.push(deck.cards.pop());
     }
-    //TODO mach irgendwas mit smallblind/bigblind
     this.lobby.activePlayer = 0;
     this.lobby.currentMaxEntry = 0;
     this.lobby.pot = 0;
     this.lobby.showedTableCards = 0;
     //TODO setze Smallblind
     this.lobby.playerWithLastRaise = this.lobby.smallBlind;
+    this.resetCardBacks();
     this.lobbyService.update(this.lobby);
   }
 
@@ -163,16 +167,14 @@ export class LobbyIngamePageComponent{
     /*
      * set all cards to backs
      * */
-    if (this.lobby.status != ""){
-      let path = "assets/svg/cardbacks/custom1.svg";
-      for (let i = 0; i < 5; i++)
-        this.changeImgSrc(path,"table"+i);
+    let path = this.cardbackPickerPageService.getCardbackUrlFromProfile(this.profile);
+    for (let i = 0; i < 5; i++)
+      this.changeImgSrc(path,"table"+i);
 
-      this.showOwnCards();
-      for (let i = 2; i < this.lobby.currentPlayers.length+1; i++){
-        for (let j = 0; j < 2; j++)
-          this.changeImgSrc(path,"p"+i+""+j);
-      }
+    this.showOwnCards();
+    for (let i = 2; i < this.lobby.currentPlayers.length+1; i++){
+      for (let j = 0; j < 2; j++)
+        this.changeImgSrc(path,"p"+i+""+j);
     }
     this.lobby.status = "new";
     this.cardsFaceUp = false;
@@ -356,7 +358,6 @@ export class LobbyIngamePageComponent{
   }
 
   endRound(){
-    debugger;
     let possibleWinners = this.lobby.currentPlayers.filter(
       (player) => {return !player.isCoward}
     );
@@ -390,7 +391,7 @@ export class LobbyIngamePageComponent{
 
   changeImgSrc(path:string, id:string){
     let img = document.getElementById(id) as HTMLImageElement
-    img.src = path;
+    if (img) img.src = path;
   }
 
   buildPicPath(pc: PlayingCard):string{
