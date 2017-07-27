@@ -5,9 +5,6 @@
     <ion-title *ngIf="!showSearchbar">Lobby</ion-title>
 
     <ion-buttons *ngIf="!showSearchbar" end>
-      <button ion-button icon-only (click)="createLobby()">
-        <ion-icon name="add"></ion-icon>
-      </button>
       <button ion-button icon-only (click)="setShowSearchbar(true)">
         <ion-icon name="search"></ion-icon>
       </button>
@@ -33,9 +30,11 @@
       <h2>{{lobby.name}}<span float-right>{{lobby.players.length}}/{{maxPlayerConst}}</span></h2>
     </button>
 
-    <!-- TODO - vielleicht überall statt oben den Add-Button, hier unten einen FAB_Button verwenden? WObei diese vielleivht COntent überdeckt -->
-
   </ion-list>
+
+  <ion-fab right bottom>
+    <button ion-fab [color]="localStorageService.getClientColor()" (click)="createLobby()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 
 
 </ion-content>
