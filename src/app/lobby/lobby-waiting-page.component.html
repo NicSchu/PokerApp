@@ -6,7 +6,7 @@
 </head>
 <body>
   <ion-header>
-    <ion-navbar>
+    <ion-navbar [color]="localStorageService.getClientColor()">
       <ion-title>Waiting in Lobby {{lobby.name}}</ion-title>
     </ion-navbar>
 </ion-header>
@@ -28,8 +28,8 @@
   </ion-list>
 
   <ion-buttons>
-    <button ion-button (click)="leaveWaiting(false)">Leave Lobby</button>
-    <button ion-button (click)="leaveWaiting(true)" *ngIf="playerNumber == 0 && lobby.players.length >= 2">Start Game</button>
+    <button ion-button (click)="leaveWaiting(false)" [color]="localStorageService.getClientColor()">Leave Lobby</button>
+    <button ion-button (click)="leaveWaiting(true)" *ngIf="playerNumber == 0 && lobby.players.length >= 2" [color]="localStorageService.getClientColor()">Start Game</button>
   </ion-buttons>
 </ion-content>
 </body>
