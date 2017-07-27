@@ -377,14 +377,27 @@ export class LobbyIngamePageComponent{
         }
       }
     }
+    let finalWinners: string = "";
     for (let index of winners){
       possibleWinners[index].cash += this.lobby.pot/winners.length;
       for (let player of this.lobby.players){
-        if (player.id == possibleWinners[index].id)
-          player.cash += this.lobby.pot/winners.length;
+        if (player.id == possibleWinners[index].id) {
+          player.cash += this.lobby.pot / winners.length;
+          finalWinners += player.name + " ";
+        }
       }
       console.log(possibleWinners[index]);
     }
+    let alert = this.alertCtrl.create({
+      title: 'Winner:',
+      subTitle: 'Congratulations to ' + finalWinners + "!",
+      buttons: [
+        {
+          text: 'OK',
+        }]
+    });
+    alert.present();
+
     this.lobby.status = "fin2";
     this.lobbyService.update(this.lobby);
   }
