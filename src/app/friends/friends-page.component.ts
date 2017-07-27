@@ -11,6 +11,7 @@ import {ProfilePageComponent} from "../profile/profile-page.component";
 import {AchievementService} from "../achievements/achievement.service";
 import {Achievement} from "../achievements/achievement.model";
 import {ClientOptionsConstants} from "../settings/clientOptions-page.constants";
+
 /**
  * Created by sebb9 on 08.06.2017.
  */
@@ -24,7 +25,7 @@ export class FriendsPageComponent {
 
   profile : Profile;
 
-  private typeOfList : string = "all";
+  public typeOfList : string = "all";
 
   private allProfiles: Profile[];
   private friendProfiles: Profile[] = [];
@@ -93,7 +94,7 @@ export class FriendsPageComponent {
     this.navCtrl.push(ProfilePageComponent, {profile: friendProfile});
   }
 
-  private sortByName(friends: Profile[]) {
+  public sortByName(friends: Profile[]) {
     friends.sort(
       (f1, f2) => {
         let f1Name = f1.name.toLowerCase();
@@ -110,7 +111,7 @@ export class FriendsPageComponent {
     return friends;
   }
 
-  private sortByChips(friends: Profile[]) {
+  public sortByChips(friends: Profile[]) {
     friends.sort(
       (f1, f2) => {
         if (f1.cash < f2.cash) {
@@ -125,7 +126,7 @@ export class FriendsPageComponent {
     return friends;
   }
 
-  private sortByAchievements(friends: Profile[]) {
+  public sortByAchievements(friends: Profile[]) {
 
     friends.sort(
       (f1, f2) => {
