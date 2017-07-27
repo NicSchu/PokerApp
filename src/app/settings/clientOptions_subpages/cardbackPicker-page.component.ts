@@ -12,15 +12,17 @@ import StringFormat = firebase.storage.StringFormat;
 import Reference = firebase.storage.Reference;
 import {CardbackPickerSerivce} from "./cardbackPicker.service";
 import {AuthService} from "../../login/AuthService";
-import {LoadingController, AlertController} from "ionic-angular";
+import {LoadingController, AlertController, ToastController} from "ionic-angular";
 import {SubscriptionService} from "../../tabs/subscription.service";
-
+import {AchievementService} from "../../achievements/achievement.service";
+import {Achievement} from "../../achievements/achievement.model";
 /**
  * Created by Sebastian on 05.07.2017.
  */
 @Component({
   selector: 'cardbackPicker-page',
-  templateUrl: 'cardbackPicker-page.component.html'
+  templateUrl: 'cardbackPicker-page.component.html',
+  providers: [AchievementService]
 })
 export class CardbackPickerComponent {
   private profile:Profile;
@@ -29,11 +31,15 @@ export class CardbackPickerComponent {
 
   private cardbackPath : string = '';
 
+  private achievements : Achievement[];
+
 
   constructor(private localStorageService : LocalStorageService,  //localStorageService is used in the HTML file (<ion-navbar> tag)
               private imagePicker : ImagePicker,
               private filesystem: File,
               private alertCtrl: AlertController,
+              private toastCtrl: ToastController,
+              private achievementService : AchievementService,
               private loadingCtrl : LoadingController,
               private subscriptionService : SubscriptionService,
               private profileService : ProfileService,
@@ -55,6 +61,18 @@ export class CardbackPickerComponent {
 
     this.cardbackRef = this.cardbackPickerService.getStorageRootReference();
     this.cardbackRef = this.cardbackPickerService.getChildOfReference(this.cardbackRef, this.cardbackPath);
+  }
+
+  ionViewDidLoad() {
+    this.subscriptionService.addSubscription(
+      this.achievementService.findAll().subscribe(
+        (achievemenets: Achievement[]) => {
+          if (achievemenets) {
+            this.achievements = achievemenets;
+          }
+        }
+      )
+    );
   }
 
   public uploadCardback() {
@@ -138,5 +156,24 @@ export class CardbackPickerComponent {
   public selectPresetCardback(downloadUrl: string) : void {
     this.profile.cardback = downloadUrl;
     this.profileService.update(this.profile);
+
+    let changeCardbackAchievementId = "-KoJEnNa0Czeg2G7rEZj";
+    let savedAchievements = this.achievements; //observable could change value during for loop
+    for(let i = 0; i < savedAchievements.length; i++) {
+      if(savedAchievements[i].id == changeCardbackAchievementId) {
+        if(this.profile.accAchievements.filter(a => a == savedAchievements[i].id).length == 0) {
+          this.profile.accAchievements.push(savedAchievements[i].id);
+          this.profileService.update(this.profile);
+        }
+      }
+    }
+
+    let toast = this.toastCtrl.create({
+      message: 'Successfully changed Cardback',
+      duration: 2000,
+      position: 'bottom'
+    });
+
+    toast.present();
   }
 }

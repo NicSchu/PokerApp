@@ -7,6 +7,7 @@ import {SubscriptionService} from "../tabs/subscription.service";
 import {LobbyService} from "./lobby.service";
 import {NavParams, ViewController} from "ionic-angular";
 import {Profile} from "../profile/profile.model";
+import {LocalStorageService} from "../common/local-storage.service";
 
 @Component({
   selector: "lobby-waiting-page",
@@ -19,6 +20,7 @@ export class LobbyWaitingPageComponent {
   private sub;
 
   constructor(public viewCtrl: ViewController,
+              private localStorageService : LocalStorageService,
               private navParams: NavParams,
               private subscriptionService: SubscriptionService,
               private lobbyService: LobbyService){
