@@ -11,6 +11,7 @@ import {ProfilePageComponent} from "../profile/profile-page.component";
 import {AchievementService} from "../achievements/achievement.service";
 import {Achievement} from "../achievements/achievement.model";
 import {ClientOptionsConstants} from "../settings/clientOptions-page.constants";
+import {AchievementCategory} from "../achievements/achievement-category.constants";
 
 /**
  * Created by sebb9 on 08.06.2017.
@@ -31,6 +32,9 @@ export class FriendsPageComponent {
   private friendProfiles: Profile[] = [];
 
   private achievements : Achievement[] = [];
+  private friendBasedAchievements : Achievement[] = [];
+
+  private friendBasedAchievementsMap = {};
 
   constructor(private profileService : ProfileService,
               private navCtrl: NavController,
@@ -48,6 +52,22 @@ export class FriendsPageComponent {
         (achievemenets: Achievement[]) => {
           if(achievemenets){
             this.achievements = achievemenets;
+
+            //filter only friendbased
+            this.friendBasedAchievements = achievemenets.filter((achievemenet : Achievement) => achievemenet.category === AchievementCategory.FRIEND_BASED);
+
+            //create a Map with amount of friends needed for that Achievement
+            this.friendBasedAchievements.forEach( (achievemenet : Achievement) => {
+
+              //hier wird davon ausgegangen, dass der String die Zahl der benötigten Freunde enthält...
+              let re = /\d+/g;
+
+              let numberToParse = achievemenet.description.match(re).toString();
+
+              let number = parseInt(numberToParse);
+              this.friendBasedAchievementsMap[number] = achievemenet;
+
+            });
           }
         }
       )
@@ -77,6 +97,30 @@ export class FriendsPageComponent {
                     }
                   }
                 }
+
+                //check if current count of friends match any achievement
+                let accNewAchievement : Achievement = this.friendBasedAchievementsMap[this.profile.friends.length];
+
+                if (accNewAchievement) {
+
+                  //check if user already acc that achievement
+                  let alreadyAcc : boolean = false;
+
+                  for (let i = 0; i < this.profile.accAchievements.length; i++) {
+                    if (this.profile.accAchievements[i] === accNewAchievement.id) {
+                      alreadyAcc = true;
+                    }
+                  }
+
+                  //if not, add it to the user
+                  if (!alreadyAcc) {
+                    this.profile.accAchievements.push(accNewAchievement.id);
+                    //now update the profile
+                    this.profileService.update(this.profile);
+                  }
+                }
+
+                //finally unsubscribe the "friends"
                 friendsSubscription.unsubscribe();
               }
             );
@@ -148,8 +192,9 @@ export class FriendsPageComponent {
     let points = 0;
     this.achievements.forEach((achievement : Achievement) => {
       friend.accAchievements.forEach((achievementId : string) => {
-        //TODO wieder richtig machen (es geht um das '-', was firebase entfernt)
-        if(achievement.id.includes(achievementId)) points += achievement.points
+        if(achievement.id === achievementId){
+          points += achievement.points
+        }
       })
     });
     return points;
