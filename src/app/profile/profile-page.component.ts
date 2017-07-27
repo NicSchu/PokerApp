@@ -10,12 +10,13 @@ import {ProfileService} from "./profile.service";
 import {Achievement} from "../achievements/achievement.model";
 import {AchievementService} from "../achievements/achievement.service";
 import {AchievementListPageComponent} from "../achievements/achievement-list-page.component";
-import {SubscriptionService} from "../tabs/subscription.service";
-import Reference = firebase.storage.Reference;
-import StringFormat = firebase.storage.StringFormat;
+import {SubscriptionService} from "../common/subscription.service";
 //import Storage = firebase.storage.Storage;
 import {LocalStorageService} from "../common/local-storage.service";
 import {AuthService} from "../login/AuthService";
+import Reference = firebase.storage.Reference;
+import StringFormat = firebase.storage.StringFormat;
+
 /**
  * Created by sebb9 on 08.06.2017.
  */
@@ -46,7 +47,7 @@ export class ProfilePageComponent {
               private subscriptionService: SubscriptionService,
               private authService: AuthService,
               private navParams : NavParams,
-              private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)) ) {
+              public localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)) ) {
 
     //profile only passed by friends-page otherwise its the profile-page of logged in user
     if (this.navParams.data.profile) {

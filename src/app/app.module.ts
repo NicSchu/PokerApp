@@ -25,7 +25,7 @@ import {ImpressumPageComponent} from "./settings/impressum-page.component";
 import {ClientOptionsPageComponent} from "./settings/clientOptions-page.component";
 import {AchievementListPageComponent} from "./achievements/achievement-list-page.component";
 import {AchievementDetailPageComponent} from "./achievements/achievement-detail-page.component";
-import {SubscriptionService} from "./tabs/subscription.service";
+import {SubscriptionService} from "./common/subscription.service";
 import {LobbyService} from "./lobby/lobby.service";
 import {LobbyCreationPageComponent} from "./lobby/lobby-creation-page.component";
 import {LocalStorageService} from "./common/local-storage.service";

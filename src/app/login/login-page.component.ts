@@ -3,8 +3,6 @@ import {AlertController, NavController} from "ionic-angular";
 import {AuthService} from "./AuthService";
 import {TabsPage} from "../tabs/tabs";
 import {RegistryPageComponent} from "./registry-page.component";
-import {SubscriptionService} from "../tabs/subscription.service";
-import {ProfileService} from "../profile/profile.service";
 import {LocalStorageService} from "../common/local-storage.service";
 
 @Component({
@@ -19,8 +17,6 @@ export class LoginPageComponent {
   constructor(private alertCtrl: AlertController,
               private navCtrl: NavController,
               private authService: AuthService,
-              private subScriptionService:SubscriptionService,
-              private profileService : ProfileService,
               private localStorageService : LocalStorageService) {
   }
 

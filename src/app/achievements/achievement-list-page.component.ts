@@ -3,6 +3,7 @@ import {Achievement} from "./achievement.model";
 import {NavController, NavParams, Searchbar} from "ionic-angular";
 import {AchievementDetailPageComponent} from "./achievement-detail-page.component";
 import {LocalStorageService} from "../common/local-storage.service";
+
 /**
  * Created by sebastian on 29.06.17.
  */
@@ -28,7 +29,7 @@ export class AchievementListPageComponent {
   //pass all Achievements by Parameter, because Profile-Page already loaded them... (to save Data-Volumne)
   constructor(private navParams : NavParams,
               private navCtrl : NavController,
-              private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
+              public localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
 
     if (this.navParams.data) {
 

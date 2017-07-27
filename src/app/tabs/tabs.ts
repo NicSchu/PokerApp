@@ -3,7 +3,7 @@ import {SettingsPageComponent} from "../settings/settings-page.component";
 import {ProfilePageComponent} from "../profile/profile-page.component";
 import {LobbyListPageComponent} from "../lobby/lobby-list-page.component";
 import {FriendsPageComponent} from "../friends/friends-page.component";
-import {SubscriptionService} from "./subscription.service";
+import {SubscriptionService} from "../common/subscription.service";
 import {AuthService} from "../login/AuthService";
 import {LocalStorageService} from "../common/local-storage.service";
 
@@ -20,7 +20,7 @@ export class TabsPage {
 
   constructor(private subScriptionService: SubscriptionService,
               private authService : AuthService,
-              private localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
+              public localStorageService : LocalStorageService) { //localStorageService is used in the HTML file (<ion-navbar> tag)
   }
 
 

@@ -2,10 +2,11 @@ import {Component, ViewChild} from "@angular/core";
 import {LobbyService} from "./lobby.service";
 import {Lobby} from "./lobby.model";
 import {ModalController, NavController, Searchbar} from "ionic-angular";
-import {SubscriptionService} from "../tabs/subscription.service";
+import {SubscriptionService} from "../common/subscription.service";
 import {LobbyCreationPageComponent} from "./lobby-creation-page.component";
 import {LocalStorageService} from "../common/local-storage.service";
 import {LobbyIngamePageComponent} from "./lobby-ingame-page.component"
+
 /**
  * Created by sebb9 on 08.06.2017.
  */

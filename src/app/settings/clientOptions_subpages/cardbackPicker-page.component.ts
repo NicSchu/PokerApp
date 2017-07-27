@@ -8,14 +8,15 @@ import "firebase/storage";
 import * as firebase from "firebase/app";
 
 import {File} from "@ionic-native/file";
-import StringFormat = firebase.storage.StringFormat;
-import Reference = firebase.storage.Reference;
 import {CardbackPickerSerivce} from "./cardbackPicker.service";
 import {AuthService} from "../../login/AuthService";
-import {LoadingController, AlertController, ToastController} from "ionic-angular";
-import {SubscriptionService} from "../../tabs/subscription.service";
+import {AlertController, LoadingController, ToastController} from "ionic-angular";
+import {SubscriptionService} from "../../common/subscription.service";
 import {AchievementService} from "../../achievements/achievement.service";
 import {Achievement} from "../../achievements/achievement.model";
+import StringFormat = firebase.storage.StringFormat;
+import Reference = firebase.storage.Reference;
+
 /**
  * Created by Sebastian on 05.07.2017.
  */
@@ -34,7 +35,7 @@ export class CardbackPickerComponent {
   private achievements : Achievement[];
 
 
-  constructor(private localStorageService : LocalStorageService,  //localStorageService is used in the HTML file (<ion-navbar> tag)
+  constructor(public localStorageService : LocalStorageService,  //localStorageService is used in the HTML file (<ion-navbar> tag)
               private imagePicker : ImagePicker,
               private filesystem: File,
               private alertCtrl: AlertController,

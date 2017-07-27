@@ -1,12 +1,11 @@
 import {Component} from "@angular/core";
 import {ProfileService} from "../profile/profile.service";
 import {Profile} from "../profile/profile.model";
-import {AuthService} from "../login/AuthService";
-import {ModalController, NavController} from "ionic-angular";
+import {NavController} from "ionic-angular";
 import {FriendsAddPageComponent} from "./friends-add-page.component";
 import {LocalStorageService} from "../common/local-storage.service";
 import {FriendsService} from "./friends.service";
-import {SubscriptionService} from "../tabs/subscription.service";
+import {SubscriptionService} from "../common/subscription.service";
 import {ProfilePageComponent} from "../profile/profile-page.component";
 import {AchievementService} from "../achievements/achievement.service";
 import {Achievement} from "../achievements/achievement.model";
@@ -38,8 +37,6 @@ export class FriendsPageComponent {
 
   constructor(private profileService : ProfileService,
               private navCtrl: NavController,
-              private authService: AuthService,
-              private modalCtrl: ModalController,
               private subscriptionService: SubscriptionService,
               private friendsService: FriendsService,
               private achievementService : AchievementService,

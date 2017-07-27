@@ -1,9 +1,10 @@
 import {Profile} from "../profile/profile.model";
 import {Observable} from "rxjs/Observable";
 import {ProfileService} from "../profile/profile.service";
-import {SubscriptionService} from "../tabs/subscription.service";
+import {SubscriptionService} from "../common/subscription.service";
 import {Injectable} from "@angular/core";
 import {AngularFireDatabase} from "angularfire2/database";
+
 /**
  * Created by Silas on 08.07.2017.
  */

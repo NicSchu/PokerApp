@@ -3,7 +3,7 @@
  */
 import {Component} from "@angular/core";
 import {Lobby} from "./lobby.model";
-import {SubscriptionService} from "../tabs/subscription.service";
+import {SubscriptionService} from "../common/subscription.service";
 import {LobbyService} from "./lobby.service";
 import {NavParams, ViewController} from "ionic-angular";
 import {Profile} from "../profile/profile.model";

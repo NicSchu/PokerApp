@@ -1,10 +1,10 @@
 import {Player} from "./player.model";
 import {PlayingCard} from "../logic/cards.model";
 import {Component} from "@angular/core";
-import {AlertController, NavParams, NavController, ModalController} from "ionic-angular";
+import {AlertController, ModalController, NavController, NavParams} from "ionic-angular";
 import {Lobby} from "./lobby.model";
 import {ProfileService} from "../profile/profile.service";
-import {SubscriptionService} from "../tabs/subscription.service";
+import {SubscriptionService} from "../common/subscription.service";
 import {LobbyService} from "./lobby.service";
 import {Profile} from "../profile/profile.model";
 import {ScreenOrientation} from "@ionic-native/screen-orientation";
