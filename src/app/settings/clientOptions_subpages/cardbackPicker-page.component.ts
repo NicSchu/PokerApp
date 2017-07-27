@@ -147,4 +147,13 @@ export class CardbackPickerComponent {
         } );
 
   }
+
+  public test2(){
+    console.log("test2");
+  }
+
+  public selectPresetCardback(downloadUrl: string) : void {
+    this.profile.cardback = downloadUrl;
+    this.profileService.update(this.profile);
+  }
 }

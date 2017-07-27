@@ -8,12 +8,48 @@
 
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
 
-  <img *ngIf="profile" style="align-items: center;" [src]="profile.cardback"/>
+  <img ion-item align="middle" padding *ngIf="profile" style="align-items: center; width: 50%; height:50%" [src]="profile.cardback"/>
   <ion-item>
-    <button ion-button (click)="uploadCardback()" [color]="localStorageService.getClientColor()">Change picture</button>
+    <button ion-button (click)="uploadCardback()" [color]="localStorageService.getClientColor()">Upload your own cardback</button>
   </ion-item>
+  <ion-label align="middle"><h4>Or choose from our favorites</h4></ion-label>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <img padding *ngIf="profile" style="align-items: center;" (click)="selectPresetCardback('https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom1.svg?alt=media&token=aa306bd9-50f9-4d54-8da4-c6c3aed4f4d1')" src="https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom1.svg?alt=media&token=aa306bd9-50f9-4d54-8da4-c6c3aed4f4d1"/>
+      </ion-col>
+      <ion-col>
+        <img padding *ngIf="profile" style="align-items: center;" (click)="selectPresetCardback('https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom2.svg?alt=media&token=cdb1fe13-f42f-4418-aa50-56fc927fc54b')" src="https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom2.svg?alt=media&token=cdb1fe13-f42f-4418-aa50-56fc927fc54b"/>
+      </ion-col>
+      <ion-col>
+        <img padding *ngIf="profile" style="align-items: center;" (click)="selectPresetCardback('https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom3.svg?alt=media&token=8c531438-1054-466b-be20-fac16b9ef8cb')" src="https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom3.svg?alt=media&token=8c531438-1054-466b-be20-fac16b9ef8cb"/>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <img padding *ngIf="profile" style="align-items: center;" (click)="selectPresetCardback('https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom4.svg?alt=media&token=dc2be199-b217-480b-a75e-e759730e70cb')" src="https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom4.svg?alt=media&token=dc2be199-b217-480b-a75e-e759730e70cb"/>
+      </ion-col>
+      <ion-col>
+        <img padding *ngIf="profile" style="align-items: center;" (click)="selectPresetCardback('https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom5.svg?alt=media&token=f2cb8cc7-0189-45d0-a642-1a1423b2aa19')" src="https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom5.svg?alt=media&token=f2cb8cc7-0189-45d0-a642-1a1423b2aa19"/>
+      </ion-col>
+      <ion-col>
+        <img padding *ngIf="profile" style="align-items: center;" (click)="selectPresetCardback('https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom6.svg?alt=media&token=fe526adf-1e1f-48be-b82f-bd159186713d')" src="https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom6.svg?alt=media&token=fe526adf-1e1f-48be-b82f-bd159186713d"/>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <img padding *ngIf="profile" style="align-items: center;" (click)="selectPresetCardback('https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom7.svg?alt=media&token=0b0d8ec7-0f35-4578-bd6d-870b309a0d79')" src="https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom7.svg?alt=media&token=0b0d8ec7-0f35-4578-bd6d-870b309a0d79"/>
+      </ion-col>
+      <ion-col>
+        <img padding *ngIf="profile" style="align-items: center;" (click)="selectPresetCardback('https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom8.svg?alt=media&token=7461185b-0072-4a01-b931-b9f4eafa79fd')" src="https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fcustom8.svg?alt=media&token=7461185b-0072-4a01-b931-b9f4eafa79fd"/>
+      </ion-col>
+      <ion-col>
+        <img padding *ngIf="profile" style="align-items: center;" (click)="selectPresetCardback('https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fdefault.svg?alt=media&token=bd39ef90-49ee-46ac-92af-78997814d0dc')" src="https://firebasestorage.googleapis.com/v0/b/poker-b817e.appspot.com/o/default%2Fcardback%2Fdefault.svg?alt=media&token=bd39ef90-49ee-46ac-92af-78997814d0dc"/>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
