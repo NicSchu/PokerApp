@@ -266,6 +266,13 @@ export class LobbyIngamePageComponent{
 
     this.profile.cash = this.lobby.players[this.playerNumber].cash;
     this.profile.roundsPlayed += this.lobby.players[this.playerNumber].roundsPlayed;
+    this.profile.roundsWon += this.lobby.players[this.playerNumber].roundsWon;
+    // Achievements aktualisieren!!
+    for (let achievement of this.lobby.players[this.playerNumber].achievements){
+      if (this.profile.accAchievements.indexOf(achievement) >= 0 )
+        this.profile.accAchievements.push(achievement);
+    }
+
     this.loaded = false;
     this.lobby.players.splice(this.playerNumber,1);
 
@@ -456,6 +463,27 @@ export class LobbyIngamePageComponent{
      let ratings: HandRating[] = [];
       for (let player of possibleWinners){
         ratings.push(this.logic.rateHand(this.lobby.tableCards, player.hand));
+        switch(ratings[ratings.length-1].hand){
+          case 5:
+            player.achievements.push("-KoJEnNXGSDYWSZkap_u");
+            break;
+          case 6:
+            player.achievements.push("-KoJEnNXGSDYWSZkap_v");
+            break;
+          case 7:
+            player.achievements.push("-KoJEnNYcZuJF_OGdh-n");
+            break;
+          case 8:
+            player.achievements.push("-KoJEnNYcZuJF_OGdh-o");
+            break;
+          case 9:
+            if (ratings[ratings.length-1].value != 14) {
+              player.achievements.push("-KoJEnNYcZuJF_OGdh-p");
+            } else{
+              player.achievements.push("-KoJEnNYcZuJF_OGdh-q");
+            }
+            break;
+        }
       }
       console.log(ratings);
       for (let i = 1; i < ratings.length; i++){
@@ -467,19 +495,78 @@ export class LobbyIngamePageComponent{
         }
       }
     }
+    let potValuePerPlayer = this.lobby.pot/winners.length
     for (let index of winners){
-      possibleWinners[index].cash += this.lobby.pot/winners.length;
+      possibleWinners[index].cash += potValuePerPlayer;
       for (let player of this.lobby.players){
         if (player.id == possibleWinners[index].id) {
-          player.cash += this.lobby.pot / winners.length;
+
+          if (potValuePerPlayer >= 1000000)
+            player.achievements.push("-KoJEnNR7E8WdOJxR7Ze")
+
+          player.cash += potValuePerPlayer;
+          if (player.cash >= 500000)
+            player.achievements.push("-KoJEnNV8HE26c75uTWs");
+          if (player.cash >= 750000)
+            player.achievements.push("-KoJEnNV8HE26c75uTWt");
+          if (player.cash >= 1000000)
+            player.achievements.push("-KoJEnNV8HE26c75uTWu");
+
           this.lobby.lastRoundWinner += player.name + "\n";
+
+          // Achievements
+          player.roundsWon += 1;
+          switch(player.roundsWon) {
+            case 3:
+              player.achievements.push("-KoJEnNWSYn6riHj3ff0");
+              break;
+            case 20:
+              player.achievements.push("-KoJEnNWSYn6riHj3ff1");
+              break;
+            case 50:
+              player.achievements.push("-KoJEnNWSYn6riHj3ff2");
+              break;
+            case 150:
+              player.achievements.push("-KoJEnNXGSDYWSZkap_r");
+              break;
+            case 250:
+              player.achievements.push("-KoJEnNXGSDYWSZkap_s");
+              break;
+            case 500:
+              player.achievements.push("-KoJEnNXGSDYWSZkap_t");
+              break;
+          }
         }
       }
       console.log(possibleWinners[index]);
     }
 
-    for (let player of this.lobby.currentPlayers){
-      player.roundsPlayed += 1;
+    // Achievements
+    for (let player of this.lobby.players){
+      if (player.playing){
+        player.roundsPlayed += 1;
+        switch(player.roundsPlayed) {
+          case 3:
+            player.achievements.push("-KoJEnNSNgcdNmYbtuOM");
+            break;
+          case 20:
+            player.achievements.push("-KoJEnNT4IRuDAopVhQ8");
+            break;
+          case 50:
+            player.achievements.push("-KoJEnNT4IRuDAopVhQ9");
+            break;
+          case 150:
+            player.achievements.push("-KoJEnNUfGDbZ9hOzjYy");
+            break;
+          case 250:
+            player.achievements.push("-KoJEnNUfGDbZ9hOzjYz");
+            break;
+          case 500:
+            player.achievements.push("-KoJEnNUfGDbZ9hOzjZ-");
+            break;
+        }
+      }
+
     }
 
     let alert = this.alertCtrl.create({
