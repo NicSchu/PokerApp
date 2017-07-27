@@ -13,7 +13,7 @@ export class Player {
               //public achievements: string[],
               public roundsPlayed: number = 0,
               public roundsWon: number = 0,
-              public achievements: string[] = [],
+              public achievements: string[] = ["n"],
               public hand: PlayingCard[] = null) {
   }
 

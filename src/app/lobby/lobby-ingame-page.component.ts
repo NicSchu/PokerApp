@@ -269,7 +269,7 @@ export class LobbyIngamePageComponent{
     this.profile.roundsWon += this.lobby.players[this.playerNumber].roundsWon;
     // Achievements aktualisieren!!
     for (let achievement of this.lobby.players[this.playerNumber].achievements){
-      if (this.profile.accAchievements.indexOf(achievement) >= 0 )
+      if (achievement != "n" && this.profile.accAchievements.indexOf(achievement) < 0)
         this.profile.accAchievements.push(achievement);
     }
 
@@ -364,13 +364,16 @@ export class LobbyIngamePageComponent{
     for (let i = this.lobby.showedTableCards-1; i < 5; i++)
       this.changeImgSrc(this.buildPicPath(this.lobby.tableCards[i]),"table"+i);
 
-    for (let i = 2; i < this.lobby.currentPlayers.length+1; i++){
-      for (let j = 0; j < 2; j++){
-        if (!this.lobby.currentPlayers[i-1].isCoward){
-          this.changeImgSrc(this.buildPicPath(this.lobby.currentPlayers[i-1].hand[j]),"p"+i+""+j);
+    let others = this.lobby.currentPlayers.slice(0);
+    others.splice(this.playerNumber,1);
+    let pn = 2;
+    for (let i = 0; i < others.length; i++){
+      if (!others[i].isCoward){
+        for (let j = 0; j < 2; j++){
+          this.changeImgSrc(this.buildPicPath(others[i].hand[j]),"p"+pn+""+j);
         }
+        pn += 2;
       }
-
     }
     this.cardsFaceUp = true;
   }
@@ -569,7 +572,7 @@ export class LobbyIngamePageComponent{
 
     }
 
-    let alert = this.alertCtrl.create({
+    /*let alert = this.alertCtrl.create({
       title: 'Winner:',
       subTitle: 'Congratulations to ' + this.lobby.lastRoundWinner + "!",
       buttons: [
@@ -578,7 +581,7 @@ export class LobbyIngamePageComponent{
         }]
     });
     alert.present();
-
+*/
     this.lobby.status = "fin2";
     this.lobbyService.update(this.lobby);
   }

@@ -15,8 +15,6 @@ export class Achievement {
 
   }
 
-
-
   public static createWith(achievement : any) : Achievement {
     return Object.assign(new Achievement(), achievement);
   }
