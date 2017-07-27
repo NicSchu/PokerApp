@@ -31,10 +31,6 @@ export class GameService {
     }
   }
 
-  reset() {
-    //this.deck.reCreateDeck();
-  }
-
   private initFirebaseObject() {
     //user must be logged in!
     if (!this.fbDeck) {
@@ -51,13 +47,4 @@ export class GameService {
     newDeck.cards = newDeck.cards || null;
     return newDeck;
   }
-
-  /*private copyAndPreparePlayer(player: any): Player {
-    let newPlayer = Player.createWith(player);
-    newPlayer.name = newPlayer.name || null;
-    newPlayer.cash = newPlayer.cash || null;
-    newPlayer.hand = newPlayer.hand || null;
-    newPlayer.id = newPlayer.id || null;
-    return newPlayer;
-  }*/
 }

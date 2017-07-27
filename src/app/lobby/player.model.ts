@@ -11,7 +11,7 @@ export class Player {
               public entry: number = 0,
               public isCoward: boolean = false,
               //public achievements: string[],
-              //public roundsPlayed: number,
+              public roundsPlayed: number = 0,
               public hand: PlayingCard[] = null) {
   }
 

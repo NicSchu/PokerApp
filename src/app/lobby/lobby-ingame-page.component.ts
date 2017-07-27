@@ -43,6 +43,19 @@ export class LobbyIngamePageComponent{
     6. Achievements und Runden updaten
   * */
 
+  /**
+   *
+   * @param logic
+   * @param cardbackPickerPageService
+   * @param navParams
+   * @param alertCtrl
+   * @param lobbyService
+   * @param profileService
+   * @param subscriptionService
+   * @param navCtrl
+   * @param screenOrientation
+   * @param modalCtrl
+   */
   constructor(private logic: Logic,
               private cardbackPickerPageService: CardbackPickerSerivce,
               private navParams: NavParams,
@@ -118,11 +131,18 @@ export class LobbyIngamePageComponent{
     );
   }
 
+  /**
+   *
+   * @returns {boolean}
+   */
   ionViewWillLeave(){
     if (this.canLeave) return true;
     this.quitLobby();
   }
 
+  /**
+   *
+   */
   waitingPage(){
     let modal = this.modalCtrl.create(LobbyWaitingPageComponent, {lobby: this.lobby, profile: this.profile});
     modal.onDidDismiss(
@@ -144,6 +164,9 @@ export class LobbyIngamePageComponent{
     modal.present();
   }
 
+  /**
+   *
+   */
   beginRound(){
     let deck = new Deck();
     deck.shuffle();
@@ -179,6 +202,10 @@ export class LobbyIngamePageComponent{
     this.lobbyService.update(this.lobby);
   }
 
+  /**
+   *
+   * @param player
+   */
   setBlinds(player: Player[]){
     this.lobby.pot += 75; //25+50
     this.lobby.currentMaxEntry = 50;
@@ -188,6 +215,9 @@ export class LobbyIngamePageComponent{
     player[this.lobby.playerWithLastRaise].entry = 50;
   }
 
+  /**
+   *
+   */
   resetCardBacks(){
     /*
      * set all cards to backs
@@ -205,6 +235,9 @@ export class LobbyIngamePageComponent{
     this.cardsFaceUp = false;
   }
 
+  /**
+   *
+   */
   quitLobby(){
     let alert = this.alertCtrl.create({
       title: 'Leave Lobby',
@@ -223,27 +256,39 @@ export class LobbyIngamePageComponent{
     alert.present();
   }
 
+  /**
+   *
+   */
   closeAndReset(){
     document.getElementsByClassName('tabbar')[0].setAttribute("display", "true");
     this.screenOrientation.unlock();
     this.canLeave = true;
 
     this.profile.cash = this.lobby.players[this.playerNumber].cash;
+    this.profile.roundsPlayed += this.lobby.players[this.playerNumber].roundsPlayed;
     this.loaded = false;
     this.lobby.players.splice(this.playerNumber,1);
+
     this.lobby.currentPlayers.splice(this.playerNumber,1);
-
-    this.lobbyService.update(this.lobby);
-
     this.subscriptionService.removeSubscription(this.subP);
     this.subscriptionService.removeSubscription(this.subL);
     this.subP.unsubscribe();
     this.subL.unsubscribe();
 
+    // Delete Lobby if no players left
+    if (this.lobby.players.length == 0) {
+      this.lobbyService.delete(this.lobby.id);
+    } else{
+      this.lobbyService.update(this.lobby);
+    }
+
     this.navCtrl.pop();
     this.profileService.update(this.profile);
   }
 
+  /**
+   *
+   */
   nextPlayersTurn(){
     let next = this.playerNumber;
     let activePlayer = this.lobby.currentPlayers.filter(
@@ -260,6 +305,10 @@ export class LobbyIngamePageComponent{
     this.lobbyService.update(this.lobby);
   }
 
+  /**
+   *
+   * @param next
+   */
   next(next: number){
     /*if (next < this.lobby.currentPlayers.length -1){
       next = next + 1;
@@ -269,6 +318,10 @@ export class LobbyIngamePageComponent{
     else this.lobby.activePlayer = next;
   }
 
+  /**
+   *
+   * @param turnedCards
+   */
   turnAroundCards(turnedCards: number){
     if (turnedCards == 0) {
       this.changeImgSrc(this.buildPicPath(this.lobby.tableCards[0]),"table0");
@@ -289,11 +342,17 @@ export class LobbyIngamePageComponent{
     }
   }
 
+  /**
+   *
+   */
   showOwnCards(){
     this.changeImgSrc(this.buildPicPath(this.lobby.players[this.playerNumber].hand[0]),"self0");
     this.changeImgSrc(this.buildPicPath(this.lobby.players[this.playerNumber].hand[1]),"self1");
   }
 
+  /**
+   *
+   */
   showAllPlayerCards(){
     for (let i = this.lobby.showedTableCards-1; i < 5; i++)
       this.changeImgSrc(this.buildPicPath(this.lobby.tableCards[i]),"table"+i);
@@ -353,6 +412,9 @@ export class LobbyIngamePageComponent{
     alert.present();
   }
 
+  /**
+   *
+   */
   callComputation(){
     let call = this.lobby.currentMaxEntry - this.lobby.players[this.playerNumber].entry;
     if (call == 0) return;
@@ -382,6 +444,9 @@ export class LobbyIngamePageComponent{
     this.nextPlayersTurn();
   }
 
+  /**
+   *
+   */
   endRound(){
     let possibleWinners = this.lobby.currentPlayers.filter(
       (player) => {return !player.isCoward}
@@ -412,6 +477,11 @@ export class LobbyIngamePageComponent{
       }
       console.log(possibleWinners[index]);
     }
+
+    for (let player of this.lobby.currentPlayers){
+      player.roundsPlayed += 1;
+    }
+
     let alert = this.alertCtrl.create({
       title: 'Winner:',
       subTitle: 'Congratulations to ' + this.lobby.lastRoundWinner + "!",
@@ -426,11 +496,21 @@ export class LobbyIngamePageComponent{
     this.lobbyService.update(this.lobby);
   }
 
+  /**
+   *
+   * @param path
+   * @param id
+   */
   changeImgSrc(path:string, id:string){
     let img = document.getElementById(id) as HTMLImageElement
     if (img) img.src = path;
   }
 
+  /**
+   *
+   * @param pc
+   * @returns {string}
+   */
   buildPicPath(pc: PlayingCard):string{
     let str ="assets/svg/Cards/";
     str += pc.color;
