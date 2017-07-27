@@ -124,19 +124,6 @@ export class CardbackPickerComponent {
                       loading.dismiss();
                     })
                 });
-              // x.then(
-              //   (a) => {
-              //     console.log('a');
-              //     console.log(a);
-              //   }
-              // ).catch(
-              //   (error) => {
-              //     console.log('error');
-              //     console.log(error);
-              //   }
-              // );
-
-              // console.log(x);
 
             }
           }
@@ -146,10 +133,6 @@ export class CardbackPickerComponent {
           console.log(error);
         } );
 
-  }
-
-  public test2(){
-    console.log("test2");
   }
 
   public selectPresetCardback(downloadUrl: string) : void {

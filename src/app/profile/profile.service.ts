@@ -94,7 +94,6 @@ export class ProfileService {
     //user must be logged in!
 
     this.fbProfile = this.afDb.object('users/' + this.authService.getCurrentUser().uid + '/profile');
-    console.log(this.fbProfile);
 
     this.profile = this.fbProfile.map(
       (fbProfile: any): Profile => {

@@ -38,7 +38,6 @@ export class ClientOptionsPageComponent {
 
     this.profileService.getCurrentProfile().subscribe(
       (profile) => {
-        console.log("here");
         profile.usingDefaultCardback = !this.useCustomOptions;
         this.profileService.update(profile);
       }
