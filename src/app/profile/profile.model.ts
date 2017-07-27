@@ -12,12 +12,13 @@ export class Profile {
               public friends: string[] = [],
               public accAchievements: string[] = [], //contains id´s of accomplished achievements
               public roundsPlayed: number = 0,
+              public roundsWon: number = 0,
               public cardback? : string,
               public usingDefaultCardback : boolean = true) {
   }
 
   public static createWith(profile : any) : Profile{
-    return new Profile(profile.name, profile.email, profile.profilePicture, profile.cash, profile.friends, profile.accAchievements, profile.roundsPlayed, profile.cardback, profile.usingDefaultCardback)
+    return new Profile(profile.name, profile.email, profile.profilePicture, profile.cash, profile.friends, profile.accAchievements, profile.roundsPlayed, profile.roundsWon, profile.cardback, profile.usingDefaultCardback)
   }
 
 }
