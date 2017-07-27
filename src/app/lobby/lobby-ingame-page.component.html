@@ -35,7 +35,7 @@
   <ion-grid>
     <ion-row>
       <ion-col class="align-left">
-        <div *ngIf="loaded && lobby.players.length >= 3 && lobby.players[(playerNumber+2)%lobby.players.length].playing">
+        <div *ngIf="loaded && lobby.currentPlayers && lobby.currentPlayers.length >= 3">
           <img id="p30" src="assets/svg/cardbacks/custom1.svg">
           <img id="p31" src="assets/svg/cardbacks/custom1.svg">
         </div>
@@ -44,7 +44,7 @@
         <h5>Pot: {{lobby.pot}}</h5>
       </ion-col>
       <ion-col class="align-right">
-        <div *ngIf="loaded && lobby.players.length >= 4 && lobby.players[(playerNumber+3)%lobby.players.length].playing">
+        <div *ngIf="loaded && lobby.currentPlayers && lobby.currentPlayers.length >= 4">
           <img id="p40" src="assets/svg/cardbacks/custom1.svg">
           <img id="p41" src="assets/svg/cardbacks/custom1.svg">
         </div>
@@ -52,9 +52,9 @@
     </ion-row>
     <ion-row>
       <ion-col class="align-left">
-        <ion-label *ngIf="loaded && lobby.players.length >= 3 && lobby.players[(playerNumber+2)%lobby.players.length].playing" class="align-left">
-          <p>{{lobby.players[(playerNumber+2)%lobby.players.length].name}}</p>
-          <p>(Chips: {{lobby.players[(playerNumber+2)%lobby.players.length].cash}})</p>
+        <ion-label *ngIf="loaded && lobby.currentPlayers && lobby.currentPlayers.length >= 3" class="align-left">
+          <p>{{lobby.currentPlayers[(playerNumber+2)%lobby.currentPlayers.length].name}}</p>
+          <p>(Chips: {{lobby.currentPlayers[(playerNumber+2)%lobby.currentPlayers.length].cash}})</p>
         </ion-label>
       </ion-col>
       <ion-col class="align-center">
@@ -65,21 +65,21 @@
         <img id="table4" src="assets/svg/cardbacks/custom1.svg">
       </ion-col>
       <ion-col class="align-right">
-        <ion-label *ngIf="loaded && lobby.players.length >= 4 && lobby.players[(playerNumber+3)%lobby.players.length].playing" class="align-right">
-          <p>{{lobby.players[(playerNumber+3)%lobby.players.length].name}}</p>
-          <p>(Chips: {{lobby.players[(playerNumber+3)%lobby.players.length].cash}})</p>
+        <ion-label *ngIf="loaded && lobby.currentPlayers && lobby.currentPlayers.length >= 4" class="align-right">
+          <p>{{lobby.currentPlayers[(playerNumber+3)%lobby.currentPlayers.length].name}}</p>
+          <p>(Chips: {{lobby.currentPlayers[(playerNumber+3)%lobby.currentPlayers.length].cash}})</p>
         </ion-label>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="align-left">
-        <div *ngIf="loaded && lobby.players.length >= 2 && lobby.players[(playerNumber+1)%lobby.players.length].playing">
+        <div *ngIf="loaded && lobby.currentPlayers && lobby.currentPlayers.length >= 2">
           <img id="p20" src="assets/svg/cardbacks/custom1.svg">
           <img id="p21" src="assets/svg/cardbacks/custom1.svg">
         </div>
       </ion-col>
       <ion-col class="align-right">
-        <div *ngIf="loaded && lobby.players.length == 5 && lobby.players[(playerNumber+4)%lobby.players.length].playing">
+        <div *ngIf="loaded && lobby.currentPlayers && lobby.players.length == 5">
           <img id="p50" src="assets/svg/cardbacks/custom1.svg">
           <img id="p51" src="assets/svg/cardbacks/custom1.svg">
         </div>
@@ -87,34 +87,45 @@
     </ion-row>
     <ion-row>
       <ion-col class="align-left">
-        <ion-label *ngIf="loaded && lobby.players.length >= 2 && lobby.players[(playerNumber+1)%lobby.players.length].playing" class="align-left">
-          <p>{{lobby.players[(playerNumber+1)%lobby.players.length].name}}</p>
-          <p>(Chips: {{lobby.players[(playerNumber+1)%lobby.players.length].cash}})</p>
+        <ion-label *ngIf="loaded && lobby.currentPlayers && lobby.currentPlayers.length >= 2" class="align-left">
+          <p>{{lobby.currentPlayers[(playerNumber+1)%lobby.currentPlayers.length].name}}</p>
+          <p>(Chips: {{lobby.currentPlayers[(playerNumber+1)%lobby.currentPlayers.length].cash}})</p>
         </ion-label>
       </ion-col>
       <ion-col class="align-center">
-        <button ion-fab (click)="call()" *ngIf="loaded && lobby.activePlayer == playerNumber">Call</button>
+        <button ion-fab (click)="call()" *ngIf="loaded
+        && lobby.activePlayer == playerNumber
+        && !lobby.status.startsWith('fin')">Call</button>
       </ion-col>
       <ion-col class="align-center">
         <img id="self0" src="assets/svg/cardbacks/custom1.svg">
         <img id="self1" src="assets/svg/cardbacks/custom1.svg">
       </ion-col>
       <ion-col class="align-center">
-        <button ion-fab (click)="check()" *ngIf="loaded && lobby.activePlayer == playerNumber && lobby.currentMaxEntry == lobby.players[playerNumber].entry">Check</button>
+        <button ion-fab (click)="check()" *ngIf="loaded
+        && lobby.activePlayer == playerNumber
+        && lobby.currentMaxEntry == lobby.players[playerNumber].entry
+        && !lobby.status.startsWith('fin')">Check</button>
       </ion-col>
       <ion-col class="align-right">
-        <ion-label *ngIf="loaded && lobby.players.length == 5 && lobby.players[(playerNumber+4)%lobby.players.length].playing" class="align-right">
-          <p>{{lobby.players[(playerNumber+4)%lobby.players.length].name}}</p>
-          <p>(Chips: {{lobby.players[(playerNumber+4)%lobby.players.length].cash}})</p>
+        <ion-label *ngIf="loaded && lobby.currentPlayers && lobby.currentPlayers.length == 5" class="align-right">
+          <p>{{lobby.currentPlayers[(playerNumber+4)%lobby.currentPlayers.length].name}}</p>
+          <p>(Chips: {{lobby.currentPlayers[(playerNumber+4)%lobby.currentPlayers.length].cash}})</p>
         </ion-label>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="align-left">
-        <button ion-fab (click)="beginRound()" *ngIf="loaded && playerNumber == 0 && lobby.status == 'fin'">New Round</button>
+        <button ion-fab (click)="beginRound()" *ngIf="loaded
+        && playerNumber == 0
+        && lobby.status.startsWith('fin')
+        && lobby.players.length > 1">New Round</button>
       </ion-col>
       <ion-col class="align-center">
-        <button ion-fab (click)="raise()" *ngIf="loaded && lobby.activePlayer == playerNumber && lobby.players[playerNumber].cash > 0">Raise</button>
+        <button ion-fab (click)="raise()" *ngIf="loaded
+        && lobby.activePlayer == playerNumber
+        && lobby.players[playerNumber].cash > 0
+        && !lobby.status.startsWith('fin')">Raise</button>
       </ion-col>
       <ion-col class="align-center">
         <ion-label *ngIf="loaded" class="align-center">
@@ -123,7 +134,9 @@
         </ion-label>
       </ion-col>
       <ion-col class="align-center">
-        <button ion-fab (click)="pass()" *ngIf="loaded && lobby.activePlayer == playerNumber">Pass</button>
+        <button ion-fab (click)="pass()" *ngIf="loaded
+        && lobby.activePlayer == playerNumber
+        && !lobby.status.startsWith('fin')">Pass</button>
       </ion-col>
       <ion-col class="align-right">
         <button ion-fab (click)="quitLobby()">Leave</button>

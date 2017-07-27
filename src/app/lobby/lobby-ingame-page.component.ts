@@ -22,7 +22,6 @@ import {HandRating} from "../logic/hand-rating.module";
   providers: [Logic]
 })
 export class LobbyIngamePageComponent{
-  playerWithLastRaise: number = 0;
   lobby: Lobby;
   profile : Profile = null;
   canLeave: boolean = false;
@@ -30,13 +29,15 @@ export class LobbyIngamePageComponent{
   firstRun : boolean = true;
   loaded: boolean = false;
   private subP; subL;
-
+  cardsFaceUp: boolean = false;
   //public players: Player[];
-  public table: PlayingCard[];
+  //public table: PlayingCard[];
 
   /*TODO Liste für morgen den 26.07
-    4. Logic einbinden und Sieger bestimmen
-    5. Andere Siegfälle klären (alle leaven oder alle passen)
+    - Gewinner anzeigen (popup)
+    - Lobby löschen/resetten bei leave
+    4. blinds
+    5. schülers Cardbacks
     6. Achievements und Runden updaten
   * */
 
@@ -72,6 +73,7 @@ export class LobbyIngamePageComponent{
             this.subL = this.lobbyService.getLobbyById(this.lobby.id).subscribe(
               (lobby: Lobby) => {
                 let turnedCards = this.lobby.showedTableCards;
+                let oldStat = this.lobby.status;
                 this.lobby = lobby;
                 for (let i = 0; i < lobby.players.length; i++){
                   if (lobby.players[i].id == this.profile.email){
@@ -82,16 +84,29 @@ export class LobbyIngamePageComponent{
                 if (this.firstRun){
                   this.waitingPage();
                   this.firstRun = false;
-                } else if (this.lobby.showedTableCards != turnedCards)
+                } else if (this.lobby.showedTableCards != turnedCards && oldStat != "fin")
                   this.turnAroundCards(turnedCards);
-                if (this.lobby.status == "fin" && this.playerNumber == 0){
-                  this.endRound();
+                if (this.lobby.status == "fin"){
+                  if (this.playerNumber == 0){
+                    this.endRound();
+                  }
+                  this.cardsFaceUp = true;
+                  //Karten umdrehen
+                }else{
+                  if (this.lobby.status == "new" && this.cardsFaceUp){
+                    this.resetCardBacks();
+                  }
                 }
               }
             ));
         }
       )
     );
+  }
+
+  ionViewWillLeave(){
+    if (this.canLeave) return true;
+    this.quitLobby();
   }
 
   waitingPage(){
@@ -103,14 +118,9 @@ export class LobbyIngamePageComponent{
             this.lobby.gameStarted = true;
             console.log(this.lobby.players);
             this.beginRound();
-            this.lobbyService.update(this.lobby);
           }
-
           //Change the own card(back) so it shows a face of a playing card
-          let self = document.getElementById("self0") as HTMLImageElement;
-          self.src = this.buildPicPath(this.lobby.players[this.playerNumber].hand[0]);
-          self = document.getElementById("self1") as HTMLImageElement;
-          self.src = this.buildPicPath(this.lobby.players[this.playerNumber].hand[1]);
+          this.showOwnCards();
         }else{
           this.canLeave = true;
           this.closeAndReset();
@@ -119,47 +129,22 @@ export class LobbyIngamePageComponent{
     modal.present();
   }
 
-  ionViewWillLeave(){
-    if (this.canLeave) return true;
-    this.quitLobby();
-  }
-
   beginRound(){
     let deck = new Deck();
     deck.shuffle();
-    /*
-    * set all cards to backs
-    * */
-    if (this.lobby.status != null){
-      let path = "assets/svg/cardbacks/custom1.svg";
-      let img;
-      for (let i = 0; i < 5; i++){
-        img = document.getElementById("table"+i) as HTMLImageElement;
-        img.src = path;
-      }
-      img = document.getElementById("self0") as HTMLImageElement;
-      img.src = path;
-      img = document.getElementById("self1") as HTMLImageElement;
-      img.src = path;
-      for (let i = 2; i < 6; i++){
-        for (let j = 0; j < 2; j++){
-          //TODO "p"+i+j -> cannot set property src of null
-          img = document.getElementById("p"+i+""+j) as HTMLImageElement;
-          img.src = path;
-        }
-      }
-    }
-    this.lobby.status = "";
-    for (let player of this.lobby.players) player.playing = true;
+    this.lobby.currentPlayers = [];
     for (let player of this.lobby.players){
-      if (player.playing){
-        player.entry = 0;
-        player.isCoward = false;
-        player.hand = [];
-        player.hand.push(deck.cards.pop());
-        player.hand.push(deck.cards.pop());
-      }
+      player.playing = true;
+      this.lobby.currentPlayers.push(player);
     }
+    for (let player of this.lobby.currentPlayers){
+      player.entry = 0;
+      player.isCoward = false;
+      player.hand = [];
+      player.hand.push(deck.cards.pop());
+      player.hand.push(deck.cards.pop());
+    }
+    this.resetCardBacks();
     this.lobby.tableCards = [];
     for (let i = 0; i < 5; i++){
       this.lobby.tableCards.push(deck.cards.pop());
@@ -169,6 +154,28 @@ export class LobbyIngamePageComponent{
     this.lobby.currentMaxEntry = 0;
     this.lobby.pot = 0;
     this.lobby.showedTableCards = 0;
+    //TODO setze Smallblind
+    this.lobby.playerWithLastRaise = this.lobby.smallBlind;
+    this.lobbyService.update(this.lobby);
+  }
+
+  resetCardBacks(){
+    /*
+     * set all cards to backs
+     * */
+    if (this.lobby.status != ""){
+      let path = "assets/svg/cardbacks/custom1.svg";
+      for (let i = 0; i < 5; i++)
+        this.changeImgSrc(path,"table"+i);
+
+      this.showOwnCards();
+      for (let i = 2; i < this.lobby.currentPlayers.length+1; i++){
+        for (let j = 0; j < 2; j++)
+          this.changeImgSrc(path,"p"+i+""+j);
+      }
+    }
+    this.lobby.status = "new";
+    this.cardsFaceUp = false;
   }
 
   quitLobby(){
@@ -197,6 +204,7 @@ export class LobbyIngamePageComponent{
     this.profile.cash = this.lobby.players[this.playerNumber].cash;
     this.loaded = false;
     this.lobby.players.splice(this.playerNumber,1);
+    this.lobby.currentPlayers.splice(this.playerNumber,1);
 
     this.lobbyService.update(this.lobby);
 
@@ -211,49 +219,67 @@ export class LobbyIngamePageComponent{
 
   nextPlayersTurn(){
     let next = this.playerNumber;
-    let activePlayer = this.lobby.players.filter(
-      (player) => {return !player.isCoward && player.playing}
+    let activePlayer = this.lobby.currentPlayers.filter(
+      (player) => {return !player.isCoward}
     );
     if (activePlayer.length == 1) {
-      this.triggerHost();
-    }else this.next(next);
-
-    if (this.lobby.activePlayer == this.playerWithLastRaise)
-      this.turnAroundCards(this.lobby.showedTableCards);
-
+      this.lobby.status = "fin";
+      //TODO Spielende
+    }else {
+      this.next(next);
+      if (this.lobby.activePlayer == this.lobby.playerWithLastRaise)
+        this.turnAroundCards(this.lobby.showedTableCards);
+    }
     this.lobbyService.update(this.lobby);
   }
 
   next(next: number){
-    if (next < this.lobby.players.length -1 && this.lobby.players[next+1].playing){
+    /*if (next < this.lobby.currentPlayers.length -1){
       next = next + 1;
-    }else next = 0;
-    if (this.lobby.players[next].isCoward) this.next(next);
+    }else next = 0;*/
+    next = (next+1)%this.lobby.currentPlayers.length;
+    if (this.lobby.currentPlayers[next].isCoward) this.next(next);
     else this.lobby.activePlayer = next;
   }
 
   turnAroundCards(turnedCards: number){
     if (turnedCards == 0) {
-      let table = document.getElementById("table0") as HTMLImageElement;
-      table.src = this.buildPicPath(this.lobby.tableCards[0]);
-      table = document.getElementById("table1") as HTMLImageElement;
-      table.src = this.buildPicPath(this.lobby.tableCards[1]);
-      table = document.getElementById("table2") as HTMLImageElement;
-      table.src = this.buildPicPath(this.lobby.tableCards[2]);
+      this.changeImgSrc(this.buildPicPath(this.lobby.tableCards[0]),"table0");
+      this.changeImgSrc(this.buildPicPath(this.lobby.tableCards[1]),"table1");
+      this.changeImgSrc(this.buildPicPath(this.lobby.tableCards[2]),"table2");
       this.lobby.showedTableCards = 3;
     }
     else if (turnedCards == 3) {
-      let table = document.getElementById("table3") as HTMLImageElement;
-      table.src = this.buildPicPath(this.lobby.tableCards[3]);
+      this.changeImgSrc(this.buildPicPath(this.lobby.tableCards[3]),"table3");
       this.lobby.showedTableCards = 4;
     }
     else if (turnedCards == 4) {
-      let table = document.getElementById("table4") as HTMLImageElement;
-      table.src = this.buildPicPath(this.lobby.tableCards[4]);
+      this.changeImgSrc(this.buildPicPath(this.lobby.tableCards[4]),"table4");
       this.lobby.showedTableCards = 5;
     }else{
-      this.triggerHost();
+      this.lobby.status = "fin";
+      this.lobbyService.update(this.lobby);
     }
+  }
+
+  showOwnCards(){
+    this.changeImgSrc(this.buildPicPath(this.lobby.players[this.playerNumber].hand[0]),"self0");
+    this.changeImgSrc(this.buildPicPath(this.lobby.players[this.playerNumber].hand[1]),"self1");
+  }
+
+  showAllPlayerCards(){
+    for (let i = this.lobby.showedTableCards-1; i < 5; i++)
+      this.changeImgSrc(this.buildPicPath(this.lobby.tableCards[i]),"table"+i);
+
+    for (let i = 2; i < this.lobby.currentPlayers.length+1; i++){
+      for (let j = 0; j < 2; j++){
+        if (!this.lobby.currentPlayers[i-1].isCoward){
+          this.changeImgSrc(this.buildPicPath(this.lobby.currentPlayers[i-1].hand[j]),"p"+i+""+j);
+        }
+      }
+
+    }
+    this.cardsFaceUp = true;
   }
 
   //geht immer, solange in der letzten Runde niemand geraised hat
@@ -281,16 +307,17 @@ export class LobbyIngamePageComponent{
           }
         },
         {
-          //TODO bevor Raise ausgeführt wird, muss gegebenenfalls gecalled werden
           text: 'Raise',
           handler: (data) => {
+            this.callComputation();
             let chips : number = parseInt(data.chips);
             if ((chips > 0) && (chips <= this.lobby.players[this.playerNumber].cash)){
               this.lobby.players[this.playerNumber].cash -= chips;
+              this.lobby.currentPlayers[this.playerNumber].cash -= chips;
               this.lobby.pot += chips;
               this.lobby.currentMaxEntry += chips;
               this.lobby.players[this.playerNumber].entry += chips;
-              this.playerWithLastRaise = this.playerNumber;
+              this.lobby.playerWithLastRaise = this.playerNumber;
             }else return false;
             this.nextPlayersTurn();
           }
@@ -299,20 +326,26 @@ export class LobbyIngamePageComponent{
     alert.present();
   }
 
-  //muss ich mindestens machen, um im Spiel zu bleiben.
-  //geht nicht, wenn keiner geraised hat
-  call(){
+  callComputation(){
     let call = this.lobby.currentMaxEntry - this.lobby.players[this.playerNumber].entry;
+    if (call == 0) return;
     if (this.lobby.players[this.playerNumber].cash >= call){
       this.lobby.players[this.playerNumber].cash -= call;
       this.lobby.pot += call;
     }else{
       // All-In
-      call = this.lobby.pot += this.lobby.players[this.playerNumber].cash;
+      call = this.lobby.players[this.playerNumber].cash;
       this.lobby.pot += call;
       this.lobby.players[this.playerNumber].cash = 0;
     }
+    this.lobby.currentPlayers[this.playerNumber].cash = this.lobby.players[this.playerNumber].cash;
     this.lobby.players[this.playerNumber].entry += call;
+  }
+
+  //muss ich mindestens machen, um im Spiel zu bleiben.
+  //geht nicht, wenn keiner geraised hat
+  call(){
+    this.callComputation();
     this.nextPlayersTurn();
   }
 
@@ -322,14 +355,10 @@ export class LobbyIngamePageComponent{
     this.nextPlayersTurn();
   }
 
-  triggerHost(){
-    this.lobby.status = "fin";
-    this.lobbyService.update(this.lobby);
-  }
-
   endRound(){
-    let possibleWinners = this.lobby.players.filter(
-      (player) => {return !player.isCoward && player.playing}
+    debugger;
+    let possibleWinners = this.lobby.currentPlayers.filter(
+      (player) => {return !player.isCoward}
     );
     let winners: number[] = [0];
     if (possibleWinners.length > 1){
@@ -338,7 +367,7 @@ export class LobbyIngamePageComponent{
         ratings.push(this.logic.rateHand(this.lobby.tableCards, player.hand));
       }
       console.log(ratings);
-      for (let i = 1; i < ratings.length-1; i++){
+      for (let i = 1; i < ratings.length; i++){
         switch (ratings[winners[0]].compare(ratings[i])){
           case -1: winners = [i];
             break;
@@ -349,8 +378,19 @@ export class LobbyIngamePageComponent{
     }
     for (let index of winners){
       possibleWinners[index].cash += this.lobby.pot/winners.length;
+      for (let player of this.lobby.players){
+        if (player.id == possibleWinners[index].id)
+          player.cash += this.lobby.pot/winners.length;
+      }
       console.log(possibleWinners[index]);
     }
+    this.lobby.status = "fin2";
+    this.lobbyService.update(this.lobby);
+  }
+
+  changeImgSrc(path:string, id:string){
+    let img = document.getElementById(id) as HTMLImageElement
+    img.src = path;
   }
 
   buildPicPath(pc: PlayingCard):string{

@@ -7,10 +7,12 @@ export class Lobby {
 
   constructor(public id?: string,
               public name? : string,
-              public status : string = null,
+              public status : string = "",
               public tableCards: PlayingCard[] = [],
               public smallBlind: number = 0,
               public lastRoundWinner: Player = null, //die 5 ist niemand! niemand hat gewonnen
+              public currentPlayers: Player[] = [],
+              public playerWithLastRaise: number = 0,
               public currentMaxEntry: number = 0,
               public showedTableCards: number = 0,
               public pot : number = 0,
