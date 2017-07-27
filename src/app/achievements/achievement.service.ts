@@ -85,8 +85,6 @@ export class AchievementService {
     this.fbAllAchievements.push(this.copyAndPrepareAchievement(achievement));
   }
 
-
-
   private copyAndPrepareAchievement(achievement : any) : Achievement {
     let newAchievement = Achievement.createWith(achievement);
     newAchievement.id = null;
@@ -95,6 +93,5 @@ export class AchievementService {
     newAchievement.points= newAchievement.points|| null;
     return newAchievement;
   }
-
 
 }
