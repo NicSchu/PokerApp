@@ -38,6 +38,7 @@ import {PlayerService} from "./lobby/player.service";
 import {ScreenOrientation} from "@ionic-native/screen-orientation";
 import {LobbyWaitingPageComponent} from "./lobby/lobby-waiting-page.component";
 import {Logic} from "./logic/logic";
+import {CardbackPickerSerivce} from "./settings/clientOptions_subpages/cardbackPicker.service";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCi2KvgtcoIz_DqETuUE3d9G8-_GCNunmw",
@@ -113,7 +114,8 @@ export const firebaseConfig = {
     FriendsService,
     PlayerService,
     ScreenOrientation,
-    Logic
+    Logic,
+    CardbackPickerSerivce
   ]
 })
 export class AppModule {}

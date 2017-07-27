@@ -12,6 +12,7 @@ import Storage = firebase.storage.Storage;
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs/Observable";
 import Reference = firebase.storage.Reference;
+import {CardbackPickerSerivce} from "../settings/clientOptions_subpages/cardbackPicker.service";
 /**
  * Created by sebb9 on 28.06.2017.
  */
@@ -27,7 +28,8 @@ export class ProfileService {
 
   constructor(private authService : AuthService,
               private afDb: AngularFireDatabase,
-              private firebase: FirebaseApp) {
+              private firebase: FirebaseApp,
+              private cardbackPickerService : CardbackPickerSerivce) {
 
     //init-Function can't be placed here, because DI would execute it before we are logged in at Registry-Page
 
@@ -39,6 +41,14 @@ export class ProfileService {
 
     //first init object to watch
     this.initFirebaseObject();
+
+    //TODO eventuell beide default sachen in einem ?
+    this.cardbackPickerService.setDefaultCardback().then(
+      (cardbackUrl) => {
+        profile.cardback = cardbackUrl;
+        this.fbProfile.set(this.copyAndPrepareProfile(profile))
+      }
+    );
 
     this.setDefaultProfilePic().then(
       (profilePictureUrl) => {
@@ -73,6 +83,7 @@ export class ProfileService {
   private copyAndPrepareProfile(profile: any): Profile {
     let newProfile = Profile.createWith(profile);
     newProfile.name = newProfile.name || null;
+    newProfile.cardback = newProfile.cardback || null;
     newProfile.cash = newProfile.cash || null;
     return newProfile;
   }

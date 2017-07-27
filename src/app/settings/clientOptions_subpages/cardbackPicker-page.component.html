@@ -10,4 +10,9 @@
 
 <ion-content>
 
+  <img *ngIf="profile" style="align-items: center; width: 100vw; height: 50vh" [src]="profile.cardback"/>
+  <ion-item>
+    <button ion-button (click)="uploadCardback()" [color]="localStorageService.getClientColor()">Change picture</button>
+  </ion-item>
+
 </ion-content>
