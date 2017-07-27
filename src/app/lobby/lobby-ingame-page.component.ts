@@ -94,8 +94,7 @@ export class LobbyIngamePageComponent{
                   if (this.playerNumber == 0){
                     this.endRound();
                   }
-                  this.cardsFaceUp = true;
-                  //Karten umdrehen
+                  this.showAllPlayerCards();
                 }else{
                   if (this.lobby.status == "new" && this.cardsFaceUp){
                     this.resetCardBacks();
