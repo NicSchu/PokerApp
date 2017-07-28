@@ -260,11 +260,12 @@ export class LobbyIngamePageComponent{
     }
 
     this.loaded = false;
-    this.lobby.players.splice(this.playerNumber,1);
-    this.lobby.currentPlayers.splice(this.playerNumber,1);
     if (this.playerNumber == this.lobby.activePlayer){
       this.lobby.activePlayer = (this.lobby.activePlayer + 1) % this.lobby.currentPlayers.length;
     }
+    this.lobby.players.splice(this.playerNumber,1);
+    this.lobby.currentPlayers.splice(this.playerNumber,1);
+
     this.subscriptionService.removeSubscription(this.subP);
     this.subscriptionService.removeSubscription(this.subL);
     this.subP.unsubscribe();
