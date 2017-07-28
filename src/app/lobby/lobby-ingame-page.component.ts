@@ -32,16 +32,6 @@ export class LobbyIngamePageComponent{
   loaded: boolean = false;
   private subP; subL;
   cardsFaceUp: boolean = false;
-  //public players: Player[];
-  //public table: PlayingCard[];
-
-  /*TODO Liste für morgen den 26.07
-    - Gewinner anzeigen (popup)
-    - Lobby löschen/resetten bei leave
-    4. blinds
-    5. schülers Cardbacks
-    6. Achievements und Runden updaten
-  * */
 
   /**
    *
@@ -79,12 +69,9 @@ export class LobbyIngamePageComponent{
           this.profile = profile;
           this.lobby.players[this.lobby.players.length] = new Player(
             this.profile.name, this.profile.cash, this.profile.email
-            /*, this.profile.accAchievements, this.profile.roundsPlayed*/
           );
           this.lobbyService.update(this.lobby);
-          //Ist das nicht zu früh?!
           this.loaded = true;
-          //TODO Anzeige!
           this.subscriptionService.addSubscription(
             this.subL = this.lobbyService.getLobbyById(this.lobby.id).subscribe(
               (lobby: Lobby) => {
@@ -113,7 +100,7 @@ export class LobbyIngamePageComponent{
                     this.resetCardBacks();
                   }
                 }
-                if (oldStat == "fin" && this.lobby.status == "fin2"){
+                if (oldStat == "fin" && this.lobby.status == "fin2" && this.playerNumber != 0){
                   let alert = this.alertCtrl.create({
                     title: 'Winner:',
                     subTitle: 'Congratulations to ' + this.lobby.lastRoundWinner + "!",
@@ -153,7 +140,6 @@ export class LobbyIngamePageComponent{
             console.log(this.lobby.players);
             this.beginRound();
           }
-          //Change the own card(back) so it shows a face of a playing card
           this.showOwnCards();
           this.resetCardBacks();
         }else{
@@ -190,7 +176,7 @@ export class LobbyIngamePageComponent{
     this.lobby.currentMaxEntry = 0;
     this.lobby.pot = 0;
     this.lobby.showedTableCards = 0;
-    //TODO setze Smallblind
+
     this.lobby.smallBlind = (this.lobby.smallBlind+1)%this.lobby.currentPlayers.length;
     this.lobby.playerWithLastRaise = (this.lobby.smallBlind+1)%this.lobby.currentPlayers.length;
     this.lobby.activePlayer = (this.lobby.smallBlind+2)%this.lobby.currentPlayers.length;
@@ -267,7 +253,7 @@ export class LobbyIngamePageComponent{
     this.profile.cash = this.lobby.players[this.playerNumber].cash;
     this.profile.roundsPlayed += this.lobby.players[this.playerNumber].roundsPlayed;
     this.profile.roundsWon += this.lobby.players[this.playerNumber].roundsWon;
-    // Achievements aktualisieren!!
+
     for (let achievement of this.lobby.players[this.playerNumber].achievements){
       if (achievement != "n" && this.profile.accAchievements.indexOf(achievement) < 0)
         this.profile.accAchievements.push(achievement);
@@ -298,8 +284,8 @@ export class LobbyIngamePageComponent{
    */
   nextPlayersTurn(){
     let next = this.playerNumber;
-    let activePlayer = this.lobby.currentPlayers.filter(
-      (player) => {return !player.isCoward}
+    let activePlayer = this.lobby.players.filter(
+      (player) => {return !player.isCoward && player.playing}
     );
     if (activePlayer.length == 1) {
       this.lobby.status = "fin";
@@ -317,9 +303,6 @@ export class LobbyIngamePageComponent{
    * @param next
    */
   next(next: number){
-    /*if (next < this.lobby.currentPlayers.length -1){
-      next = next + 1;
-    }else next = 0;*/
     next = (next+1)%this.lobby.currentPlayers.length;
     if (this.lobby.currentPlayers[next].isCoward) this.next(next);
     else this.lobby.activePlayer = next;
@@ -361,11 +344,14 @@ export class LobbyIngamePageComponent{
    *
    */
   showAllPlayerCards(){
-    for (let i = this.lobby.showedTableCards-1; i < 5; i++)
+    for (let i = this.lobby.showedTableCards-1; i < 5; i++){
+      if (i == -1) i = 0;
       this.changeImgSrc(this.buildPicPath(this.lobby.tableCards[i]),"table"+i);
+    }
 
-    let others = this.lobby.currentPlayers.slice(0);
+    let others = this.lobby.players.slice(0);
     others.splice(this.playerNumber,1);
+    others = others.filter((play)=>{return play.playing});
     let pn = 2;
     for (let i = 0; i < others.length; i++){
       if (!others[i].isCoward){
@@ -458,8 +444,8 @@ export class LobbyIngamePageComponent{
    *
    */
   endRound(){
-    let possibleWinners = this.lobby.currentPlayers.filter(
-      (player) => {return !player.isCoward}
+    let possibleWinners = this.lobby.players.filter(
+      (player) => {return !player.isCoward && player.playing}
     );
     let winners: number[] = [0];
     if (possibleWinners.length > 1){
@@ -572,7 +558,7 @@ export class LobbyIngamePageComponent{
 
     }
 
-    /*let alert = this.alertCtrl.create({
+    let alert = this.alertCtrl.create({
       title: 'Winner:',
       subTitle: 'Congratulations to ' + this.lobby.lastRoundWinner + "!",
       buttons: [
@@ -581,7 +567,7 @@ export class LobbyIngamePageComponent{
         }]
     });
     alert.present();
-*/
+
     this.lobby.status = "fin2";
     this.lobbyService.update(this.lobby);
   }
