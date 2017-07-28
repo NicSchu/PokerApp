@@ -261,8 +261,10 @@ export class LobbyIngamePageComponent{
 
     this.loaded = false;
     this.lobby.players.splice(this.playerNumber,1);
-
     this.lobby.currentPlayers.splice(this.playerNumber,1);
+    if (this.playerNumber == this.lobby.activePlayer){
+      this.lobby.activePlayer = (this.lobby.activePlayer + 1) % this.lobby.currentPlayers.length;
+    }
     this.subscriptionService.removeSubscription(this.subP);
     this.subscriptionService.removeSubscription(this.subL);
     this.subP.unsubscribe();
@@ -378,7 +380,8 @@ export class LobbyIngamePageComponent{
       inputs: [
         {
           name: 'chips',
-          placeholder: 'Chips'
+          placeholder: 'Chips',
+          type: 'number'
         },
       ],
       buttons: [
